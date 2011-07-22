@@ -1,5 +1,7 @@
 (ns battlenet.test.core
   (:use [battlenet.core])
+  (:use [battlenet.defs])
+  (:use [battlenet.tools])
   (:use [clojure.test]))
 
 (def mock-json "{\"realms\":[{
@@ -41,3 +43,7 @@
     (= true
       (realm-is-online "eu" "aegwynn"))))
 
+(deftest test-realm-map-to-model
+  (is
+    (.equals "Aegwynn"
+      (get (realm-map-to-model mock-map) :name))))
