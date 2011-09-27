@@ -6,7 +6,6 @@
   (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
            (java.io FileNotFoundException)))
 
-
 (defn create-url
   "Builds a request URL."
   [region game path params]
