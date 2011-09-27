@@ -5,13 +5,31 @@
   (:use [battlenet.network])
   (:use [clojure.test]))
 
-(def mock-map {:realms 
+(def mock-map-single {:realms 
                [{:type "pvp",
                  :queue false,
                  :status true,
                  :population "high",
                  :name "Aegwynn",
+                 :battlegroup "Blutdurst",
                  :slug "aegwynn"}]})
+
+(def mock-map-multiple {:realms 
+               [{:type "pvp",
+                 :queue false,
+                 :status true,
+                 :population "high",
+                 :name "Aegwynn",
+                 :battlegroup "Blutdurst",
+                 :slug "aegwynn"},
+                {:type "pve",
+                 :queue false,
+                 :status true,
+                 :population "medium",
+                 :name "Aerie Peak",
+                 :battlegroup "Misery",
+                 :slug "aerie-peak"}
+                ]})
 
 (deftest test-create-url
   (is
@@ -26,9 +44,9 @@
 (deftest test-access-realm-map
   (is
     (.equals "Aegwynn" 
-      (access-realm-map mock-map :name))))
+      (access-realm-map mock-map-single :name))))
 
 (deftest test-realm-map-to-model
   (is
     (.equals "Aegwynn"
-      (get (realm-map-to-model mock-map) :name))))
+      (get (realm-map-to-model mock-map-single) :name))))

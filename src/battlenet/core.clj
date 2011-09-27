@@ -6,8 +6,7 @@
 (defn realm-is-online
   "Shows whether a realm is online."
   [region realm]
-  (let [data (get-realm-map region realm)]
-    (access-realm-map data :status)))
+  (read-remote-field region realm :status))
 
 (defn realm-is-offline
   "Shows whether a realm is offline."
@@ -17,5 +16,8 @@
 (defn realm-has-queue
   "Shows whether a realm has a queue."
   [region realm]
-  (let [data (get-realm-map region realm)]
-    (access-realm-map data :queue)))
+  (read-remote-field region realm :queue))
+
+(defn realm-get-type
+  [region realm]
+  (read-remote-field region realm :type))

@@ -2,6 +2,7 @@
   (:use [clojure.data.json :only (json-str write-json read-json)])
   (:use [clojure.contrib.duck-streams :only (slurp*)])
   (:use [battlenet.defs])
+  (:use [battlenet.tools])
   (:import [battlenet.model BRealm BCharacter])
   (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
            (java.io FileNotFoundException)))
@@ -27,3 +28,16 @@
       0)
     (catch FileNotFoundException _
       0)))
+
+(defn get-realm-map
+  "Returns realm info as a map."
+  [region realm]
+  (read-json
+    (read-url
+      (create-url region "wow" bn-path-realm (join-params ["realms" realm])))))
+
+(defn read-remote-field
+  "read from remote"
+  [region realm field]
+  (let [data (get-realm-map region realm)]
+    (access-realm-map data field)))
