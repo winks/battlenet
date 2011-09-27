@@ -2,6 +2,7 @@
   (:use [battlenet.core])
   (:use [battlenet.defs])
   (:use [battlenet.tools])
+  (:use [battlenet.network])
   (:use [clojure.test]))
 
 (def mock-map {:realms 
@@ -22,19 +23,10 @@
     (.equals "realms=aegwynn,aerie-peak"
       (join-params ["realms" "aegwynn" "aerie-peak"]))))
 
-;(deftest test-check-url
-;  (is
-;    (= 1 (read-url "http://www.heise.de/"))))
-
-(deftest test-read-url
+(deftest test-access-realm-map
   (is
-    (.startsWith
-      (read-url "https://eu.battle.net/api/wow/realm/status?realms=aegwynn") "{")))
-
-(deftest test-get-realm-map
-  (is
-    (.equals "Aegwynn"
-      (get (first (get mock-map :realms)) :name))))
+    (.equals "Aegwynn" 
+      (access-realm-map mock-map :name))))
 
 (deftest test-realm-map-to-model
   (is

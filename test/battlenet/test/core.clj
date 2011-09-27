@@ -2,6 +2,7 @@
   (:use [battlenet.core])
   (:use [battlenet.defs])
   (:use [battlenet.tools])
+  (:use [battlenet.network])
   (:use [clojure.test]))
 
 (def mock-json "{\"realms\":[{
@@ -15,9 +16,6 @@
 
 
 
-(deftest test-realm-is-online
-  (is
-    (= true
-      (realm-is-online "eu" "aegwynn"))))
+
 
 

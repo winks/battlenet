@@ -1,12 +1,13 @@
 (ns battlenet.core
   (:use [battlenet.defs])
-  (:use [battlenet.tools]))
+  (:use [battlenet.tools])
+  (:use [battlenet.network]))
 
 (defn realm-is-online
   "Shows whether a realm is online."
   [region realm]
   (let [data (get-realm-map region realm)]
-    (get (first (get data :realms)) :status)))
+    (access-realm-map data :status)))
 
 (defn realm-is-offline
   "Shows whether a realm is offline."
@@ -17,4 +18,4 @@
   "Shows whether a realm has a queue."
   [region realm]
   (let [data (get-realm-map region realm)]
-    (get (first (get data :realms)) :queue)))
+    (access-realm-map data :queue)))
