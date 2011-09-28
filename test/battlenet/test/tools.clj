@@ -3,7 +3,8 @@
   (:use [battlenet.defs])
   (:use [battlenet.tools])
   (:use [battlenet.network])
-  (:use [clojure.test]))
+  (:use [clojure.test])
+  (:use [clojure.walk]))
 
 (def mock-map-single {:realms 
                [{:type "pvp",
@@ -31,22 +32,43 @@
                  :slug "aerie-peak"}
                 ]})
 
-(deftest test-create-url
+(deftest test-join-params-1
   (is
-    (.equals "https://eu.battle.net/api/wow/realm/status?realms=aegwynn"
-      (create-url "eu" "wow" "/realm/status" "realms=aegwynn"))))
+    (.equals "realms=aegwynn"
+      (join-params ["realms" "aegwynn"]))))
 
-(deftest test-join-params
+(deftest test-join-params-2
   (is
     (.equals "realms=aegwynn,aerie-peak"
       (join-params ["realms" "aegwynn" "aerie-peak"]))))
 
+(deftest test-create-url-1
+  (is
+    (.equals "https://eu.battle.net/api/wow/realm/status?realms=aegwynn"
+      (create-url "eu" "wow" "/realm/status" "realms=aegwynn"))))
+
+(deftest test-create-url-2
+  (is
+    (.equals "https://eu.battle.net/api/wow/realm/status?realms=aegwynn,aerie-peak"
+      (create-url "eu" "wow" "/realm/status" "realms=aegwynn,aerie-peak"))))
+
 (deftest test-access-realm-map
   (is
     (.equals "Aegwynn" 
-      (access-realm-map mock-map-single :name))))
+      (access-rmap mock-map-single :name))))
 
 (deftest test-realm-map-to-model
   (is
     (.equals "Aegwynn"
-      (get (realm-map-to-model mock-map-single) :name))))
+      (get (rmap-to-model mock-map-single) :name))))
+
+(deftest test-get-names-1
+  (is
+    (.equals "Aegwynn"
+             (get-name (first (get mock-map-multiple :realms))))))
+
+(deftest test-get-names-2
+  (is
+    (.equals ["Aegwynn" "Aerie Peak"]
+             (map get-name (get mock-map-multiple :realms)))))
+

@@ -6,6 +6,11 @@
   (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
            (java.io FileNotFoundException)))
 
+(defn join-params
+  "Joins URL parameters."
+  [params]
+  (str (first params) "=" (apply str (interpose \, (nthnext params 1)))))
+
 (defn create-url
   "Builds a request URL."
   [region game path params]
@@ -15,27 +20,26 @@
           (.replace bn-baseurl "{region}" region)
           "{game}" game)
         "{path}" path)
-    "{params}" params))
+    "{params}"  params))
 
-(defn join-params
-  "Joins URL parameters."
-  [params]
-  (str (first params) "=" (apply str (interpose \, (nthnext params 1)))))
+(defn access-rmap
+  "Access a member of a realmsmap"
+  [rsmap crit]
+  (get (first (get rsmap :realms)) crit))
 
+(defn get-name
+  "Get a name from a rmap."
+  [rmap]
+  (get rmap :name))
 
-(defn access-realm-map
-  "Access a member of a realm map"
-  [map crit]
-  (get (first (get map :realms)) crit))
-
-(defn realm-map-to-model
+(defn rmap-to-model
   "convert"
-  [map]
+  [rmap]
   (BRealm.
-    (access-realm-map map :type)
-    (access-realm-map map :queue)
-    (access-realm-map map :status)
-    (access-realm-map map :population)
-    (access-realm-map map :name)
-    (access-realm-map map :slug)
+    (access-rmap rmap :type)
+    (access-rmap rmap :queue)
+    (access-rmap rmap :status)
+    (access-rmap rmap :population)
+    (access-rmap rmap :name)
+    (access-rmap rmap :slug)
     ""))

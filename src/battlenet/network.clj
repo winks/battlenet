@@ -29,7 +29,7 @@
     (catch FileNotFoundException _
       0)))
 
-(defn get-realm-map
+(defn read-remote-rmap
   "Returns realm info as a map."
   [region realm]
   (read-json
@@ -37,7 +37,7 @@
       (create-url region "wow" bn-path-realm (join-params ["realms" realm])))))
 
 (defn read-remote-field
-  "read from remote"
+  "Read a single field from remote."
   [region realm field]
-  (let [data (get-realm-map region realm)]
-    (access-realm-map data field)))
+  (let [data (read-remote-rmap region realm)]
+    (access-rmap data field)))

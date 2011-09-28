@@ -19,5 +19,12 @@
   (read-remote-field region realm :queue))
 
 (defn realm-get-type
+  "Shows the game rule type of a realm."
   [region realm]
   (read-remote-field region realm :type))
+
+(defn get-realm-names
+  "Returns all realm names."
+  [region realm]
+  (map get-name 
+       (get (read-remote-rmap region realm) :realms)))
