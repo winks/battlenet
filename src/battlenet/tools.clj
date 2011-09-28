@@ -22,6 +22,13 @@
         "{path}" path)
     "{params}"  params))
 
+(defn create-url-item
+  "Builds a request URL for item requests."
+  [region game path params itemid]
+   (.replace
+     (create-url region game path params) "{id}" 
+     (if (integer? itemid) (Integer/toString itemid) itemid)))
+
 (defn access-rmap
   "Access a member of a realmsmap"
   [rsmap crit]

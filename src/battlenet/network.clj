@@ -36,6 +36,27 @@
     (read-url
       (create-url region "wow" bn-path-realm (join-params ["realms" realm])))))
 
+(defn read-remote-races
+  "Returns race info as a map."
+  [region]
+  (read-json
+    (read-url
+      (create-url region "wow" bn-path-races ""))))
+
+(defn read-remote-classes
+  "Returns class info as a map."
+  [region]
+  (read-json
+    (read-url
+      (create-url region "wow" bn-path-classes ""))))
+
+(defn read-remote-item
+  "Returns item info as a map."
+  [region itemid]
+  (read-json
+    (read-url
+      (create-url-item region "wow" bn-path-item "" itemid))))
+
 (defn read-remote-field
   "Read a single field from remote."
   [region realm field]

@@ -11,7 +11,7 @@
 (def bn-path-rewards    "/data/guild/rewards")
 (def bn-path-classes    "/data/character/classes")
 (def bn-path-races      "/data/character/races")
-(def bn-path-item       "/data/item/{id}")
+(def bn-path-item       "/item/{id}")
 
 ;
 ; additional fields for character lookups
