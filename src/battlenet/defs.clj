@@ -30,13 +30,38 @@
 ; WoW classes
 ;
 (def bn-classes
-  ["_zero" "Warrior" "Paladin" "Hunter" "Rogue" "Priest"
-   "Death Knight" "Shaman" "Mage" "Warlock" "_ten" "Druid"])
+  [nil "Warrior" "Paladin" "Hunter" "Rogue" "Priest"
+   "Death Knight" "Shaman" "Mage" "Warlock" nil
+   "Druid"])
 
 ;
 ; WoW races
 ;
 (def bn-races
-  ["_zero" "Human" "Orc" "Dwarf" "Night Elf" "Undead"
+  [nil "Human" "Orc" "Dwarf" "Night Elf" "Undead"
    "Tauren" "Gnome" "Troll" "Goblin" "Blood Elf"
-   "Draenei" "_" "_" "_" "_" "_" "_" "_" "_" "_twenty" "" "Worgen"])
+   "Draenei" nil nil nil nil
+   nil nil nil nil nil
+   nil "Worgen"])
+
+;
+; WoW quality
+;
+(def bn-quality
+  [nil "Common" "Uncommon" "Rare" "Epic" "Legendary"])
+
+;
+; WoW factions
+;
+(def bn-factions
+  ["Alliance" "Horde"])
+
+;
+; WoW bn-races-factions
+;
+(def bn-races-factions
+  [nil "Alliance" "Horde" "Alliance" "Alliance" "Horde"
+   "Horde" "Alliance" "Horde" "Horde" "Horde"
+   "Alliance" nil nil nil nil
+   nil nil nil nil nil
+   nil "Alliance"])
