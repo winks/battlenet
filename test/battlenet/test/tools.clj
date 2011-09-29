@@ -1,6 +1,7 @@
 (ns battlenet.test.tools
   (:use [battlenet.core])
   (:use [battlenet.defs])
+  (:use [battlenet.model])
   (:use [battlenet.tools])
   (:use [battlenet.network])
   (:use [clojure.test])

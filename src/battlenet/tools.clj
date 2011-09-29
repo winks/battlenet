@@ -2,9 +2,7 @@
   (:use [clojure.data.json :only (json-str write-json read-json)])
   (:use [clojure.contrib.duck-streams :only (slurp*)])
   (:use [battlenet.defs])
-  (:import [battlenet.model BRealm BCharacter])
-  (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
-           (java.io FileNotFoundException)))
+  (:import [battlenet.model BRealm BCharacter]))
 
 (defn join-params
   "Joins URL parameters."
