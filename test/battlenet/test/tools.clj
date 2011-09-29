@@ -33,6 +33,18 @@
                  :slug "aerie-peak"}
                 ]})
 
+(def mock-char
+  {:achievementPoints 1234,
+   :lastModified 1311956422000,
+   :gender 1,
+   :class 4,
+   :name "Humanrogue",
+   :realm "Malygos",
+   :thumbnail "malygos/1/12312312-avatar.jpg",
+   :race 1,
+   :level 85})
+
+
 (deftest test-join-params-1
   (is
     (.equals "realms=aegwynn"
@@ -92,10 +104,10 @@
     (.equals "Aegwynn"
              (access-rmap mock-map-single :name))))
 
-(deftest test-realm-map-to-model
+(deftest test-rmap-to-brealm
   (is
     (.equals "Aegwynn"
-             (get (rmap-to-model mock-map-single) :name))))
+             (get (rmap-to-brealm mock-map-single) :name))))
 
 (deftest test-get-names-1
   (is
@@ -107,3 +119,18 @@
     (.equals ["Aegwynn" "Aerie Peak"]
              (map get-name (get mock-map-multiple :realms)))))
 
+(deftest test-cmap-to-bcharacter-1
+  (is
+    (.equals "Humanrogue"
+             (:name (cmap-to-bcharacter mock-char)))))
+
+
+(deftest test-cmap-to-bcharacter-2
+  (is
+    (.equals "Rogue"
+             (nth bn-classes (:class (cmap-to-bcharacter mock-char))))))
+
+(deftest test-cmap-to-bcharacter-3
+  (is
+    (.equals "Human"
+             (nth bn-races (:race (cmap-to-bcharacter mock-char))))))

@@ -37,10 +37,10 @@
              (map get-name 
                   (get (read-remote-rmap "eu" "aegwynn,aerie-peak") :realms)))))
 
-(deftest test-get-realm-info
+(deftest test-realm-get-info
   (is
     (.equals "pvp"
-             (:type (first( get-realm-info "eu" "aegwynn"))))))
+             (:type (first( realm-get-info "eu" "aegwynn"))))))
 
 (deftest test-realm-has-queue
   (is

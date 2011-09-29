@@ -61,8 +61,8 @@
   [rmap]
   (get rmap :name))
 
-(defn rmap-to-model
-  "convert"
+(defn rmap-to-brealm
+  "Convert a map of a realm to a BRealm."
   [rmap]
   (BRealm.
     (access-rmap rmap :type)
@@ -73,3 +73,17 @@
     (access-rmap rmap :battlegroup)
     (access-rmap rmap :slug)
     ""))
+
+(defn cmap-to-bcharacter
+  "Convert a map of a character to a BCharacter."
+  [cmap]
+  (BCharacter.
+    (:name cmap)
+    ""
+    (:class cmap)
+    (:race cmap)
+    (:gender cmap)
+    (:level cmap)
+    (:achPoints cmap)
+    (:thumbnail cmap)
+    (:lastModified cmap)))

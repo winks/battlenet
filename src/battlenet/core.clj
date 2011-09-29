@@ -24,7 +24,7 @@
   [region realm]
   (read-remote-field region realm :type))
 
-(defn get-realm-info
+(defn realm-get-info
   "Returns info about a realm."
   [region realm]
   (get (read-remote-rmap region realm) :realms))
