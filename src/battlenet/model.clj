@@ -58,6 +58,10 @@
 (defrecord BProfession
   [name id icon rank max recipes])
 
+; BReputation
+(defrecord BReputation
+  [name id standing value max])
+
 ; BItem
 ;
 ; A WoW item

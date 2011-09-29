@@ -57,7 +57,7 @@
   ["Alliance" "Horde"])
 
 ;
-; WoW bn-races-factions
+; WoW races to factions mapping
 ;
 (def bn-races-factions
   [nil "Alliance" "Horde" "Alliance" "Alliance" "Horde"
@@ -65,3 +65,9 @@
    "Alliance" nil nil nil nil
    nil nil nil nil nil
    nil "Alliance"])
+
+;
+; WoW standings
+;
+(def bn-standing
+  ["Hated" "Hostile" "Unfriendly" "Neutral" "Friendly" "Honored" "Revered" "Exalted"])

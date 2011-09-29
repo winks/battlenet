@@ -1,6 +1,6 @@
 (ns battlenet.tools
   (:use [battlenet.defs])
-  (:import [battlenet.model BRealm BCharacter BGuild BProfession BItem]))
+  (:import [battlenet.model BRealm BCharacter BGuild BProfession BItem BReputation]))
 
 (defn join-params
   "Joins URL parameters."
@@ -103,3 +103,13 @@
     (:rank prmap)
     (:max prmap)
     (:recipes prmap)))
+
+(defn repmap-to-breputation
+  "Convert a map of reputation data to a BReputation."
+  [repmap]
+  (BReputation.
+    (:name repmap)
+    (:id repmap)
+    (:standing repmap)
+    (:value repmap)
+    (:max repmap)))

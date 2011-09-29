@@ -122,3 +122,8 @@
   (is
     (.equals "Alchemy"
              (:name (pmap-to-bprofession (first (:primary (:professions mock-char-prof))))))))
+
+(deftest test-repmap-to-breputation
+  (is
+    (.equals "Knights of the Ebon Blade"
+             (:name (repmap-to-breputation (first (:reputation mock-char-rep)))))))
