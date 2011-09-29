@@ -40,6 +40,17 @@
   [region game path realm guildname]
   (create-url-character region game path realm guildname))
 
+(defn media-url-icon
+  "Builds an icon URL."
+  [region game size icon]
+  (.replace
+    (.replace
+      (.replace
+       (.replace bn-media-icon "{region}" region)
+       "{game}" game)
+      "{size}" (if (.equals "small" size) "18" "56"))
+    "{icon}" icon))
+
 (defn access-rmap
   "Access a member of a realmsmap"
   [rsmap crit]

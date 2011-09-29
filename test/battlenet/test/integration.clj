@@ -8,7 +8,8 @@
 
 (deftest test-check-url-int
   (is
-    (= 1 (check-url "https://eu.battle.net/api/wow/realm/status"))))
+    (= 1
+       (check-url "https://eu.battle.net/api/wow/realm/status"))))
 
 (deftest test-read-url-int
   (is

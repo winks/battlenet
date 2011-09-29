@@ -36,6 +36,12 @@
     (read-url
       (create-url region "wow" bn-path-realm (join-params ["realms" realm])))))
 
+(defn read-remote-field
+  "Read a single field from remote."
+  [region realm field]
+  (let [data (read-remote-rmap region realm)]
+    (access-rmap data field)))
+
 (defn read-remote-races
   "Returns race info as a map."
   [region]
@@ -91,9 +97,3 @@
   (read-json
     (read-url
       (create-url-guild region "wow" bn-path-guild realm guildname))))
-
-(defn read-remote-field
-  "Read a single field from remote."
-  [region realm field]
-  (let [data (read-remote-rmap region realm)]
-    (access-rmap data field)))

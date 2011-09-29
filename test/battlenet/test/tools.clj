@@ -81,6 +81,12 @@
                                "aegwynn"
                                "asdf"))))
 
+(deftest test-media-url-icon
+  (is
+    (.equals
+      "http://eu.media.blizzard.com/wow/icons/18/inv_bracer_leatherraidrogue_i_01.jpg"
+      (media-url-icon "eu" "wow" "small" "inv_bracer_leatherraidrogue_i_01"))))
+
 (deftest test-access-realm-map
   (is
     (.equals "Aegwynn"

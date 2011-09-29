@@ -12,6 +12,8 @@
 (def bn-path-classes    "/data/character/classes")
 (def bn-path-races      "/data/character/races")
 (def bn-path-item       "/item/{id}")
+(def bn-media-icon
+  "http://{region}.media.blizzard.com/{game}/icons/{size}/{icon}.jpg")
 
 ;
 ; additional fields for character lookups
