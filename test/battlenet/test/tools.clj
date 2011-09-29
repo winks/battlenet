@@ -123,7 +123,14 @@
     (.equals "Alchemy"
              (:name (pmap-to-bprofession (first (:primary (:professions mock-char-prof))))))))
 
-(deftest test-repmap-to-breputation
+(deftest test-repmap-to-breputation-1
   (is
     (.equals "Knights of the Ebon Blade"
              (:name (repmap-to-breputation (first (:reputation mock-char-rep)))))))
+
+(deftest test-repmap-to-breputation-2
+  (is
+    (.equals "Exalted"
+             (nth
+               bn-reputation-standing
+               (:standing (repmap-to-breputation (first (:reputation mock-char-rep))))))))

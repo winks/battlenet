@@ -69,5 +69,5 @@
 ;
 ; WoW standings
 ;
-(def bn-standing
+(def bn-reputation-standing
   ["Hated" "Hostile" "Unfriendly" "Neutral" "Friendly" "Honored" "Revered" "Exalted"])
