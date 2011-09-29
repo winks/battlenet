@@ -1,8 +1,6 @@
 (ns battlenet.tools
-  (:use [clojure.data.json :only (json-str write-json read-json)])
-  (:use [clojure.contrib.duck-streams :only (slurp*)])
   (:use [battlenet.defs])
-  (:import [battlenet.model BRealm BCharacter]))
+  (:import [battlenet.model BRealm BCharacter BGuild BProfession BItem]))
 
 (defn join-params
   "Joins URL parameters."
@@ -29,16 +27,23 @@
 
 (defn create-url-character
   "Builds a request URL for character requests."
-  [region game path realm charname]
-  (.replace
+  ([region game path realm charname]
     (.replace
-      (create-url region game path "") "{realm}" realm)
-    "{name}" charname))
+      (.replace
+        (create-url region game path "") "{realm}" realm)
+      "{name}" charname))
+  ([region game path realm charname params]
+    (.replace
+      (.replace
+        (create-url region game path params) "{realm}" realm)
+      "{name}" charname)))
 
 (defn create-url-guild
   "Builds a request URL for guild requests."
-  [region game path realm guildname]
-  (create-url-character region game path realm guildname))
+  ([region game path realm guildname]
+    (create-url-character region game path realm guildname))
+  ([region game path realm guildname params]
+    (create-url-character region game path realm guildname params)))
 
 (defn media-url-icon
   "Builds an icon URL."
@@ -87,3 +92,14 @@
     (:achPoints cmap)
     (:thumbnail cmap)
     (:lastModified cmap)))
+
+(defn pmap-to-bprofession
+  "Convert a map of a profession to a BProfession."
+  [prmap]
+  (BProfession.
+    (:name prmap)
+    (:id prmap)
+    (:icon prmap)
+    (:rank prmap)
+    (:max prmap)
+    (:recipes prmap)))

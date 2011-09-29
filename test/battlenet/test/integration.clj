@@ -4,6 +4,7 @@
   (:use [battlenet.model])
   (:use [battlenet.tools])
   (:use [battlenet.network])
+  (:use [battlenet.test.mock])
   (:use [clojure.test]))
 
 (deftest test-check-url-int
@@ -51,3 +52,4 @@
   (is
     (.equals ["Aggramar" "Agamaggan"]
              (let [g (get-realm-names "eu")] (conj (conj nil (nth g 2)) (nth g 3))))))
+

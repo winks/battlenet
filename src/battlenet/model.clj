@@ -45,6 +45,19 @@
 (defrecord BGuild
   [name realm level side achPoints emblem lastModified])
 
+; BProfession
+;
+; A WoW profession
+;
+; name    -> string
+; id      -> integer
+; icon    -> string
+; rank    -> integer
+; max     -> integer
+; recipes -> vector
+(defrecord BProfession
+  [name id icon rank max recipes])
+
 ; BItem
 ;
 ; A WoW item

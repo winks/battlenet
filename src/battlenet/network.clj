@@ -2,8 +2,8 @@
   (:use [clojure.data.json :only (json-str write-json read-json)])
   (:use [clojure.contrib.duck-streams :only (slurp*)])
   (:use [battlenet.defs])
+  (:use [battlenet.model])
   (:use [battlenet.tools])
-  (:import [battlenet.model BRealm BCharacter])
   (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
            (java.io FileNotFoundException)))
 
@@ -86,10 +86,14 @@
 
 (defn read-remote-character
   "Returns character data as a map."
-  [region realm charname]
+  ([region realm charname]
   (read-json
     (read-url
       (create-url-character region "wow" bn-path-character realm charname))))
+  ([region realm charname params]
+  (read-json
+    (read-url
+      (create-url-character region "wow" bn-path-character realm charname params)))))
 
 (defn read-remote-guild
   "Returns guild data as a map."

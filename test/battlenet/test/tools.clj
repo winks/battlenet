@@ -4,46 +4,12 @@
   (:use [battlenet.model])
   (:use [battlenet.tools])
   (:use [battlenet.network])
-  (:use [clojure.test])
-  (:use [clojure.walk]))
+  (:use [battlenet.test.mock])
+  (:use [clojure.test]))
 
-(def mock-map-single {:realms 
-               [{:type "pvp",
-                 :queue false,
-                 :status true,
-                 :population "high",
-                 :name "Aegwynn",
-                 :battlegroup "Blutdurst",
-                 :slug "aegwynn"}]})
-
-(def mock-map-multiple {:realms 
-               [{:type "pvp",
-                 :queue false,
-                 :status true,
-                 :population "high",
-                 :name "Aegwynn",
-                 :battlegroup "Blutdurst",
-                 :slug "aegwynn"},
-                {:type "pve",
-                 :queue false,
-                 :status true,
-                 :population "medium",
-                 :name "Aerie Peak",
-                 :battlegroup "Misery",
-                 :slug "aerie-peak"}
-                ]})
-
-(def mock-char
-  {:achievementPoints 1234,
-   :lastModified 1311956422000,
-   :gender 1,
-   :class 4,
-   :name "Humanrogue",
-   :realm "Malygos",
-   :thumbnail "malygos/1/12312312-avatar.jpg",
-   :race 1,
-   :level 85})
-
+;;;;;;;;;;;;;
+; URL stuff
+;;;;;;;;;;;;;
 
 (deftest test-join-params-1
   (is
@@ -75,7 +41,7 @@
     (.equals "https://eu.battle.net/api/wow/item/1234?"
              (create-url-item "eu" "wow" "/item/{id}" "1234"))))
 
-(deftest test-create-url-character
+(deftest test-create-url-character-1
   (is
     (.equals "https://eu.battle.net/api/wow/character/aegwynn/asdf?"
              (create-url-character "eu"
@@ -83,6 +49,16 @@
                                    "/character/{realm}/{name}"
                                    "aegwynn"
                                    "asdf"))))
+
+(deftest test-create-url-character-2
+  (is
+    (.equals "https://eu.battle.net/api/wow/character/aegwynn/asdf?fields=professions"
+             (create-url-character "eu"
+                                   "wow"
+                                   "/character/{realm}/{name}"
+                                   "aegwynn"
+                                   "asdf"
+                                   "fields=professions"))))
 
 (deftest test-create-url-guild
   (is
@@ -99,15 +75,14 @@
       "http://eu.media.blizzard.com/wow/icons/18/inv_bracer_leatherraidrogue_i_01.jpg"
       (media-url-icon "eu" "wow" "small" "inv_bracer_leatherraidrogue_i_01"))))
 
-(deftest test-access-realm-map
+;;;;;;;;
+; misc
+;;;;;;;;
+
+(deftest test-access-rmap
   (is
     (.equals "Aegwynn"
              (access-rmap mock-map-single :name))))
-
-(deftest test-rmap-to-brealm
-  (is
-    (.equals "Aegwynn"
-             (get (rmap-to-brealm mock-map-single) :name))))
 
 (deftest test-get-names-1
   (is
@@ -119,11 +94,19 @@
     (.equals ["Aegwynn" "Aerie Peak"]
              (map get-name (get mock-map-multiple :realms)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; conversions xmap-to-xmodel 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(deftest test-rmap-to-brealm
+  (is
+    (.equals "Aegwynn"
+             (get (rmap-to-brealm mock-map-single) :name))))
+
 (deftest test-cmap-to-bcharacter-1
   (is
     (.equals "Humanrogue"
              (:name (cmap-to-bcharacter mock-char)))))
-
 
 (deftest test-cmap-to-bcharacter-2
   (is
@@ -134,3 +117,8 @@
   (is
     (.equals "Human"
              (nth bn-races (:race (cmap-to-bcharacter mock-char))))))
+
+(deftest test-pmap-to-bprofession
+  (is
+    (.equals "Alchemy"
+             (:name (pmap-to-bprofession (first (:primary (:professions mock-char-prof))))))))
