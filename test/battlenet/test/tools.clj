@@ -36,32 +36,51 @@
 (deftest test-join-params-1
   (is
     (.equals "realms=aegwynn"
-      (join-params ["realms" "aegwynn"]))))
+             (join-params ["realms" "aegwynn"]))))
 
 (deftest test-join-params-2
   (is
     (.equals "realms=aegwynn,aerie-peak"
-      (join-params ["realms" "aegwynn" "aerie-peak"]))))
+             (join-params ["realms" "aegwynn" "aerie-peak"]))))
 
 (deftest test-create-url-1
   (is
     (.equals "https://eu.battle.net/api/wow/realm/status?realms=aegwynn"
-      (create-url "eu" "wow" "/realm/status" "realms=aegwynn"))))
+             (create-url "eu" "wow" "/realm/status" "realms=aegwynn"))))
 
 (deftest test-create-url-2
   (is
     (.equals "https://eu.battle.net/api/wow/realm/status?realms=aegwynn,aerie-peak"
-      (create-url "eu" "wow" "/realm/status" "realms=aegwynn,aerie-peak"))))
+             (create-url "eu" "wow" "/realm/status" "realms=aegwynn,aerie-peak"))))
+
+(deftest test-create-url-item-1
+  (is
+    (.equals "https://eu.battle.net/api/wow/item/1234?"
+             (create-url-item "eu" "wow" "/item/{id}" 1234))))
+
+(deftest test-create-url-item-2
+  (is
+    (.equals "https://eu.battle.net/api/wow/item/1234?"
+             (create-url-item "eu" "wow" "/item/{id}" "1234"))))
+
+(deftest test-create-url-character
+  (is
+    (.equals "https://eu.battle.net/api/wow/character/aegwynn/asdf?"
+             (create-url-character "eu"
+                                   "wow"
+                                   "/character/{realm}/{name}"
+                                   "aegwynn"
+                                   "asdf"))))
 
 (deftest test-access-realm-map
   (is
-    (.equals "Aegwynn" 
-      (access-rmap mock-map-single :name))))
+    (.equals "Aegwynn"
+             (access-rmap mock-map-single :name))))
 
 (deftest test-realm-map-to-model
   (is
     (.equals "Aegwynn"
-      (get (rmap-to-model mock-map-single) :name))))
+             (get (rmap-to-model mock-map-single) :name))))
 
 (deftest test-get-names-1
   (is

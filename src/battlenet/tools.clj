@@ -22,10 +22,18 @@
 
 (defn create-url-item
   "Builds a request URL for item requests."
-  [region game path params itemid]
+  [region game path itemid]
    (.replace
-     (create-url region game path params) "{id}" 
+     (create-url region game path "") "{id}" 
      (if (integer? itemid) (Integer/toString itemid) itemid)))
+
+(defn create-url-character
+  "Builds a request URL for character."
+  [region game path realm charname]
+  (.replace
+    (.replace
+      (create-url region game path "") "{realm}" realm)
+    "{name}" charname))
 
 (defn access-rmap
   "Access a member of a realmsmap"
@@ -46,5 +54,6 @@
     (access-rmap rmap :status)
     (access-rmap rmap :population)
     (access-rmap rmap :name)
+    (access-rmap rmap :battlegroup)
     (access-rmap rmap :slug)
     ""))
