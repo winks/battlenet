@@ -17,8 +17,13 @@
 
 (deftest test-realm-is-online-int
   (is
-    (= true
+    (instance? Boolean
       (realm-is-online "eu" "aegwynn"))))
+
+(deftest test-realm-is-offline-int
+  (is
+    (instance? Boolean
+      (realm-is-offline "eu" "aegwynn"))))
 
 (deftest test-get-type-int
   (is
@@ -30,3 +35,18 @@
     (.equals ["Aerie Peak" "Aegwynn"]
              (map get-name 
                   (get (read-remote-rmap "eu" "aegwynn,aerie-peak") :realms)))))
+
+(deftest test-get-realm-info
+  (is
+    (.equals "pvp"
+             (:type (first( get-realm-info "eu" "aegwynn"))))))
+
+(deftest test-realm-has-queue
+  (is
+    (instance? Boolean
+       (realm-has-queue "eu" "aegwynn"))))
+
+(deftest test-get-realm-names
+  (is
+    (.equals ["Aggramar" "Agamaggan"]
+             (let [g (get-realm-names "eu")] (conj (conj nil (nth g 2)) (nth g 3))))))

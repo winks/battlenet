@@ -28,12 +28,17 @@
      (if (integer? itemid) (Integer/toString itemid) itemid)))
 
 (defn create-url-character
-  "Builds a request URL for character."
+  "Builds a request URL for character requests."
   [region game path realm charname]
   (.replace
     (.replace
       (create-url region game path "") "{realm}" realm)
     "{name}" charname))
+
+(defn create-url-guild
+  "Builds a request URL for guild requests."
+  [region game path realm guildname]
+  (create-url-character region game path realm guildname))
 
 (defn access-rmap
   "Access a member of a realmsmap"

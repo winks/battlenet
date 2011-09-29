@@ -76,7 +76,7 @@
   [region itemid]
   (read-json
     (read-url
-      (create-url-item region "wow" bn-path-item "" itemid))))
+      (create-url-item region "wow" bn-path-item itemid))))
 
 (defn read-remote-character
   "Returns character data as a map."
@@ -84,6 +84,13 @@
   (read-json
     (read-url
       (create-url-character region "wow" bn-path-character realm charname))))
+
+(defn read-remote-guild
+  "Returns guild data as a map."
+  [region realm guildname]
+  (read-json
+    (read-url
+      (create-url-guild region "wow" bn-path-guild realm guildname))))
 
 (defn read-remote-field
   "Read a single field from remote."

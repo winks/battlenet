@@ -72,6 +72,15 @@
                                    "aegwynn"
                                    "asdf"))))
 
+(deftest test-create-url-guild
+  (is
+    (.equals "https://eu.battle.net/api/wow/guild/aegwynn/asdf?"
+             (create-url-guild "eu"
+                               "wow"
+                               "/guild/{realm}/{name}"
+                               "aegwynn"
+                               "asdf"))))
+
 (deftest test-access-realm-map
   (is
     (.equals "Aegwynn"
