@@ -113,3 +113,13 @@
     (:standing repmap)
     (:value repmap)
     (:max repmap)))
+
+(defn copper-to-gold
+  "Currency conversion."
+  [input]
+  (let [gold (quot input 10000)]
+    (let [silver (quot (- input (* 10000 gold)) 100)]
+      (let [copper (mod input 100)]
+        (str (if (< 0 gold) (str gold " G "))
+             (if (< 0 silver) (str silver " S "))
+             copper " C")))))

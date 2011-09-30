@@ -71,3 +71,25 @@
 ;
 (def bn-reputation-standing
   ["Hated" "Hostile" "Unfriendly" "Neutral" "Friendly" "Honored" "Revered" "Exalted"])
+
+;
+; WoW InventorySlotId/InventoryType
+;
+(def bn-inventory
+  ["Ammo" "Head" "Neck" "Shoulder" "Shirt" "Chest"
+   "Belt" "Legs" "Feet" "Wrist" "Gloves"
+   "Finger" "Finger" "Trinket" "Trinket" "Back"
+   "Main Hand" "Off Hand" "Ranged" "Tabard"])
+
+;
+; WoW stats
+; 31 = hit
+; 32 = crit
+; 36 = haste
+; 37 = expertise
+; 49 = mastery
+;
+(def bn-stats
+  [nil nil nil nil "Strength" nil
+   nil "Stamina" nil nil nil
+   nil nil "Dodge" "Parry" nil])
