@@ -134,3 +134,18 @@
              (nth
                bn-reputation-standing
                (:standing (repmap-to-breputation (first (:reputation mock-char-rep))))))))
+
+(deftest test-copper-to-gold-1
+  (is
+    (.equals "1 C"
+             (copper-to-gold 1))))
+
+(deftest test-copper-to-gold-2
+  (is
+    (.equals "1 S 23 C"
+             (copper-to-gold 123))))
+
+(deftest test-copper-to-gold-2
+  (is
+    (.equals "1 G 23 S 45 C"
+             (copper-to-gold 12345))))

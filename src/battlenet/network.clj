@@ -34,7 +34,7 @@
   [region realm]
   (read-json
     (read-url
-      (create-url region "wow" bn-path-realm (join-params ["realms" realm])))))
+      (create-url region bn-game-wow bn-path-realm (join-params ["realms" realm])))))
 
 (defn read-remote-field
   "Read a single field from remote."
@@ -47,57 +47,57 @@
   [region]
   (read-json
     (read-url
-      (create-url region "wow" bn-path-races ""))))
+      (create-url region bn-game-wow bn-path-races ""))))
 
 (defn read-remote-classes
   "Returns class info as a map."
   [region]
   (read-json
     (read-url
-      (create-url region "wow" bn-path-classes ""))))
+      (create-url region bn-game-wow bn-path-classes ""))))
 
 (defn read-remote-perks
   "Returns guild perks info as a map."
   [region]
   (read-json
     (read-url
-      (create-url region "wow" bn-path-perks ""))))
+      (create-url region bn-game-wow bn-path-perks ""))))
 
 (defn read-remote-rewards
   "Returns guild rewards info as a map."
   [region]
   (read-json
     (read-url
-      (create-url region "wow" bn-path-rewards ""))))
+      (create-url region bn-game-wow bn-path-rewards ""))))
 
 (defn read-remote-perks
   "Returns guild perks info as a map."
   [region]
   (read-json
     (read-url
-      (create-url region "wow" bn-path-perks ""))))
+      (create-url region bn-game-wow bn-path-perks ""))))
 
 (defn read-remote-item
   "Returns item info as a map."
   [region itemid]
   (read-json
     (read-url
-      (create-url-item region "wow" bn-path-item itemid))))
+      (create-url-item region bn-game-wow bn-path-item itemid))))
 
 (defn read-remote-character
   "Returns character data as a map."
   ([region realm charname]
   (read-json
     (read-url
-      (create-url-character region "wow" bn-path-character realm charname))))
+      (create-url-character region bn-game-wow bn-path-character realm charname))))
   ([region realm charname params]
   (read-json
     (read-url
-      (create-url-character region "wow" bn-path-character realm charname params)))))
+      (create-url-character region bn-game-wow bn-path-character realm charname params)))))
 
 (defn read-remote-guild
   "Returns guild data as a map."
   [region realm guildname]
   (read-json
     (read-url
-      (create-url-guild region "wow" bn-path-guild realm guildname))))
+      (create-url-guild region bn-game-wow bn-path-guild realm guildname))))

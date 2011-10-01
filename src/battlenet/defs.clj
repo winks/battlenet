@@ -15,6 +15,8 @@
 (def bn-media-icon
   "http://{region}.media.blizzard.com/{game}/icons/{size}/{icon}.jpg")
 
+(def bn-game-wow "wow")
+
 ;
 ; additional fields for character lookups
 ;
