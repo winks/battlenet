@@ -98,42 +98,42 @@
 ; conversions xmap-to-xmodel 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(deftest test-rmap-to-brealm
-  (is
-    (.equals "Aegwynn"
-             (get (rmap-to-brealm mock-map-single) :name))))
+;(deftest test-rmap-to-brealm
+;  (is
+;    (.equals "Aegwynn"
+;             (get (rmap-to-brealm mock-map-single) :name))))
 
-(deftest test-cmap-to-bcharacter-1
-  (is
-    (.equals "Humanrogue"
-             (:name (cmap-to-bcharacter mock-char)))))
+;(deftest test-cmap-to-bcharacter-1
+;  (is
+;    (.equals "Humanrogue"
+;             (:name (cmap-to-bcharacter mock-char)))))
 
-(deftest test-cmap-to-bcharacter-2
-  (is
-    (.equals "Rogue"
-             (nth bn-classes (:class (cmap-to-bcharacter mock-char))))))
+;(deftest test-cmap-to-bcharacter-2
+;  (is
+;    (.equals "Rogue"
+;             (nth bn-classes (:class (cmap-to-bcharacter mock-char))))))
 
-(deftest test-cmap-to-bcharacter-3
-  (is
-    (.equals "Human"
-             (nth bn-races (:race (cmap-to-bcharacter mock-char))))))
+;(deftest test-cmap-to-bcharacter-3
+;  (is
+;    (.equals "Human"
+;             (nth bn-races (:race (cmap-to-bcharacter mock-char))))))
 
-(deftest test-pmap-to-bprofession
-  (is
-    (.equals "Alchemy"
-             (:name (pmap-to-bprofession (first (:primary (:professions mock-char-prof))))))))
+;(deftest test-pmap-to-bprofession
+;  (is
+;    (.equals "Alchemy"
+;             (:name (pmap-to-bprofession (first (:primary (:professions mock-char-prof))))))))
 
-(deftest test-repmap-to-breputation-1
-  (is
-    (.equals "Knights of the Ebon Blade"
-             (:name (repmap-to-breputation (first (:reputation mock-char-rep)))))))
+;(deftest test-repmap-to-breputation-1
+;  (is
+;    (.equals "Knights of the Ebon Blade"
+;             (:name (repmap-to-breputation (first (:reputation mock-char-rep)))))))
 
-(deftest test-repmap-to-breputation-2
-  (is
-    (.equals "Exalted"
-             (nth
-               bn-reputation-standing
-               (:standing (repmap-to-breputation (first (:reputation mock-char-rep))))))))
+;(deftest test-repmap-to-breputation-2
+;  (is
+;    (.equals "Exalted"
+;             (nth
+;               bn-reputation-standing
+;               (:standing (repmap-to-breputation (first (:reputation mock-char-rep))))))))
 
 (deftest test-copper-to-gold-1
   (is

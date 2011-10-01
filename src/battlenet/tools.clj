@@ -1,7 +1,6 @@
 (ns battlenet.tools
   (:require [clojure.string :as string])
-  (:use [battlenet.defs])
-  (:import [battlenet.model BRealm BCharacter BGuild BProfession BItem BReputation]))
+  (:use [battlenet.defs]))
 
 (defn join-params
   "Joins URL parameters."
@@ -66,54 +65,6 @@
   "Get a name from a rmap."
   [rmap]
   (get rmap :name))
-
-(defn rmap-to-brealm
-  "Convert a map of a realm to a BRealm."
-  [rmap]
-  (BRealm.
-    (access-rmap rmap :type)
-    (access-rmap rmap :queue)
-    (access-rmap rmap :status)
-    (access-rmap rmap :population)
-    (access-rmap rmap :name)
-    (access-rmap rmap :battlegroup)
-    (access-rmap rmap :slug)
-    ""))
-
-(defn cmap-to-bcharacter
-  "Convert a map of a character to a BCharacter."
-  [cmap]
-  (BCharacter.
-    (:name cmap)
-    ""
-    (:class cmap)
-    (:race cmap)
-    (:gender cmap)
-    (:level cmap)
-    (:achPoints cmap)
-    (:thumbnail cmap)
-    (:lastModified cmap)))
-
-(defn pmap-to-bprofession
-  "Convert a map of a profession to a BProfession."
-  [prmap]
-  (BProfession.
-    (:name prmap)
-    (:id prmap)
-    (:icon prmap)
-    (:rank prmap)
-    (:max prmap)
-    (:recipes prmap)))
-
-(defn repmap-to-breputation
-  "Convert a map of reputation data to a BReputation."
-  [repmap]
-  (BReputation.
-    (:name repmap)
-    (:id repmap)
-    (:standing repmap)
-    (:value repmap)
-    (:max repmap)))
 
 (defn copper-to-gold
   "Currency conversion."

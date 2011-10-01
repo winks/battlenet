@@ -32,47 +32,81 @@
 ; WoW classes
 ;
 (def bn-classes
-  [nil "Warrior" "Paladin" "Hunter" "Rogue" "Priest"
-   "Death Knight" "Shaman" "Mage" "Warlock" nil
-   "Druid"])
+  {1 "Warrior",
+   2 "Paladin",
+   3 "Hunter",
+   4 "Rogue",
+   5 "Priest",
+   6 "Death Knight",
+   7 "Shaman",
+   8 "Mage",
+   9 "Warlock",
+   11 "Druid"})
 
 ;
 ; WoW races
 ;
 (def bn-races
-  [nil "Human" "Orc" "Dwarf" "Night Elf" "Undead"
-   "Tauren" "Gnome" "Troll" "Goblin" "Blood Elf"
-   "Draenei" nil nil nil nil
-   nil nil nil nil nil
-   nil "Worgen"])
+  {1 "Human",
+   2 "Orc",
+   3 "Dwarf",
+   4 "Night Elf",
+   5 "Undead",
+   6 "Tauren",
+   7 "Gnome",
+   8 "Troll",
+   9 "Goblin",
+   10 "Blood Elf",
+   11 "Draenei",
+   22 "Worgen"})
 
 ;
 ; WoW quality
 ;
+
 (def bn-quality
-  [nil "Common" "Uncommon" "Rare" "Epic" "Legendary"])
+  {1 "Common",
+   2 "Uncommon",
+   3 "Rare",
+   4 "Epic",
+   5 "Legendary"})
 
 ;
 ; WoW factions
 ;
 (def bn-factions
-  ["Alliance" "Horde"])
+  {0 "Alliance",
+   1 "Horde"})
 
 ;
 ; WoW races to factions mapping
 ;
 (def bn-races-factions
-  [nil "Alliance" "Horde" "Alliance" "Alliance" "Horde"
-   "Horde" "Alliance" "Horde" "Horde" "Horde"
-   "Alliance" nil nil nil nil
-   nil nil nil nil nil
-   nil "Alliance"])
+  {1 "Alliance",
+   2 "Horde",
+   3 "Alliance",
+   4 "Alliance",
+   5 "Horde"
+   6 "Horde",
+   7 "Alliance",
+   8 "Horde",
+   9 "Horde",
+   10 "Horde",
+   11 "Alliance",
+   22 "Alliance"})
 
 ;
 ; WoW standings
 ;
 (def bn-reputation-standing
-  ["Hated" "Hostile" "Unfriendly" "Neutral" "Friendly" "Honored" "Revered" "Exalted"])
+  {0 "Hated",
+   1 "Hostile",
+   2 "Unfriendly",
+   3 "Neutral",
+   4 "Friendly",
+   5 "Honored",
+   6 "Revered",
+   7 "Exalted"})
 
 ;
 ; WoW InventorySlotId/InventoryType
@@ -85,13 +119,14 @@
 
 ;
 ; WoW stats
-; 31 = hit
-; 32 = crit
-; 36 = haste
-; 37 = expertise
-; 49 = mastery
 ;
 (def bn-stats
-  [nil nil nil nil "Strength" nil
-   nil "Stamina" nil nil nil
-   nil nil "Dodge" "Parry" nil])
+  {4 "Strength",
+   7 "Stamina",
+   13 "Dodge",
+   14 "Parry",
+   31 "Hit",
+   32 "Crit",
+   36 "Haste",
+   37 "Expertise",
+   49 "Mastery"})

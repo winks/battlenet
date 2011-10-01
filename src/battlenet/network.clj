@@ -1,7 +1,6 @@
 (ns battlenet.network
   (:use [clojure.data.json :only (json-str write-json read-json)])
   (:use [battlenet.defs])
-  (:use [battlenet.model])
   (:use [battlenet.tools])
   (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
            (java.io FileNotFoundException)))

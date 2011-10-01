@@ -1,4 +1,4 @@
-(defproject battlenet "0.0.3-SNAPSHOT"
+(defproject battlenet "0.0.4-SNAPSHOT"
   :description "Clojure library for Blizzard's Community Platform API"
   :dependencies [[org.clojure/clojure "1.2.1"]
                  [org.clojure/data.json "0.1.1"]]
