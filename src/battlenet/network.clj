@@ -1,6 +1,5 @@
 (ns battlenet.network
   (:use [clojure.data.json :only (json-str write-json read-json)])
-  (:use [clojure.contrib.duck-streams :only (slurp*)])
   (:use [battlenet.defs])
   (:use [battlenet.model])
   (:use [battlenet.tools])
@@ -23,7 +22,7 @@
   "Reads from an URL."
   [url]
   (try
-    (slurp* url)
+    (slurp url)
     (catch UnknownHostException _
       0)
     (catch FileNotFoundException _
