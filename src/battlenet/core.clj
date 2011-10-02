@@ -26,10 +26,10 @@
 (defn realm-get-info
   "Returns info about a realm."
   [region realm]
-  (get (read-remote-rmap region realm) :realms))
+  (get (read-remote-realms region realm) :realms))
 
 (defn get-realm-names
   "Returns all realm names."
   [region]
   (map get-name 
-       (get (read-remote-rmap region "") :realms)))
+       (get (read-remote-realms region "") :realms)))

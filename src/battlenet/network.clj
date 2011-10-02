@@ -27,7 +27,7 @@
     (catch FileNotFoundException _
       0)))
 
-(defn read-remote-rmap
+(defn read-remote-realms
   "Returns realm info as a map."
   [region realm]
   (read-json
@@ -37,7 +37,7 @@
 (defn read-remote-field
   "Read a single field from remote."
   [region realm field]
-  (let [data (read-remote-rmap region realm)]
+  (let [data (read-remote-realms region realm)]
     (access-rmap data field)))
 
 (defn read-remote-races
