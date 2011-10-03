@@ -121,12 +121,17 @@
 ; WoW stats
 ;
 (def bn-stats
-  {4 "Strength",
+  {3 "Agility",
+   4 "Strength",
+   5 "Intellect",
+   6 "Spirit",
    7 "Stamina",
    13 "Dodge",
    14 "Parry",
    31 "Hit",
    32 "Crit",
+   35 "Resilience",
    36 "Haste",
    37 "Expertise",
+   45 "Spell Power",
    49 "Mastery"})

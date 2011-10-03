@@ -66,12 +66,24 @@
   [rmap]
   (get rmap :name))
 
-(defn copper-to-gold
-  "Currency conversion."
+(defn copper-to-gold-plain
   [input]
   (let [gold (quot input 10000)
         silver (quot (- input (* 10000 gold)) 100)
         copper (mod input 100)]
-    (str (if (< 0 gold) (str gold " G "))
-         (if (< 0 silver) (str silver " S "))
-         copper " C")))
+    [(if (< 0 gold) gold 0)
+     (if (< 0 silver) silver 0)
+      copper]))
+
+(defn copper-to-gold
+  "Currency conversion."
+  ([input]
+  (let [currency (copper-to-gold-plain input)]
+    (str (if (> (nth currency 0) 0) (str (nth currency 0) " G "))
+         (if (> (nth currency 1) 0) (str (nth currency 1) " S "))
+         (nth currency 2) " C")))
+  ([input x]
+    (let [currency (copper-to-gold-plain input)]
+      (str (if (> (nth currency 0) 0) (str "<span class=\"icon-gold\">" (nth currency 0) "</span>"))
+           (if (> (nth currency 1) 0) (str "<span class=\"icon-silver\">" (nth currency 1) "</span>"))
+           "<span class=\"icon-copper\">" (nth currency 2) "</span>"))))
