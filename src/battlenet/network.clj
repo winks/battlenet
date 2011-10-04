@@ -23,9 +23,9 @@
   (try
     (slurp url)
     (catch UnknownHostException _
-      0)
+      "{}")
     (catch FileNotFoundException _
-      0)))
+      "{}")))
 
 (defn read-remote-realms
   "Returns realm info as a map."
