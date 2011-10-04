@@ -116,7 +116,7 @@
 
 (deftest test-get-primary-professions-1
   (is
-    (.equals ["Alchemy 540" "Leatherworking 500"]
+    (.equals [["Alchemy" 540] ["Leatherworking" 500]]
              (get-primary-professions (:professions mock-char-prof)))))
 
 (deftest test-get-primary-professions-2

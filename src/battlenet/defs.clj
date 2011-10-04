@@ -62,6 +62,10 @@
    11 "Draenei",
    22 "Worgen"})
 
+(def bn-gender
+  {0 "Male",
+   1 "Female"})
+
 ;
 ; WoW quality
 ;

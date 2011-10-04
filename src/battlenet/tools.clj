@@ -91,8 +91,8 @@
   [map]
   (let [primary-1 (first (:primary map))
         primary-2 (nth (:primary map) 1)]
-    [(if (string/blank? (:name primary-1)) nil (str (:name primary-1) " " (:rank primary-1)))
-     (if (string/blank? (:name primary-2)) nil (str (:name primary-2) " " (:rank primary-2)))]))
+    [(if (string/blank? (:name primary-1)) nil [(:name primary-1) (:rank primary-1)])
+     (if (string/blank? (:name primary-2)) nil [(:name primary-2) (:rank primary-2)])]))
 
 (defn get-secondary-professions
   [map]
