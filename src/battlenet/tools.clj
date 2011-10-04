@@ -74,7 +74,7 @@
   [rmap]
   (get rmap :name))
 
-(defn get-title-x
+(defn get-title-helper
   "Helper function for get-title"
   [map]
   (for [title (:titles map)
@@ -84,8 +84,40 @@
 (defn get-title
   "Get a title from a map"
   [map]
-  (let [new (get-title-x map)]
+  (let [new (get-title-helper map)]
     (if (string/blank? (first new)) "%s" (first new))))
+
+(defn lookup-class
+  [what]
+  (get bn-classes what))
+
+(defn lookup-race
+  [what]
+  (get bn-races what))
+
+(defn lookup-gender
+  [what]
+  (get bn-genders what))
+
+(defn lookup-faction
+  [what]
+  (get bn-factions what))
+
+(defn lookup-stat
+  [what]
+  (get bn-stats what))
+
+(defn lookup-quality
+  [what]
+  (get bn-quality what))
+
+(defn lookup-inventory
+  [what]
+  (get bn-inventory what))
+
+(defn lookup-reputation
+  [what]
+  (get bn-reputation-standing what))
 
 (defn get-primary-professions
   [map]

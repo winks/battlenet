@@ -155,3 +155,47 @@
                   "<span class=\"icon-silver\">23</span>"
                   "<span class=\"icon-copper\">45</span>")
              (copper-to-gold 12345 1))))
+
+;;;;;;;;;
+; lookup
+;;;;;;;;;
+
+(deftest test-lookup-class
+  (is
+    (.equals "Rogue"
+             (lookup-class 4))))
+
+(deftest test-lookup-race
+  (is
+    (.equals "Orc"
+             (lookup-race 2))))
+
+(deftest test-lookup-gender
+  (is
+    (.equals "Male"
+             (lookup-gender 0))))
+
+(deftest test-lookup-quality
+  (is
+    (.equals "Epic"
+             (lookup-quality 4))))
+
+(deftest test-lookup-faction
+  (is
+    (.equals "Horde"
+             (lookup-faction 1))))
+
+(deftest test-lookup-reputation
+  (is
+    (.equals "Exalted"
+             (lookup-reputation 7))))
+
+(deftest test-lookup-stat
+  (is
+    (.equals "Agility"
+             (lookup-stat 3))))
+
+(deftest test-lookup-inventory
+  (is
+    (.equals "Main Hand"
+             (lookup-inventory 16))))

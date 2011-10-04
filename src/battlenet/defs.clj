@@ -62,7 +62,7 @@
    11 "Draenei",
    22 "Worgen"})
 
-(def bn-gender
+(def bn-genders
   {0 "Male",
    1 "Female"})
 
