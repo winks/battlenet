@@ -74,6 +74,12 @@
       "http://eu.media.blizzard.com/wow/icons/18/inv_bracer_leatherraidrogue_i_01.jpg"
       (media-url-icon "eu" "wow" "small" "inv_bracer_leatherraidrogue_i_01"))))
 
+(deftest test-media-url-avatar
+  (is
+    (.equals
+      "http://eu.battle.net/static-render/eu/foo.jpg"
+      (media-url-avatar "eu" "foo.jpg"))))
+
 ;;;;;;;;
 ; misc
 ;;;;;;;;
@@ -93,46 +99,40 @@
     (.equals ["Aegwynn" "Aerie Peak"]
              (map get-name (get mock-map-multiple :realms)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; conversions xmap-to-xmodel 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(deftest test-get-title-1
+  (is
+    (.equals "%s the Seeker"
+             (get-title mock-titles))))
 
-;(deftest test-rmap-to-brealm
-;  (is
-;    (.equals "Aegwynn"
-;             (get (rmap-to-brealm mock-map-single) :name))))
+(deftest test-get-title-2
+  (is
+    (.equals "Elder %s"
+             (get-title mock-titles-2))))
 
-;(deftest test-cmap-to-bcharacter-1
-;  (is
-;    (.equals "Humanrogue"
-;             (:name (cmap-to-bcharacter mock-char)))))
+(deftest test-get-title3
+  (is
+    (.equals "%s"
+             (get-title mock-titles-empty))))
 
-;(deftest test-cmap-to-bcharacter-2
-;  (is
-;    (.equals "Rogue"
-;             (nth bn-classes (:class (cmap-to-bcharacter mock-char))))))
+(deftest test-get-primary-professions-1
+  (is
+    (.equals ["Alchemy 540" "Leatherworking 500"]
+             (get-primary-professions (:professions mock-char-prof)))))
 
-;(deftest test-cmap-to-bcharacter-3
-;  (is
-;    (.equals "Human"
-;             (nth bn-races (:race (cmap-to-bcharacter mock-char))))))
+(deftest test-get-primary-professions-2
+  (is
+    (.equals [nil nil]
+             (get-primary-professions (:professions mock-char)))))
 
-;(deftest test-pmap-to-bprofession
-;  (is
-;    (.equals "Alchemy"
-;             (:name (pmap-to-bprofession (first (:primary (:professions mock-char-prof))))))))
+(deftest test-get-secondary-profession-1
+  (is
+    (.equals "525"
+             (get-secondary-profession (:professions mock-char-prof) "First Aid"))))
 
-;(deftest test-repmap-to-breputation-1
-;  (is
-;    (.equals "Knights of the Ebon Blade"
-;             (:name (repmap-to-breputation (first (:reputation mock-char-rep)))))))
-
-;(deftest test-repmap-to-breputation-2
-;  (is
-;    (.equals "Exalted"
-;             (nth
-;               bn-reputation-standing
-;               (:standing (repmap-to-breputation (first (:reputation mock-char-rep))))))))
+(deftest test-get-secondary-profession-2
+  (is
+    (nil?
+      (get-secondary-profession (:professions mock-char-prof) "Cooking"))))
 
 (deftest test-copper-to-gold-1
   (is
@@ -144,7 +144,14 @@
     (.equals "1 S 23 C"
              (copper-to-gold 123))))
 
-(deftest test-copper-to-gold-2
+(deftest test-copper-to-gold-3
   (is
     (.equals "1 G 23 S 45 C"
              (copper-to-gold 12345))))
+
+(deftest test-copper-to-gold-html
+  (is
+    (.equals (str "<span class=\"icon-gold\">1</span>"
+                  "<span class=\"icon-silver\">23</span>"
+                  "<span class=\"icon-copper\">45</span>")
+             (copper-to-gold 12345 1))))

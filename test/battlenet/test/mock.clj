@@ -74,16 +74,15 @@
        :max 525,
        :recipes [2149 2152]
        }
-      ]
-      },
-    :secondary
-    [{:id 129,
-      :name "First Aid",
-      :icon "spell_holy_sealofsacrifice",
-      :rank 525,
-      :max 525,
-      :recipes [3275 3276]
-    }]})
+      ],
+     :secondary
+     [{:id 129,
+       :name "First Aid",
+       :icon "spell_holy_sealofsacrifice",
+       :rank 525,
+       :max 525,
+       :recipes [3275 3276]
+       }]}})
 
 (def mock-char-rep
   {:achievementPoints 1234,
@@ -101,3 +100,22 @@
      :standing 7
      :value 999,
      :max 999}]})
+
+(def mock-titles
+  {:titles
+   [{:id 81,
+     :name "%s the Seeker",
+     :selected true},
+    {:id 74,
+     :name "Elder %s"}]})
+
+(def mock-titles-2
+  {:titles
+   [{:id 81,
+     :name "%s the Seeker"},
+    {:id 74,
+     :name "Elder %s",
+     :selected true}]})
+
+(def mock-titles-empty
+  {:titles []})

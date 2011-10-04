@@ -14,6 +14,8 @@
 (def bn-path-item       "/item/{id}")
 (def bn-media-icon
   "http://{region}.media.blizzard.com/{game}/icons/{size}/{icon}.jpg")
+(def bn-media-avatar
+  "http://{region}.battle.net/static-render/{region}/{thumbnail}")
 
 (def bn-game-wow "wow")
 

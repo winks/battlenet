@@ -1,7 +1,8 @@
 (ns battlenet.core
   (:use [battlenet.defs])
   (:use [battlenet.tools])
-  (:use [battlenet.network]))
+  (:use [battlenet.network])
+  (:use [battlenet.test.mock]))
 
 (defn realm-is-online
   "Shows whether a realm is online."

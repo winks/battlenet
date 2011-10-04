@@ -56,6 +56,14 @@
     (string/replace "{size}" (if (.equals "small" size) "18" "56"))
     (string/replace "{icon}" icon)))
 
+(defn media-url-avatar
+  "Builds an avatar URL."
+  [region thumbnail]
+  (->
+    bn-media-avatar
+    (string/replace "{region}" region)
+    (string/replace "{thumbnail}" thumbnail)))
+
 (defn access-rmap
   "Access a member of a realmsmap"
   [rsmap crit]
@@ -66,7 +74,54 @@
   [rmap]
   (get rmap :name))
 
+(defn get-title-x
+  "Helper function for get-title"
+  [map]
+  (for [title (:titles map)
+        :when (= true (:selected title))]
+    (:name title)))
+
+(defn get-title
+  "Get a title from a map"
+  [map]
+  (let [new (get-title-x map)]
+    (if (string/blank? (first new)) "%s" (first new))))
+
+(defn get-primary-professions
+  [map]
+  (let [primary-1 (first (:primary map))
+        primary-2 (nth (:primary map) 1)]
+    [(if (string/blank? (:name primary-1)) nil (str (:name primary-1) " " (:rank primary-1)))
+     (if (string/blank? (:name primary-2)) nil (str (:name primary-2) " " (:rank primary-2)))]))
+
+(defn get-secondary-professions
+  [map]
+  (let [first-aid (for [prof (:secondary map)
+                        :when (.equals "First Aid" (:name prof))]
+                    (str (:name prof) " " (:rank prof)))
+        arch      (for [prof (:secondary map)
+                        :when (.equals "Archaeology" (:name prof))]
+                    (str (:name prof) " " (:rank prof)))
+        fishing   (for [prof (:secondary map)
+                        :when (.equals "Fishing" (:name prof))]
+                    (str (:name prof) " " (:rank prof)))
+        cooking   (for [prof (:secondary map)
+                        :when (.equals "Cooking" (:name prof))]
+                    (str (:name prof) " " (:rank prof)))]
+    {:firstaid (if (string/blank? (first first-aid)) nil (first first-aid)),
+     :archaeology (if (string/blank? (first arch)) nil (first arch)),
+     :fishing (if (string/blank? (first fishing)) nil (first fishing)),
+     :cooking (if (string/blank? (first cooking)) nil (first cooking))}))
+
+(defn get-secondary-profession
+  [map profname]
+  (let [value (for [prof (:secondary map)
+                   :when (.equals profname (:name prof))]
+               (str (:rank prof)))]
+    (if (string/blank? (first value)) nil (first value))))
+
 (defn copper-to-gold-plain
+  "Helper function for copper-to-gold"
   [input]
   (let [gold (quot input 10000)
         silver (quot (- input (* 10000 gold)) 100)
