@@ -114,6 +114,10 @@
     (.equals "%s"
              (get-title mock-titles-empty))))
 
+;;;;;;;;;;;;;;;
+; professions
+;;;;;;;;;;;;;;;
+
 (deftest test-get-primary-professions-1
   (is
     (.equals [["Alchemy" 540] ["Leatherworking" 500]]
@@ -133,6 +137,10 @@
   (is
     (nil?
       (get-secondary-profession (:professions mock-char-prof) "Cooking"))))
+
+;;;;;;;;;;;;
+; currency
+;;;;;;;;;;;;
 
 (deftest test-copper-to-gold-1
   (is
@@ -199,3 +207,33 @@
   (is
     (.equals "Main Hand"
              (lookup-inventory 16))))
+
+;;;;;;;;;;;
+; talents
+;;;;;;;;;;;
+
+(deftest test-get-talent-numbers-1
+  (is
+    (.equals "31/2/8"
+             (get-talent-numbers (:trees (first (:talents mock-char-talents)))))))
+
+(deftest test-get-talent-numbers-2
+  (is
+    (.equals "7/31/3"
+             (get-talent-numbers (:trees (nth (:talents mock-char-talents) 1))))))
+
+(deftest test-get-talent-numbers-2
+  (is
+    (.equals ""
+             (get-talent-numbers (:trees (nth (:talents mock-char) 1))))))
+
+(deftest test-get-talent-spec-1
+  (is
+    (.equals [["Assassination" "31/2/8" "ability_rogue_eviscerate"]
+              ["Combat" "7/31/3" "ability_backstab"]]
+             (get-talent-spec (:talents mock-char-talents)))))
+
+(deftest test-get-talent-spec-2
+  (is
+    (.equals [nil nil]
+             (get-talent-spec (:talents mock-char)))))

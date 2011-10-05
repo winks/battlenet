@@ -119,3 +119,20 @@
 
 (def mock-titles-empty
   {:titles []})
+
+(def mock-char-talents
+  {:achievementPoints 1234,
+   :lastModified 1311956422000,
+   :gender 1,
+   :class 4,
+   :name "Humanrogue",
+   :realm "Malygos",
+   :thumbnail "malygos/1/12312312-avatar.jpg",
+   :race 1,
+   :level 85,
+   :talents [{:name "Assassination",
+              :trees [{:total 31},{:total 2},{:total 8}],
+              :icon "ability_rogue_eviscerate"},
+             {:name "Combat",
+              :trees [{:total 7},{:total 31},{:total 3}],
+              :icon "ability_backstab"}]})

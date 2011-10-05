@@ -2,6 +2,10 @@
   (:require [clojure.string :as string])
   (:use [battlenet.defs]))
 
+;;;;;;;;;;;;;
+; url stuff
+;;;;;;;;;;;;;
+
 (defn join-params
   "Joins URL parameters."
   [params]
@@ -64,6 +68,10 @@
     (string/replace "{region}" region)
     (string/replace "{thumbnail}" thumbnail)))
 
+;;;;;;;;;;;;;;;;
+; access stuff
+;;;;;;;;;;;;;;;;
+
 (defn access-rmap
   "Access a member of a realmsmap"
   [rsmap crit]
@@ -86,6 +94,10 @@
   [map]
   (let [new (get-title-helper map)]
     (if (string/blank? (first new)) "%s" (first new))))
+
+;;;;;;;;;;;;;;;;
+; lookup-funcs
+;;;;;;;;;;;;;;;;
 
 (defn lookup-class
   [what]
@@ -119,6 +131,10 @@
   [what]
   (get bn-reputation-standing what))
 
+;;;;;;;;;;;;;;;
+; professions
+;;;;;;;;;;;;;;;
+
 (defn get-primary-professions
   [map]
   (let [primary-1 (first (:primary map))
@@ -151,6 +167,31 @@
                    :when (.equals profname (:name prof))]
                (str (:rank prof)))]
     (if (string/blank? (first value)) nil (first value))))
+
+;;;;;;;;;;;;;;;;
+; talent stuff
+;;;;;;;;;;;;;;;;
+
+(defn get-talent-numbers
+  [input]
+  (apply str (interpose \/ (map :total (seq input)))))
+
+(defn get-talent-spec
+  [map]
+  (let [primary (first map)
+        secondary (nth map 1)]
+    [(if
+       (string/blank? (:name primary))
+       nil
+       [(:name primary) (get-talent-numbers (:trees primary)) (:icon primary)])
+     (if
+       (string/blank? (:name secondary))
+       nil
+       [(:name secondary) (get-talent-numbers (:trees secondary)) (:icon secondary)])]))
+
+;;;;;;;;;;;;
+; currency
+;;;;;;;;;;;;
 
 (defn copper-to-gold-plain
   "Helper function for copper-to-gold"
