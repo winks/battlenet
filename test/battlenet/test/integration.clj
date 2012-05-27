@@ -61,6 +61,6 @@
 
 (deftest test-get-realm-names-int
   (is
-    (.equals ["Aggramar" "Agamaggan"]
-             (let [g (get-realm-names "eu")] (conj (conj nil (nth g 2)) (nth g 3))))))
+    (.equals ["Aerie Peak" "Agamaggan"]
+             (let [g (get-realm-names "eu")] (conj (conj nil (nth g 2)) (nth g 1))))))
 

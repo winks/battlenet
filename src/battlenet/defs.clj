@@ -18,7 +18,7 @@
   "http://{region}.battle.net/static-render/{region}/{thumbnail}")
 
 (def bn-game-wow "wow")
-
+(def bn-game-d3 "d3")
 ;
 ; additional fields for character lookups
 ;
