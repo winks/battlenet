@@ -10,7 +10,7 @@
     }]}")
 
 
-(def mock-map-single {:realms 
+(def mock-map-single {:realms
                [{:type "pvp",
                  :queue false,
                  :status true,
@@ -19,7 +19,7 @@
                  :battlegroup "Blutdurst",
                  :slug "aegwynn"}]})
 
-(def mock-map-multiple {:realms 
+(def mock-map-multiple {:realms
                [{:type "pvp",
                  :queue false,
                  :status true,
@@ -59,7 +59,7 @@
    :level 85,
    :professions
     {
-     :primary 
+     :primary
      [{:id 171,
        :name "Alchemy",
        :icon "trade_alchemy",

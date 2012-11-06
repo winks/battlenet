@@ -46,7 +46,7 @@
 (deftest test-get-names-int
   (is
     (.equals ["Aerie Peak" "Aegwynn"]
-             (map get-name 
+             (map get-name
                   (get (read-remote-realms "eu" "aegwynn,aerie-peak") :realms)))))
 
 (deftest test-realm-get-info-int
