@@ -17,6 +17,6 @@ Shouts
 ------
 * [Blizzard Community API](http://us.battle.net/wow/en/forum/2626217/)
 * Loosely based on [battlenet-python](https://github.com/vishnevskiy/battlenet)
-* [This](http://java.ociweb.com/mark/clojure/article.html) and [this](http://www.moxleystratton.com/article/clojure/for-non-lisp-programmers) helped me a lot
+* [This](http://java.ociweb.com/mark/clojure/article.html) and [this](http://moxleystratton.com/clojure/clojure-tutorial-for-the-non-lisp-programmer) helped me a lot
 * [Leiningen](https://github.com/technomancy/leiningen) is simply awesome
 * [Radagast](https://github.com/technomancy/radagast) told me that my coverage is not too bad.
