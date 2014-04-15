@@ -3,17 +3,17 @@
   (:require [clojure.string :as string])
   (:require [battlenet.tools :as tools]))
 
-(defn create-url-account
-  "Builds a request URL for account requests."
-  [region game path account number]
+(defn create-url-profile
+  "Builds a request URL for profile requests."
+  [region game path profile number]
   (->
     (tools/create-url region game path "")
-    (string/replace "{account}" account)
+    (string/replace "{profile}" profile)
     (string/replace "{number}" number)))
 
 (defn create-url-hero
   "Builds a request URL for hero requests."
-  [region hame path hero]
+  [region game path profile number hero]
   (->
-    (tools/create-url region game path "")
+    (create-url-profile region game path profile number)
     (string/replace "{hero}" hero)))

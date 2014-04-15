@@ -19,6 +19,7 @@
       (string/replace "{region}" region)
       (string/replace "{game}" game)
       (string/replace "{path}" path)
+      (string/replace "{qp}" (if (empty? params) "" "?"))
       (string/replace "{params}" params)))
 
 (defn create-url-item
