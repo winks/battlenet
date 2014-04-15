@@ -1,0 +1,25 @@
+.demon-hunter { background-color: #641982; }
+.barbarian    { background-color: #9C1F48; }
+.monk         { background-color: #B09602; }
+.wizard       { background-color: #0B68BA; }
+.witch-doctor { background-color: #53B339; }
+.crusader     { background-color: #017785; }
+
+tr {
+  color: #fff;
+  font-family: Verdana;
+}
+
+td {
+  padding: 5px;
+}
+
+a {
+  color: #fff;
+  font-decoration: none;
+}
+
+a:hover {
+  color: #ddd;
+  font-decoration: underline;
+}
