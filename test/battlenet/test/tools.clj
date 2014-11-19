@@ -32,17 +32,17 @@
 
 (deftest test-create-url-item-1
   (is
-    (.equals "https://eu.battle.net/api/wow/item/1234?"
+    (.equals "https://eu.battle.net/api/wow/item/1234"
              (create-url-item "eu" "wow" "/item/{id}" 1234))))
 
 (deftest test-create-url-item-2
   (is
-    (.equals "https://eu.battle.net/api/wow/item/1234?"
+    (.equals "https://eu.battle.net/api/wow/item/1234"
              (create-url-item "eu" "wow" "/item/{id}" "1234"))))
 
 (deftest test-create-url-character-1
   (is
-    (.equals "https://eu.battle.net/api/wow/character/aegwynn/asdf?"
+    (.equals "https://eu.battle.net/api/wow/character/aegwynn/asdf"
              (create-url-character "eu"
                                    "wow"
                                    "/character/{realm}/{name}"
@@ -61,7 +61,7 @@
 
 (deftest test-create-url-guild
   (is
-    (.equals "https://eu.battle.net/api/wow/guild/aegwynn/asdf?"
+    (.equals "https://eu.battle.net/api/wow/guild/aegwynn/asdf"
              (create-url-guild "eu"
                                "wow"
                                "/guild/{realm}/{name}"

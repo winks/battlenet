@@ -5,18 +5,6 @@
   (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
            (java.io FileNotFoundException)))
 
-(defn check-url
-  "Checks if an URL is readable."
-  [url]
-  (try
-    (let [c (cast HttpURLConnection
-                  (.openConnection (URL. url)))]
-      (if (= 200 (.getResponseCode c))
-        1
-        0))
-    (catch UnknownHostException _
-      0)))
-
 (defn read-url
   "Reads from an URL."
   [url]
@@ -71,14 +59,6 @@
   (read-str
     (read-url
       (create-url region bn-game-wow bn-path-rewards ""))
-    :key-fn keyword))
-
-(defn read-remote-perks
-  "Returns guild perks info as a map."
-  [region]
-  (read-str
-    (read-url
-      (create-url region bn-game-wow bn-path-perks ""))
     :key-fn keyword))
 
 (defn read-remote-item

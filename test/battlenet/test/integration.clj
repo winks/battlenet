@@ -6,16 +6,6 @@
   (:use [battlenet.test.mock])
   (:use [clojure.test]))
 
-(deftest test-check-url-int-success
-  (is
-    (= 1
-       (check-url "https://eu.battle.net/api/wow/realm/status"))))
-
-(deftest test-check-url-int-error
-  (is
-    (= 0
-       (check-url "https://eu.battle.net/api/wow/realm/statuswhateverinvalidurl"))))
-
 (deftest test-read-url-int-success
   (is
     (.startsWith
@@ -45,9 +35,9 @@
 
 (deftest test-get-names-int
   (is
-    (.equals ["Aerie Peak" "Aegwynn"]
-             (map get-name
-                  (get (read-remote-realms "eu" "aegwynn,aerie-peak") :realms)))))
+    (=
+      (set (map get-name (get (read-remote-realms "eu" "aegwynn,aerie-peak") :realms)))
+      (set ["Aerie Peak" "Aegwynn"]))))
 
 (deftest test-realm-get-info-int
   (is
