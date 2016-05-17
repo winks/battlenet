@@ -9,7 +9,7 @@
 ; url stuff
 ;;;;;;;;;;;;;
 
-(defn join-params
+(defn join-params-comma
   "Joins URL parameters."
   [params]
   (str (first params) "=" (apply str (interpose \, (nthnext params 1)))))

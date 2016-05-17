@@ -8,7 +8,7 @@
   (:use [battlenet.test.mock])
   (:use [clojure.test]))
 
-(def test-params "locale=en_GB&apikey=XXX")
+(def test-params (str "locale=en_GB&apikey=" (System/getenv "BATTLENET_APIKEY")))
 
 (deftest test-read-url-int-success
   (is
@@ -18,9 +18,9 @@
 
 (deftest test-read-url-int-error
   (is
-    (.contains
+    (=
       (net/read-url (str "https://eu.api.battle.net/wow/realm/statuswhateverinvalidurl?" test-params))
-      "page not found")))
+      "{}")))
 
 (deftest test-realm-is-online-int
   (is

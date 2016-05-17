@@ -11,15 +11,15 @@
 ; URL stuff
 ;;;;;;;;;;;;;
 
-(deftest test-join-params-1
+(deftest test-join-params-comma-1
   (is
     (.equals "realms=aegwynn"
-             (wto/join-params ["realms" "aegwynn"]))))
+             (wto/join-params-comma ["realms" "aegwynn"]))))
 
-(deftest test-join-params-2
+(deftest test-join-params-comma-2
   (is
     (.equals "realms=aegwynn,aerie-peak"
-             (wto/join-params ["realms" "aegwynn" "aerie-peak"]))))
+             (wto/join-params-comma ["realms" "aegwynn" "aerie-peak"]))))
 
 (deftest test-create-url-item-1
   (is

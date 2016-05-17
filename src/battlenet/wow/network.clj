@@ -11,7 +11,7 @@
   [region realm]
   (read-str
     (net/read-url
-      (to/create-url region bn-game-wow bn-path-realm (wto/join-params ["realms" realm])))
+      (to/create-url region bn-game-wow bn-path-realm (wto/join-params-comma ["realms" realm])))
     :key-fn keyword))
 
 (defn read-remote-field
