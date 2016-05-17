@@ -3,7 +3,7 @@
 ;
 ; URL templates and paths
 ;
-(def bn-baseurl         "https://{region}.battle.net/api/{game}{path}{qp}{params}")
+(def bn-baseurl         "https://{region}.api.battle.net/{game}{path}{qp}{params}")
 (def bn-path-realm      "/realm/status")
 (def bn-path-character  "/character/{realm}/{name}")
 (def bn-path-guild      "/guild/{realm}/{name}")

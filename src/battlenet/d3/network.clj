@@ -7,12 +7,12 @@
 
 (defn read-remote-profile
   "Returns profile data as a map."
-  [region profile number]
-  (let [url (create-url-profile region bn-game-d3 bn-path-profile profile number)]
+  [region profile number params]
+  (let [url (create-url-profile region bn-game-d3 bn-path-profile profile number params)]
     (read-str (read-url url) :key-fn keyword)))
 
 (defn read-remote-hero
   "Returns hero data as a map."
-  [region hero]
-  (let [url (create-url-hero region bn-game-d3 bn-path-hero hero)]
+  [region hero params]
+  (let [url (create-url-hero region bn-game-d3 bn-path-hero hero params)]
     (read-str (read-url url) :key-fn keyword)))

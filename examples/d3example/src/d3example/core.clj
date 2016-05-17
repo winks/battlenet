@@ -1,9 +1,11 @@
 (ns d3example.core
   (:require [clojure.string :as string])
-  (:use [battlenet.d3.tools])
-  (:use [battlenet.d3.network]))
+  (:require [battlenet.d3.defs :as defs])
+  (:require [battlenet.d3.network :as network])
+  (:require [battlenet.d3.tools :as tools]))
 
 (def current-region "eu")
+(def current-params "locale=en_GB&apikey=XXX")
 
 (defn pts [bt]
   (let [parts (string/split bt #"#")
@@ -35,18 +37,18 @@
 (defn fmt-profile [profile]
   (let [bt (:battleTag profile)
         parts (pts bt)
-        purl (create-url-profile current-region "d3" "/en/profile/{profile}-{number}/" (first parts) (second parts))]
+        purl (tools/create-url-profile current-region "d3" defs/bn-path-profile  (first parts) (second parts) "")]
   (->
     (apply str (map fmt-char (:heroes profile)))
     (string/replace "{{purl}}" purl)
-    (string/replace "/api/" "/")
+    (string/replace ".api.battle.net" ".battle.net")
     (string/replace "{{battleTag}}" bt))))
 
 (defn show-chars [bt]
   (let [parts (pts bt)
-        profile (read-remote-profile current-region (first parts) (second parts))]
+        profile (network/read-remote-profile current-region (first parts) (second parts) current-params)]
     (fmt-profile profile)))
 
 (defn -main [& m]
-  (let [profiles ["Straton#1"]]
+  (let [profiles ["Tyler#2306"]]
     (print (apply str (map show-chars profiles)))))
