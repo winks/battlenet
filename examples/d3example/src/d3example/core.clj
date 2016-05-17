@@ -6,6 +6,7 @@
 
 (def current-region "eu")
 (def current-params "locale=en_GB&apikey=XXX")
+(def current-tags ["Tyler#2306"])
 
 (defn pts [bt]
   (let [parts (string/split bt #"#")
@@ -35,14 +36,14 @@
    "</td>\n</tr>\n"))
 
 (defn fmt-profile [profile]
-  (let [bt (:battleTag profile)
-        parts (pts bt)
-        purl (tools/create-url-profile current-region "d3" defs/bn-path-profile  (first parts) (second parts) "")]
+  (if-let [bt (:battleTag profile)]
+    (let [parts (pts bt)
+          purl (tools/create-url-profile current-region "d3" defs/bn-path-profile  (first parts) (second parts) "")]
   (->
     (apply str (map fmt-char (:heroes profile)))
     (string/replace "{{purl}}" purl)
     (string/replace ".api.battle.net" ".battle.net")
-    (string/replace "{{battleTag}}" bt))))
+    (string/replace "{{battleTag}}" bt)))))
 
 (defn show-chars [bt]
   (let [parts (pts bt)
@@ -50,5 +51,4 @@
     (fmt-profile profile)))
 
 (defn -main [& m]
-  (let [profiles ["Tyler#2306"]]
-    (print (apply str (map show-chars profiles)))))
+  (print (apply str (map show-chars current-tags))))

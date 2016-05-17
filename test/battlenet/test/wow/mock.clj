@@ -1,4 +1,4 @@
-(ns battlenet.test.mock)
+(ns battlenet.test.wow.mock)
 
 (def mock-json "{\"realms\":[{
       \"type\":\"pvp\",

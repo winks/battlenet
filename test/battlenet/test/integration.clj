@@ -1,22 +1,26 @@
 (ns battlenet.test.integration
-  (:use [battlenet.core])
+  (:use [battlenet.wow.core])
   (:use [battlenet.defs])
   (:use [battlenet.tools])
-  (:use [battlenet.network])
+  (:require [battlenet.wow.tools :as wto])
+  (:require [battlenet.network :as net])
+  (:require [battlenet.wow.network :as wnet])
   (:use [battlenet.test.mock])
   (:use [clojure.test]))
+
+(def test-params "locale=en_GB&apikey=XXX")
 
 (deftest test-read-url-int-success
   (is
     (.startsWith
-      (read-url "https://eu.battle.net/api/wow/realm/status?realms=aegwynn")
+      (net/read-url (str "https://eu.api.battle.net/wow/realm/status?realms=aegwynn&" test-params))
       "{")))
 
 (deftest test-read-url-int-error
   (is
-    (.equals
-      (read-url "https://eu.battle.net/api/wow/realm/statuswhateverinvalidurl")
-      "{}")))
+    (.contains
+      (net/read-url (str "https://eu.api.battle.net/wow/realm/statuswhateverinvalidurl?" test-params))
+      "page not found")))
 
 (deftest test-realm-is-online-int
   (is
@@ -36,7 +40,7 @@
 (deftest test-get-names-int
   (is
     (=
-      (set (map get-name (get (read-remote-realms "eu" "aegwynn,aerie-peak") :realms)))
+      (set (map wto/get-name (get (wnet/read-remote-realms "eu" "aegwynn,aerie-peak") :realms)))
       (set ["Aerie Peak" "Aegwynn"]))))
 
 (deftest test-realm-get-info-int

@@ -4,3 +4,8 @@ pom.xml
 /classes/
 /bin/
 .lein-deps-sum
+.lein-repl-history
+.lein-failures
+
+target/
+examples/d3example/target/
