@@ -37,7 +37,8 @@
    8 "Mage",
    9 "Warlock",
    10 "Monk",
-   11 "Druid"})
+   11 "Druid"
+   12 "Demon Hunter"})
 
 ;
 ; WoW races
@@ -152,3 +153,22 @@
    :lk '(4603 3456 4493 4500 4273 2159 4722 4812 4987),
    :cata '(5600 5094 5334 5638 5723 5892),
    :mop '(6125 6297 6067)})
+
+(def bn-professions-secondary
+  {:archaeology    {:id 794 :name "Archaeology"}
+   :cooking        {:id 185 :name "Cooking"}
+   :firstaid       {:id 129 :name "First Aid"}
+   :fishing        {:id 356 :name "Fishing"}})
+
+(def bn-professions-primary
+  {:alchemy        {:id 171 :name "Alchemy"}
+   :blacksmithing  {:id 164 :name "Blacksmithing"}
+   :enchanting     {:id 333 :name "Enchanting"}
+   :engineering    {:id 202 :name "Engineering"}
+   :herbalism      {:id 182 :name "Herbalism"}
+   :inscription    {:id 773 :name "Inscription"}
+   :jewelcrafting  {:id 755 :name "Jewelcrafting"}
+   :leatherworking {:id 165 :name "Leatherworkingng"}
+   :mining         {:id 186 :name "Mining"}
+   :skinning       {:id 393 :name "Skinning"}
+   :tailoring      {:id 197 :name "Tailoring"}})
