@@ -116,9 +116,9 @@
           standing-cap (str (string/upper-case (subs standing 0 1)) (subs standing 1))
           cls-id (:class c)
           cls (get defs/bn-classes cls-id)]
-      (str "<tr class=\"rep-" standing "\">"
+      (str "<tr class=\"rep-" standing "\" data-id=\"" (:id m) "\" data-value=\"" (:name m) "\">"
            "<td class=\"cls-3d-" (slugify-class cls) "\">" (:name c) "</td>"
-           "<td data-id=\"" (:id m) "\">" (:name m) "</td>"
+           "<td>" (:name m) "</td>"
            "<td>" standing-cap "</td>"
            "<td>" (:value m) "/" (:max m) "</td>"
            "</tr>\n"))

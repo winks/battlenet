@@ -1,0 +1,38 @@
+</table>
+<script src="zepto.min.js"></script>
+<script type="text/javascript">
+function showAll() {
+  $('table tr').each(function(idx) {
+    $(this).show();
+  });
+}
+
+function hideNoMatch() {
+  $('table tr').each(function(idx) {
+    if (idx < 1){ return;}
+    var val = $('#search')[0].value.toLowerCase();
+    if ($(this).data('value') !== undefined
+        && $(this).data('value').toLowerCase().indexOf(val) == -1) {
+      $(this).hide();
+    }
+  })
+}
+
+$('#reset').on('click', function(e){
+  $('#search')[0].value = "";
+  showAll();
+})
+
+$('#search').on('keyup', function(e){
+  var val = $('#search')[0].value.toLowerCase();
+  if (val.length < 2) {
+    if (val.length == 0) {
+      showAll();
+    }
+    return;
+  }
+  showAll();
+  hideNoMatch();
+})
+</script>
+</div></body></html>

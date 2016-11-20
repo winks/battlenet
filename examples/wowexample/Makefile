@@ -12,7 +12,7 @@ chars:
 rep:
 	cat resources/head-rep.html > ${TARGET}/rep-${FILENAME}.tmp
 	lein run rep >> ${TARGET}/rep-${FILENAME}.tmp
-	cat resources/foot.html | sed "s,</div></body>,<div class="update">Last update: $(UPD)</div>\n</div></body>," >> ${TARGET}/rep-${FILENAME}.tmp
+	cat resources/foot-rep.html | sed "s,</div></body>,<div class="update">Last update: $(UPD)</div>\n</div></body>," >> ${TARGET}/rep-${FILENAME}.tmp
 	mv -f ${TARGET}/rep-${FILENAME}.tmp ${TARGET}/rep-${FILENAME}
 	cp -f resources/main.css ${TARGET}/main.css
 
