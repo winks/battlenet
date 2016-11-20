@@ -15,6 +15,34 @@
 (defn slugify-class [s]
   (string/lower-case (string/replace s " " "")))
 
+(def standings
+  ["hated" "hostile" "unfriendly" "neutral" "friendly" "honored" "revered" "exalted"])
+
+(def all-reps {
+  :legion [
+    1900 "Court of Farondis"
+    1883 "Dreamweavers"
+    1828 "Highmountain Tribe"
+    1894 "The Wardens"]
+  :legion2 [
+    1947 "Illidari"
+    1888 "Jandvik Vrykul"
+    1899 "Moonguard"
+    2018 "Talon's Vengeance"
+    1984 "The First Responders"]
+  :wod [
+    1515 "Arakkoa Outcasts"
+    1445 "Frostwolf Orcs"
+    1708 "Laughing Skull Orcs"
+    1849 "Order of the Awakened"
+    1850 "The Saberstalkers"
+    1848 "Vol'jin's Headhunters"
+    1681 "Vol'jin's Spear"
+    1711 "Steamwheedle Preservation Society"
+    1520 "Shadowmoon Exiles"
+    1735 "Barracks Bodyguards"
+]})
+
 (defn guild-link [realm guild character]
   (let [g (slugify-guild guild)
         r (string/lower-case realm)
@@ -70,19 +98,61 @@
    "</tr>\n")))
 
 (defn show-char [cname]
-(.println *err* (str "Next: " cname))
+  (.println *err* (str "Next: " cname))
   (if (= \# (first cname))
-    "<tr><td></td></tr>"
-  (let [[realm name] (string/split cname #";")
-        params (str "fields=guild,items,professions&" config/current-params)
-        purl (tools/create-url-character config/current-region "wow" defs/bn-path-character (slugify-realm realm) name)]
-    (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
-      (->
-        (fmt-char chara)
-        (string/replace "{{purl}}" (str purl "/advanced"))
-        (string/replace ".api.battle.net" ".battle.net"))))))
+      "<tr><td></td></tr>"
+      (let [[realm name] (string/split cname #";")
+             params (str "fields=guild,items,professions&" config/current-params)
+             purl (tools/create-url-character config/current-region "wow" defs/bn-path-character (slugify-realm realm) name)]
+        (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
+          (->
+            (fmt-char chara)
+            (string/replace "{{purl}}" (str purl "/advanced"))
+            (string/replace ".api.battle.net" ".battle.net"))))))
+
+(defn fmt-rep [m reps c]
+  (if (some #{(:id m)} reps)
+    (let [standing (get standings (:standing m))
+          standing-cap (str (string/upper-case (subs standing 0 1)) (subs standing 1))
+          cls-id (:class c)
+          cls (get defs/bn-classes cls-id)]
+      (str "<tr class=\"rep-" standing "\">"
+           "<td class=\"cls-3d-" (slugify-class cls) "\">" (:name c) "</td>"
+           "<td data-id=\"" (:id m) "\">" (:name m) "</td>"
+           "<td>" standing-cap "</td>"
+           "<td>" (:value m) "/" (:max m) "</td>"
+           "</tr>\n"))
+    ""))
+
+(defn fmt-reps [c]
+  (let [reps (:reputation c)
+        legion-reps (keep-indexed #(if (even? %1) %2) (:legion all-reps))
+        wod-reps (keep-indexed #(if (even? %1) %2) (:wod all-reps))
+        div "<tr><td colspan=4></td></tr>\n"
+        r (take 13 reps)]
+    (apply str
+      (apply str (map #(fmt-rep %1 legion-reps c) reps))
+      div
+      (apply str (map #(fmt-rep %1 wod-reps c) reps))
+      div)))
+
+(defn show-rep [cname]
+  (.println *err* (str "Next: " cname))
+  (if (= \# (first cname))
+      "<tr><td></td></tr>"
+      (let [[realm name] (string/split cname #";")
+             params (str "fields=reputation&" config/current-params)
+             purl (tools/create-url-character config/current-region "wow" defs/bn-path-character (slugify-realm realm) name)]
+        (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
+          (->
+            (fmt-reps chara)
+)))))
 
 (defn -main [& m]
- (if-let [xs (System/getenv "FILENAME")]
-   (print (apply str (map show-char (get config/current-chars (keyword (string/replace xs ".html" ""))))))
-   (print (apply str (map show-char (get config/current-chars :test))))))
+  (if (.equals "rep" (first m))
+      (if-let [xs (System/getenv "FILENAME")]
+        (print (apply str (map show-rep (get config/current-chars (keyword (string/replace xs ".html" ""))))))
+        (print (apply str (map show-rep (get config/current-chars :test)))))
+      (if-let [xs (System/getenv "FILENAME")]
+        (print (apply str (map show-char (get config/current-chars (keyword (string/replace xs ".html" ""))))))
+        (print (apply str (map show-char (get config/current-chars :test)))))))
