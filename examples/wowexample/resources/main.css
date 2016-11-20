@@ -86,6 +86,7 @@ a:visited {
 
 .t-center { text-align: center; }
 .t-left { text-align: left; }
+.updated { width:100%; text-align: center; padding-top: 20px; }
 
 .rep-exalted    { background-color: cyan; }
 .rep-revered    { background-color: #0fc; }

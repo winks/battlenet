@@ -71,6 +71,8 @@
 
 (defn show-char [cname]
 (.println *err* (str "Next: " cname))
+  (if (= \# (first cname))
+    "<tr><td></td></tr>"
   (let [[realm name] (string/split cname #";")
         params (str "fields=guild,items,professions&" config/current-params)
         purl (tools/create-url-character config/current-region "wow" defs/bn-path-character (slugify-realm realm) name)]
@@ -78,7 +80,7 @@
       (->
         (fmt-char chara)
         (string/replace "{{purl}}" (str purl "/advanced"))
-        (string/replace ".api.battle.net" ".battle.net")))))
+        (string/replace ".api.battle.net" ".battle.net"))))))
 
 (defn -main [& m]
  (if-let [xs (System/getenv "FILENAME")]
