@@ -2,11 +2,8 @@
   (:require [clojure.string :as string])
   (:require [battlenet.d3.defs :as defs])
   (:require [battlenet.d3.network :as network])
-  (:require [battlenet.d3.tools :as tools]))
-
-(def current-region "eu")
-(def current-params "locale=en_GB&apikey=XXX")
-(def current-tags ["Tyler#2306"])
+  (:require [battlenet.d3.tools :as tools])
+  (:require [d3example.config :as config]))
 
 (defn pts [bt]
   (let [parts (string/split bt #"#")
@@ -38,7 +35,7 @@
 (defn fmt-profile [profile]
   (if-let [bt (:battleTag profile)]
     (let [parts (pts bt)
-          purl (tools/create-url-profile current-region "d3" defs/bn-path-profile  (first parts) (second parts) "")]
+          purl (tools/create-url-profile config/current-region "d3" defs/bn-path-profile  (first parts) (second parts) "")]
   (->
     (apply str (map fmt-char (:heroes profile)))
     (string/replace "{{purl}}" purl)
@@ -47,8 +44,8 @@
 
 (defn show-chars [bt]
   (let [parts (pts bt)
-        profile (network/read-remote-profile current-region (first parts) (second parts) current-params)]
+        profile (network/read-remote-profile config/current-region (first parts) (second parts) config/current-params)]
     (fmt-profile profile)))
 
 (defn -main [& m]
-  (print (apply str (map show-chars current-tags))))
+  (print (apply str (map show-chars config/current-tags))))

@@ -23,7 +23,8 @@
     1900 "Court of Farondis"
     1883 "Dreamweavers"
     1828 "Highmountain Tribe"
-    1894 "The Wardens"]
+    1894 "The Wardens"
+    1859 "The Nightfallen"]
   :legion2 [
     1947 "Illidari"
     1888 "Jandvik Vrykul"

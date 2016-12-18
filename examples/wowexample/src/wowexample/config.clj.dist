@@ -1,5 +1,7 @@
 (ns wowexample.config)
 
+(comment "Azshara;Undyne")
+
 (def current-region "eu")
 (def current-params "locale=en_GB&apikey=XXX")
 
