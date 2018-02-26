@@ -3,11 +3,11 @@
 .monk         { background-color: #B09602; }
 .wizard       { background-color: #0B68BA; }
 .witch-doctor { background-color: #53B339; }
-.crusader     { background-color: #017785; }
+.crusader     { background-color: #666633; }
+.necromancer  { background-color: #017785; }
 
 tr {
   color: #fff;
-  font-family: Verdana;
 }
 
 td {
@@ -22,4 +22,8 @@ a {
 a:hover {
   color: #ddd;
   font-decoration: underline;
+}
+
+body {
+  font-family: 'Candara', 'Gill Sans', 'Optima', 'trebuchet ms', Helvetica, Arial, sans-serif;
 }

@@ -7,7 +7,7 @@
 
 (defn pts [bt]
   (let [parts (string/split bt #"#")
-        pname (string/lower-case (first parts))
+        pname (first parts)
         pnum  (second parts)]
     [pname pnum]))
 
