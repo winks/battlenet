@@ -7,7 +7,7 @@
   (:require [wowexample.config :as config]))
 
 (defn slugify-guild [s]
-  (string/lower-case (string/replace (string/replace s "'" "") " " "_")))
+  (string/replace (string/replace s "'" "") " " "_"))
 
 (defn slugify-realm [s]
   (string/lower-case (string/replace s " " "-")))
@@ -78,7 +78,7 @@
         guild (:name (:guild c))
         ilvl (:averageItemLevel (:items c))
         ilvl-eq (:averageItemLevelEquipped (:items c))
-        guild-x (if (seq guild) (guild-link (:realm c) guild (:name c)) guild)
+        guild-x (if (seq guild) (guild-link (:realm (:guild c)) guild (:name c)) guild)
         p-p (professions-primary c)
         p-s (professions-secondary c)
         faction (faction (:faction c))]

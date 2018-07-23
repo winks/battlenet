@@ -59,6 +59,12 @@
    24 "Pandaren",
    25 "Pandaren",
    26 "Pandaren",
+   27 "Nightborne",
+   28 "Highmountain Tauren",
+   29 "Void Elf",
+   30 "Lightforged Draenei",
+   34 "Dark Iron Dwarf",
+   36 "Mag'har Orc",
    })
 
 ;
@@ -97,7 +103,14 @@
    22 "Alliance",
    24 "?",
    25 "Alliance",
-   26 "Horde"})
+   26 "Horde",
+   27 "Horde",
+   28 "Horde",
+   29 "Alliance",
+   30 "Alliancee",
+   34 "Alliance",
+   36 "Horde",
+   })
 
 ;
 ; WoW standings
@@ -145,7 +158,11 @@
    1 (:bc "The Burning Crusade"),
    2 (:lk "Wrath of the Lich King"),
    3 (:cata "Cataclysm"),
-   4 (:mop "Mists of Pandaria")})
+   4 (:mop "Mists of Pandaria"),
+   5 (:wod "Warlords of Draenor"),
+   6 (:legion "Legion"),
+   7 (:bfa "Battle for Azeroth"),
+   })
 
 (def bn-raids
   {:wow '(2717 2677 3429 3428),
