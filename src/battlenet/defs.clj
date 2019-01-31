@@ -3,7 +3,7 @@
 ;
 ; URL templates and paths
 ;
-(def bn-baseurl         "https://{region}.api.battle.net/{game}{path}{qp}{params}")
+(def bn-baseurl         "https://{region}.api.blizzard.com/{game}{path}{qp}{params}")
 (def bn-media-icon
   "http://{region}.media.blizzard.com/{game}/icons/{size}/{icon}.jpg")
 (def bn-media-avatar

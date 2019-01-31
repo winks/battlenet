@@ -3,6 +3,7 @@
 ;
 ; URL templates and paths
 ;
+(def bn-wow-char-url    "https://worldofwarcraft.com/{locale}/character/{realm}/{name}")
 (def bn-path-realm      "/realm/status")
 (def bn-path-character  "/character/{realm}/{name}")
 (def bn-path-guild      "/guild/{realm}/{name}")
@@ -171,11 +172,30 @@
    :cata '(5600 5094 5334 5638 5723 5892),
    :mop '(6125 6297 6067)})
 
+(def bn-professions-order
+  [:kultiran :legion :draenor :pandaria :cataclysm :northrend :outland nil])
+
 (def bn-professions-secondary
-  {:archaeology    {:id 794 :name "Archaeology"}
-   :cooking        {:id 185 :name "Cooking"}
-   :firstaid       {:id 129 :name "First Aid"}
-   :fishing        {:id 356 :name "Fishing"}})
+  {:archaeology {
+     :archaeology      {:id 794 :name "Archaeology"}}
+   :cooking {
+     :kultirancooking  {:id 2541 :name "Kul Tiran Cooking"}
+     :legioncooking    {:id 2542 :name "Legion Cooking"}
+     :draenorcooking   {:id 2543 :name "DraenorCooking"}
+     :pandariacooking  {:id 2544 :name "Pandaria Cooking"}
+     :cataclysmcooking {:id 2545 :name "Cataclysm Cooking"}
+     :northrendcooking {:id 2546 :name "Northrend Cooking"}
+     :outlandcooking   {:id 2547 :name "Outland Cooking"}
+     :cooking          {:id 185  :name "Cooking"}}
+   :fishing {
+     :kultiranfishing  {:id 2585 :name "Kul Tiran Fishing"}
+     :legionfishing    {:id 2586 :name "Legion Fishing"}
+     :draenorfishing   {:id 2587 :name "Draenor Fishing"}
+     :pandariafishing  {:id 2588 :name "Pandaria Fishing"}
+     :cataclysmfishing {:id 2589 :name "Cataclysm Fishing"}
+     :northrendfishing {:id 2590 :name "Northrend Fishing"}
+     :outlandfishing   {:id 2591 :name "Outland Fishing"}
+     :fishing          {:id 356  :name "Fishing"}}})
 
 (def bn-professions-primary
   {:alchemy        {:id 171 :name "Alchemy"}

@@ -36,6 +36,14 @@
       (string/replace "{realm}" realm)
       (string/replace "{name}" charname))))
 
+(defn create-url-character2
+  ([base locale realm charname]
+    (->
+      base
+      (string/replace "{locale}" locale)
+      (string/replace "{realm}" realm)
+      (string/replace "{name}" charname))))
+
 (defn create-url-guild
   "Builds a request URL for guild requests."
   ([region game path realm guildname]
