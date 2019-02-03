@@ -6,6 +6,8 @@
   (:require [battlenet.tools :as wto])
   (:require [wowexample.config :as config]))
 
+(def exp-max-values {:kultiran 150 :legion 100 :draenor 100 :pandaria 75 :cataclysm 75 :northrend 75 :outland 75 :classic 300})
+
 (defn slugify-guild [s]
   (string/replace (string/replace s "'" "") " " "_"))
 
@@ -21,6 +23,10 @@
         gurl (tools/create-url-guild config/current-region "wow" defs/bn-path-guild r g)]
     (str "<a href=\""  (string/replace gurl ".api.blizzard.com" ".battle.net") "/roster?character=" character "\">" guild "</a>")))
 
+(defn replace-last [s match replacement]
+  "I regret nothing."
+  (string/reverse (string/replace-first (string/reverse s) (string/reverse match) (string/reverse replacement))))
+
 (defn professions-primary [c]
   (:primary (:professions c)))
 
@@ -34,6 +40,7 @@
         [k r]))))))
 
 (defn append-to-key [k suffix]
+  ".e.g (append-to-key :foo 'bar') -> :foobar"
   (let [n (if (nil? k) "" (name k))
         s (str n suffix)
         kn (keyword s)]
@@ -49,7 +56,8 @@
       (let [kn (append-to-key kx (name k))]
         [kn (get-in m [k kn]) ]))))
 
-(defn format-prof-name [m]
+(defn show-profession-icon [m]
+  "e.g. {:id 1 :icon 'foo' :name 'X'} -> <img..>"
   (if
     (empty? m)
     ""
@@ -57,9 +65,11 @@
           nx (if (empty? n) (string/lower-case (:name m)) n)]
     (str "<img src=\"/img/" nx ".png\" alt=\"" (:name m) "\" title=\"" (:name m) "\" width=\"16\" height=\"16\">"))))
 
-(defn format-single [[k m]]
+(defn format-profession-rank [[k m]]
+  "e.g. {:id 1 :icon 'foo' :rank 23 :name 'X'} -> <span title=X>23</span>"
   (if-let [n (:name m)]
-  (str "<span title=\"" n "\">" (:rank m) "</span>")))
+    (let [is-max (if (= (:rank m) (:max m)) " class=\"is-max\"" "")]
+      (str "<span title=\"" n "\"" is-max ">" (:rank m) "</span>"))))
 
 (defn format-profs [base new-data]
   (into {} (for [[k v] base]
@@ -77,8 +87,8 @@
     (if (= "0" x) :alliance (if (= "1" x) :horde :unknown))))
 
 (defn fmt-char [c]
-  (let [cls-id (:class c)
-        cls (get defs/bn-classes cls-id)
+  (if-let [cls-id (:class c)]
+  (let [cls (get defs/bn-classes cls-id)
         guild (:name (:guild c))
         ilvl (:averageItemLevel (:items c))
         ilvl-eq (:averageItemLevelEquipped (:items c))
@@ -94,7 +104,8 @@
         prim-keys (or (keys ffpp) [:x :y])
         sorted-pp1 (sorted-prof ppf (first  prim-keys) defs/bn-professions-order)
         sorted-pp2 (sorted-prof ppf (second prim-keys) defs/bn-professions-order)
-        tdx (str "</td><td class=\"cls-3d-" (slugify-class cls) " tiny\">")
+        tdx-fix-divider {:orig " tiny\">", :new " tiny divider-r\">"}
+        tdx (str "</td><td class=\"cls-3d-" (slugify-class cls) (:orig tdx-fix-divider))
         faction (faction (:faction c))]
         (comment
         (.println *err* c)
@@ -106,18 +117,21 @@
    "  <td class=\"cls-3d-" (slugify-class cls) "\">" guild-x "</td>\n"
    "  <td class=\"cls-3d-" (slugify-class cls) "\">" ilvl "</td>\n"
    "  <td class=\"cls-3d-" (slugify-class cls) "\">" ilvl-eq "</td>\n"
-   "  <td class=\"cls-3d-" (slugify-class cls) " t-center\">" (string/join (map format-single sorted-ar)) "</td>\n"
-   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider\">" (string/join tdx (map format-single sorted-co)) "</td>\n"
-   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider\">" (string/join tdx (map format-single sorted-fi)) "</td>\n"
-   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider\">" (format-prof-name (get sorted-pp1 (first  prim-keys))) "</td><td class=\"cls-3d-" (slugify-class cls) " tiny\">" (string/join tdx (map format-single sorted-pp1)) "</td>\n"
-   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider\">" (format-prof-name (get sorted-pp2 (second prim-keys))) "</td><td class=\"cls-3d-" (slugify-class cls) " tiny\">" (string/join tdx (map format-single sorted-pp2)) "</td>\n"
+   "  <td class=\"cls-3d-" (slugify-class cls) " t-center divider-r\">" (string/join (map format-profession-rank sorted-ar)) "</td>\n"
+   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider-l\">" (replace-last (string/join tdx (map format-profession-rank sorted-co)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
+   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider-l\">" (replace-last (string/join tdx (map format-profession-rank sorted-fi)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
+   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider-l\">" (show-profession-icon (get sorted-pp1 (first  prim-keys))) tdx (replace-last (string/join tdx (map format-profession-rank sorted-pp1)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
+   "  <td class=\"cls-3d-" (slugify-class cls) " tiny divider-l\">" (show-profession-icon (get sorted-pp2 (second prim-keys))) tdx (string/join tdx (map format-profession-rank sorted-pp2)) "</td>\n"
    "  <td class=\"cls-3d-" (name faction) " tiny t-center\">" (show-faction faction) "</td>\n"
-   "</tr>\n")))
+   "</tr>\n"))))
 
 (defn show-char [cname]
+  "### = blank line, # = ignore line"
   (.println *err* (str "Next: " cname))
-  (if (= \# (first cname))
-      "<tr><td></td></tr>"
+  (if (string/starts-with? cname "###")
+    "<tr><td></td></tr>"
+    (if (string/starts-with? cname "#")
+      ""
       (let [[realm name] (string/split cname #";")
              params (str "fields=guild,items,professions&" config/current-params)
              purl (tools/create-url-character2 defs/bn-wow-char-url config/current-locale (slugify-realm realm) name)
@@ -125,7 +139,7 @@
         (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
           (->
             (fmt-char chara)
-            (string/replace "{{purl}}" purl))))))
+            (string/replace "{{purl}}" purl)))))))
 
 (defn fmt-rep [m reps c]
   (if (some #{(:id m)} reps)
