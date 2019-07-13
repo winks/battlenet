@@ -25,6 +25,13 @@
    :progression "progression", :achievements "achievements"})
 
 ;
+; WoW gender
+;
+(def bn-gender
+  {0 "Male",
+   1 "Female"})
+
+;
 ; WoW classes
 ;
 (def bn-classes
@@ -45,7 +52,8 @@
 ; WoW races
 ;
 (def bn-races
-  {1 "Human",
+  {0 "Unknown",
+   1 "Human",
    2 "Orc",
    3 "Dwarf",
    4 "Night Elf",
@@ -305,11 +313,14 @@
     2157 "The Honorbound"
     2158 "Voldunai"
     2159 "7th Legion"
-    2160 "Proudmoore's Admiralty"
+    2160 "Proudmoore Admiralty"
     2161 "Order of Embers"
     2162 "Storm's Wake"
     2163 "Tortollan Seekers"
-    2164 "Champions of Azeroth"]
+    2164 "Champions of Azeroth"
+    2373 "The Unshackled"
+    2391 "Rustbolt Resistance"
+    2400 "Waveblade Ankoan"]
   :legion [
     1828 "Highmountain Tribe"
     1859 "The Nightfallen"
@@ -325,14 +336,41 @@
     2018 "Talon's Vengeance"
     1984 "The First Responders"]
   :wod [
-    1515 "Arakkoa Outcasts"
     1445 "Frostwolf Orcs"
-    1708 "Laughing Skull Orcs"
-    1849 "Order of the Awakened"
-    1850 "The Saberstalkers"
-    1848 "Vol'jin's Headhunters"
-    1681 "Vol'jin's Spear"
-    1711 "Steamwheedle Preservation Society"
+    1515 "Arakkoa Outcasts"
     1520 "Shadowmoon Exiles"
+    1681 "Vol'jin's Spear"
+    1708 "Laughing Skull Orcs"
+    1710 "Sha'tari Defense"
+    1711 "Steamwheedle Preservation Society"
+    1731 "Council of Exarchs"
     1735 "Barracks Bodyguards"
-]})
+    1847 "Hand of the Prophet"
+    1848 "Vol'jin's Headhunters"
+    1849 "Order of the Awakened"
+    1850 "The Saberstalkers"]
+  :horde-only [
+    2373
+    2103 2156 2157 2158
+    1445 1708 1681 1848]
+  :alliance-only [
+    2400
+    2159 2160 2161 2162
+    1520 1731 1847 1710]
+  :horde [
+      68 "Undercity"
+      76 "Orgrimmar"
+      81 "Thunder Bluff"
+     530 "Darkspear Trolls"
+     911 "Silvermoon City"
+    1133 "Bilgewater Cartel"
+    1352 "Huojin Pandaren"]
+  :alliance [
+      47 "Ironforge"
+      54 "Gnomeregan"
+      69 "Darnassus"
+      72 "Stormwind"
+     930 "Exodar"
+    1134 "Gilneas"
+    1353 "Tushui Pandaren"]
+})

@@ -63,20 +63,23 @@
 (defn read-remote-character
   "Returns character data as a map."
   ([region realm charname]
-  (read-str
-    (net/read-url
-      (wto/create-url-character region bn-game-wow bn-path-character realm charname))
+  (let [cn (java.net.URLEncoder/encode charname)]
+    (read-str
+      (net/read-url
+        (wto/create-url-character region bn-game-wow bn-path-character realm cn)))
     :key-fn keyword))
   ([region realm charname params]
-  (read-str
-    (net/read-url
-      (wto/create-url-character region bn-game-wow bn-path-character realm charname params))
-    :key-fn keyword)))
+  (let [cn (java.net.URLEncoder/encode charname)]
+    (read-str
+      (net/read-url
+        (wto/create-url-character region bn-game-wow bn-path-character realm cn params))
+     :key-fn keyword))))
 
 (defn read-remote-guild
   "Returns guild data as a map."
   [region realm guildname]
-  (read-str
-    (net/read-url
-      (wto/create-url-guild region bn-game-wow bn-path-guild realm guildname))
-    :key-fn keyword))
+  (let [gn (java.net.URLEncoder/encode guildname)]
+    (read-str
+      (net/read-url
+        (wto/create-url-guild region bn-game-wow bn-path-guild realm guildname))
+      :key-fn keyword)))

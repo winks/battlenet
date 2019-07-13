@@ -7,12 +7,16 @@
   [url]
   (try
     (slurp url)
-    (catch UnknownHostException _
-      "{}")
-    (catch FileNotFoundException _
-      "{}")
-    (catch IOException _
+    (catch UnknownHostException ex
+      (.println *err* ex)
+      nil)
+    (catch FileNotFoundException ex
+      (.println *err* ex)
+      nil)
+    (catch IOException ex
+      (.println *err* ex)
       (try
         (slurp url)
-        (catch IOException _
-          "{}")))))
+        (catch IOException ex
+          (.println *err* ex)
+          nil)))))
