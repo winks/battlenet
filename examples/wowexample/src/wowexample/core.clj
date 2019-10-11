@@ -75,15 +75,14 @@
     (str "<img src=\"/img/" nx ".png\" alt=\"" (:name m) "\" title=\"" (:name m) "\" width=\"16\" height=\"16\">"))))
 
 (defn format-profession-rank [[k m]]
-(.println *err* (str m))
   "e.g. {:id 1 :icon 'foo' :rank 23 :name 'X'} -> <span title=X>23</span>"
   (if (empty? m)
   ""
   (if-let [n (:name m)]
   (if-let [r (:rank m)]
   (if-let [mx (:max m)]
-    (let [is-max (if (< (int (:rank m)) (int (:max m))) "" " class=\"prof-max\"")]
-      (str "<span title=\"" n "\"" is-max ">" (:rank m) "</span>")))))))
+    (let [is-max (if (< (int r) (int mx)) "" " class=\"prof-max\"")]
+      (str "<span title=\"" n "\"" is-max ">" (if (< (int r) 1) "" r) "</span>")))))))
 
 (defn format-level [lvl]
   (if (= current-max-level lvl)
@@ -167,12 +166,14 @@
       (let [[realm name] (string/split cname #";")
              params (str "fields=guild,items,professions&" config/current-params)
              purl (tools/create-url-character2 defs/bn-wow-char-url config/current-locale (slugify-realm realm) name)]
-        (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
-          (->
-            (fmt-char chara)
-            (string/replace "{{purl}}" purl)))))))
+        (try
+          (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
+            (->
+              (fmt-char chara)
+              (string/replace "{{purl}}" purl)))
+          (catch Exception e ""))))))
 
-(defn fmt-rep [m reps c bl]
+(defn fmt-rep [m reps c bl tag]
   (.println *err* (str (:id m) bl))
   (if (and (some #{(:id m)} reps) (not (some #(= (:id m) %) bl)))
     (let [standings (map string/lower-case (vals defs/bn-reputation-standing))
@@ -181,16 +182,18 @@
           standing-cap (uc-first standing)
           cls-id (:class c)
           cls (get defs/bn-classes cls-id)]
+(comment
 (.println *err* (str (vals defs/bn-reputation-standing)))
 (.println *err* (str (keys defs/bn-reputation-standing)))
 (.println *err* (first standings))
 (.println *err* sval)
 (.println *err* standing)
 (.println *err* (vals  m))
-(.println *err* (keys  m))
-      (str "<tr class=\"rep-" standing "\" data-id=\"" (:id m) "\" data-value=\"" (:name m) "\">"
+(.println *err* (keys  m)))
+      (str "<tr class=\"rep-" standing "\" data-id=\"" (:id m) "\" data-value=\"" (:name m) "\" data-tag=\"" tag "\">"
            "<td class=\"cls-3d-" (slugify-class cls) "\">" (:name c) "</td>"
            "<td>" (:name m) "</td>"
+           "<td>" tag "</td>"
            "<td>" standing-cap "</td>"
            "<td>" (:value m) "/" (:max m) "</td>"
            "</tr>\n"))
@@ -209,13 +212,13 @@
         r (take 13 reps)]
   (.println *err* reps)
     (apply str
-      (apply str (map #(fmt-rep %1 bfa-reps c blacklist) reps))
+      (apply str (map #(fmt-rep %1 bfa-reps c blacklist "bfa") reps))
       div
-      (apply str (map #(fmt-rep %1 legion-reps c blacklist) reps))
+      (apply str (map #(fmt-rep %1 legion-reps c blacklist "legion") reps))
       div
-      (apply str (map #(fmt-rep %1 wod-reps c blacklist) reps))
+      (apply str (map #(fmt-rep %1 wod-reps c blacklist "wod") reps))
       div
-      (apply str (map #(fmt-rep %1 faction-reps c blacklist) reps))
+      (apply str (map #(fmt-rep %1 faction-reps c blacklist "vanilla") reps))
       div)))
 
 (defn show-rep [cname]

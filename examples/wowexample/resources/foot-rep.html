@@ -11,8 +11,10 @@ function hideNoMatch() {
   $('table tr').each(function(idx) {
     if (idx < 1){ return;}
     var val = $('#search')[0].value.toLowerCase();
-    if ($(this).data('value') !== undefined
-        && $(this).data('value').toLowerCase().indexOf(val) == -1) {
+    if ($(this).data('value') !== undefined &&
+        $(this).data('tag')   !== undefined &&
+        $(this).data('value').toLowerCase().indexOf(val) == -1 &&
+        $(this).data('tag'  ).toLowerCase().indexOf(val) == -1) {
       $(this).hide();
     }
   })
