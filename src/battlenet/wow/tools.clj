@@ -36,11 +36,12 @@
       (string/replace "{realm}" realm)
       (string/replace "{name}" charname))))
 
-(defn create-url-character2
-  ([base locale realm charname]
+(defn create-web-url-character
+  ([base locale region realm charname]
     (->
       base
       (string/replace "{locale}" locale)
+      (string/replace "{region}" region)
       (string/replace "{realm}" realm)
       (string/replace "{name}" charname))))
 
@@ -50,6 +51,16 @@
     (wto/create-url-character region game path realm guildname))
   ([region game path realm guildname params]
     (wto/create-url-character region game path realm guildname params)))
+
+(defn create-web-url-guild
+  "Builds a request URL for guild requests."
+  [locale region realm guildname]
+    (->
+      bn-wow-guild-url
+      (string/replace "{locale}" locale)
+      (string/replace "{region}" region)
+      (string/replace "{realm}" realm)
+      (string/replace "{name}" guildname)))
 
 ;;;;;;;;;;;;;;;;
 ; access stuff

@@ -3,7 +3,8 @@
 ;
 ; URL templates and paths
 ;
-(def bn-wow-char-url    "https://worldofwarcraft.com/{locale}/character/{realm}/{name}")
+(def bn-wow-char-url    "https://worldofwarcraft.com/{locale}/character/{region}/{realm}/{name}")
+(def bn-wow-guild-url   "https://worldofwarcraft.com/{locale}/guild/{region}/{realm}/{name}")
 (def bn-path-realm      "/realm/status")
 (def bn-path-character  "/character/{realm}/{name}")
 (def bn-path-guild      "/guild/{realm}/{name}")
@@ -330,6 +331,9 @@
     1894 "The Wardens"
     1900 "Court of Farondis"
     2165 "Army of the Light"
+    9997 "Chromie"
+    1948 "Valarjar"
+    2045 "Armies of Legionfall"
     2170 "Argussian Reach"]
   :legion2 [
     1947 "Illidari"

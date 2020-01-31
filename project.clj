@@ -1,4 +1,4 @@
-(defproject battlenet "0.5.1-alpha2"
+(defproject battlenet "0.5.1"
   :description "Clojure library for Blizzard's Community Platform API"
   :url "https://github.com/winks/battlenet"
   :dependencies [[org.clojure/clojure "1.4.0"]
