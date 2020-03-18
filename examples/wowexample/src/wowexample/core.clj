@@ -16,10 +16,10 @@
   (str (string/upper-case (subs s 0 1)) (string/lower-case (subs s 1)))))
 
 (defn slugify-guild [s]
-  (string/replace (string/replace s "'" "") " " "_"))
+  (string/lower-case (string/replace (string/replace s "'" "") " " "-")))
 
 (defn slugify-realm [s]
-  (string/lower-case (string/replace s " " "-")))
+  (string/lower-case (string/replace (string/replace s "'" "") " " "-")))
 
 (defn slugify-class [s]
 (if (empty? s)
@@ -28,9 +28,10 @@
 
 (defn guild-link [realm guild character]
   (let [g (slugify-guild guild)
-        r (string/lower-case realm)
-        gurl (tools/create-url-guild config/current-region "wow" defs/bn-path-guild r g)]
-    (str "<a href=\""  (string/replace gurl ".api.blizzard.com" ".battle.net") "/roster?character=" character "\">" guild "</a>")))
+        r (slugify-realm realm)
+        locale (if (= "us" config/current-region) "en-us" "en-gb")
+        gurl (tools/create-web-url-guild locale config/current-region r g)]
+    (str "<a href=\"" gurl "\">" guild "</a>")))
 
 (defn replace-last [s match replacement]
   "I regret nothing."
@@ -165,7 +166,7 @@
       ""
       (let [[realm name] (string/split cname #";")
              params (str "fields=guild,items,professions&" config/current-params)
-             purl (tools/create-url-character2 defs/bn-wow-char-url config/current-locale (slugify-realm realm) name)]
+             purl (tools/create-web-url-character defs/bn-wow-char-url config/current-locale config/current-region (slugify-realm realm) name)]
         (try
           (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
             (->
@@ -210,7 +211,8 @@
         blacklist     (if (= 0 (:faction c)) (:horde-only defs/bn-reputations) (:alliance-only defs/bn-reputations))
         div "<tr><td colspan=4></td></tr>\n"
         r (take 13 reps)]
-  (.println *err* reps)
+;  (.println *err* faction-reps)
+;  (.println *err* blacklist)
     (apply str
       (apply str (map #(fmt-rep %1 bfa-reps c blacklist "bfa") reps))
       div
@@ -227,7 +229,7 @@
       "<tr><td></td></tr>"
       (let [[realm name] (string/split cname #";")
              params (str "fields=reputation&" config/current-params)
-             purl (tools/create-url-character2 defs/bn-wow-char-url config/current-locale (slugify-realm realm) name)
+             purl (tools/create-web-url-character defs/bn-wow-char-url config/current-locale config/current-region (slugify-realm realm) name)
              purl2 (tools/create-url-character config/current-region "wow" defs/bn-path-character (slugify-realm realm) name)]
         (if-let [chara (network/read-remote-character config/current-region (slugify-realm realm) name params)]
           (->
@@ -235,10 +237,7 @@
 )))))
 
 (defn -main [& m]
-  (if (.equals "rep" (first m))
-      (if-let [xs (System/getenv "FILENAME")]
-        (print (apply str (map show-rep (get config/current-chars (keyword (string/replace xs ".html" ""))))))
-        (print (apply str (map show-rep (get config/current-chars :test)))))
-      (if-let [xs (System/getenv "FILENAME")]
-        (print (apply str (map show-char (get config/current-chars (keyword (string/replace xs ".html" ""))))))
-        (print (apply str (map show-char (get config/current-chars :test)))))))
+  (let [show-fn (if (.equals "rep" (first m)) show-rep show-char)]
+    (if-let [xs (System/getenv "FILENAME")]
+      (print (apply str (map show-fn (get config/current-chars (keyword (string/replace xs ".html" ""))))))
+      (print (apply str (map show-fn (get config/current-chars :test)))))))
