@@ -4,5 +4,5 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                [battlenet "0.5.1-alpha2"]]
+                [battlenet "0.5.1"]]
   :main wowexample.core)

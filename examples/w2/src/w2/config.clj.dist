@@ -1,0 +1,19 @@
+(ns w2.config)
+
+(def oauth-client-id "SOMETHING")
+(def oauth-client-secret "SECRET")
+
+(def current-region "eu")
+(def current-locale "en_GB")
+
+(def current-params (str "locale=" current-locale "&access_token=" (System/getenv "BLIZZARD_APIKEY")))
+
+(def current-chars {
+:test [
+"Sunstrider;Werdup"
+]
+
+:default [
+"Sunstrider;Werdup"
+]
+})

@@ -7,5 +7,9 @@ pom.xml
 .lein-repl-history
 .lein-failures
 
+config.clj
 target/
 examples/d3example/target/
+examples/wowexample/target/
+examples/w2/target/
+examples/w2/cache/

@@ -3,6 +3,19 @@ battlenet
 
 Clojure library for Blizzard's Community Platform API.
 
+2020-03 Update
+--------------
+
+Unfortunately, Blizzard has yet again changed their API and I've not had the
+time and motivation to fix this.
+What I usually do is create a list of my chars to have an overview of Level,
+Professions, and Reputations.
+
+I started a small rewrite in `examples/w2/` which works with the API as of
+March 2020, but the professions API is still being migrated by Blizzard.
+
+The actual library, unfortunately will not do a lot, for now.
+
 Infos
 -----
 This is far from stable and just some remotely useful project while trying
@@ -10,7 +23,6 @@ to dig into Clojure. It's probably ugly or even just plain wrong. Also outdated.
 
 Use these to inject your own api key/locale setting for api calls:
 ```
-export BATTLENET_LOCALE=en_GB
 export BATTLENET_APIKEY=XXX
 ```
 
