@@ -90,3 +90,21 @@
   (let [url (create-url-char-reputations region realm name params)]
     (.println *err* url)
     (read-str (read-url url) :key-fn keyword)))
+
+(defn slugify-d3-profile [s]
+  (if (empty? s) ""
+    (string/replace s "#" "-")))
+
+(defn create-url-d3-profile
+  [region account params]
+  (->
+   "https://{region}.api.blizzard.com/d3/profile/{account}/?{params}"
+   (string/replace "{region}" region)
+   (string/replace "{account}" account)
+   (string/replace "{params}" params)))
+
+(defn read-d3-profile
+  [region account params]
+  (let [url (create-url-d3-profile region account params)]
+    (.println *err* url)
+    (read-str (read-url url) :key-fn keyword)))

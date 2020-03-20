@@ -6,6 +6,8 @@
 (def bn-wow-char-url    "https://worldofwarcraft.com/{locale}/character/{region}/{realm}/{name}")
 (def bn-wow-guild-url   "https://worldofwarcraft.com/{locale}/guild/{region}/{realm}/{name}")
 
+(def bn-d3-profile-url  "https://{region}.diablo3.com/en/profile/{account}/")
+
 ;
 ; WoW classes
 ;
