@@ -82,6 +82,21 @@
     (.println *err* url)
     (read-str (read-url url) :key-fn keyword)))
 
+(defn create-url-char-professions
+  [region realm name params]
+  (->
+   "https://{region}.api.blizzard.com/profile/wow/character/{realm}/{name}/professions?namespace=profile-eu&{params}"
+   (string/replace "{region}" region)
+   (string/replace "{realm}" realm)
+   (string/replace "{name}" name)
+   (string/replace "{params}" params)))
+
+(defn read-char-professions
+  [region realm name params]
+  (let [url (create-url-char-professions region realm name params)]
+    (.println *err* url)
+    (read-str (read-url url) :key-fn keyword)))
+
 (defn create-url-char-reputations
   [region realm name params]
   (->

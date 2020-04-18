@@ -80,7 +80,7 @@
       (str "<span>" lvl "</span>"))))
 
 (defn format-char
-  [json]
+  [json prof-json]
   (let [char-name (:name json)
         level (:level json)
         realm-slug (:slug (:realm json))
@@ -174,7 +174,7 @@
       "")))
 
 (defn format-reps
-  [json]
+  [json _]
   (let [char (:character json)
         char-name (:name char)
         realm (:slug (:realm char))
@@ -200,7 +200,7 @@
       div)))
 
 (defn wrapper
-  [cname read-fn format-fn]
+  [cname read-fn1 read-fn2 format-fn]
   "### = blank line, # = ignore line"
   (if (string/starts-with? cname "###")
     "<tr><td></td></tr>"
@@ -211,8 +211,9 @@
              c-s (utils/slugify-guild-char charname)]
         (pp (str "Next: " cname))
         (try
-          (if-let [json (read-fn config/current-region r-s c-s config/current-params)]
-            (format-fn json))
+          (if-let [json1 (read-fn1 config/current-region r-s c-s config/current-params)]
+            (if-let [json2 (read-fn2 config/current-region r-s c-s config/current-params)]
+              (format-fn json1 json2)))
           (catch Exception ex (.println *err* ex) "x"))))))
 
 (defn format-d3-char
@@ -250,10 +251,13 @@
   (if-let [json (utils/read-d3-profile config/current-region (string/replace tag "#" "%23") config/current-params)]
     (format-d3-profile json)))
 
+(defn dummy [_ _ _ _] {})
+
 (defn -main [& m]
   (if (.equals "d3" (first m))
     (print (apply str (map run-d3 config/current-tags)))
-    (let [read-fn   (if (.equals "rep" (first m)) utils/read-char-reputations utils/read-char-profile)
+    (let [read-fn1  (if (.equals "rep" (first m)) utils/read-char-reputations utils/read-char-profile)
+          read-fn2  (if (.equals "rep" (first m)) dummy utils/read-char-professions)
           format-fn (if (.equals "rep" (first m)) format-reps format-char)
           xkey      (if-let [xs (System/getenv "FILENAME")] (keyword (string/replace xs ".html" "")) :test)]
-      (print (apply str (map #(wrapper % read-fn format-fn) (get config/current-chars xkey)))))))
+      (print (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) (get config/current-chars xkey)))))))
