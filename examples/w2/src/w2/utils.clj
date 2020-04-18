@@ -61,6 +61,12 @@
           (.println *err* ex)
           nil)))))
 
+(defn read-json
+  [url]
+  (do
+    (.println *err* url)
+    (read-str (read-url url) :key-fn keyword)))
+
 (defn create-url-char-profile
   [region realm name params]
   (->

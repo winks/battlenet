@@ -67,10 +67,10 @@
       ""))
 
 (defn guild-link
-  [url name]
+  [url name guild-id realm-id]
   (if (empty? url)
     ""
-    (str "<a href=\"" url "\">" name "</a>")))
+    (str "<a href=\"" url "\" data-guild-id=\"" guild-id "\" data-realm-id=\"" realm-id "\">" name "</a>")))
 
 (defn format-level [lvl]
   (if (= current-max-level lvl)
@@ -84,14 +84,16 @@
   (let [char-name (:name json)
         level (:level json)
         realm-slug (:slug (:realm json))
+        realm-id (:id (:realm json))
         ilvl-avg (:average_item_level json)
         ilvl-eq (:equipped_item_level json)
         gender (:name (:gender json))
         cls (:name (:character_class json))
         cls-slug (utils/slugify-class cls)
         faction (:name (:faction json))
-        guild-json (or (:guild json) {:name ""})
+        guild-json (or (:guild json) {:name "" :id 0})
         guild-name (:name guild-json)
+        guild-id (:id guild-json)
         guild-u (guild-url json)
         race (:name (:race json))
         faction-slug (string/lower-case faction)
@@ -99,9 +101,9 @@
   (utils/write-cache realm-slug (utils/slugify-guild-char char-name) {:character_class (dissoc (:character_class json) :key)})
   (str
    "<tr>\n"
-   "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\">" char-name "</a></td>\n"
+   "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" (format-level level) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug "\">" (guild-link guild-u guild-name) "</td>\n"
+   "  <td class=\"cls-3d-" cls-slug "\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-avg "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-eq "</td>\n"
    "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" " " "</td>\n"
@@ -252,7 +254,6 @@
   (if (.equals "d3" (first m))
     (print (apply str (map run-d3 config/current-tags)))
     (let [read-fn   (if (.equals "rep" (first m)) utils/read-char-reputations utils/read-char-profile)
-          format-fn (if (.equals "rep" (first m)) format-reps format-char)]
-      (if-let [xs (System/getenv "FILENAME")]
-        (print (apply str (map #(wrapper % read-fn format-fn) (get config/current-chars (keyword (string/replace xs ".html" ""))))))
-        (print (apply str (map #(wrapper % read-fn format-fn) (get config/current-chars :test))))))))
+          format-fn (if (.equals "rep" (first m)) format-reps format-char)
+          xkey      (if-let [xs (System/getenv "FILENAME")] (keyword (string/replace xs ".html" "")) :test)]
+      (print (apply str (map #(wrapper % read-fn format-fn) (get config/current-chars xkey)))))))
