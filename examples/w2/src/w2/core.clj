@@ -79,13 +79,23 @@
       (str "<span class=\"prof-last-max\">" lvl "</span>")
       (str "<span>" lvl "</span>"))))
 
+(defn foo-tiers [input destination]
+  (let [idx (zipmap (map (comp :id :tier) input)
+                       input)]
+    (into {} (for [[k v] destination]
+               [k (-> v
+                      (conj (idx (:id v)))
+                      (dissoc :known_recipes)
+                      (dissoc :tier))]))))
+
 (defn prof-get [json idx k lookup]
   (try
     (if-let [pname (or (:name (:profession (nth (get json k) idx))) nil)]
       (let [kwp (utils/kw-prof pname)
-            base (get lookup kwp)]
-            [pname base (:tiers (nth (get json k) idx))]))
-    (catch Exception ex ["" nil []])))
+            base (get lookup kwp)
+            tmp (nth (get json k) idx)]
+            {:name pname :skills (foo-tiers (:tiers tmp) base) :skill_points (:skill_points tmp) :max_skill_points (:max_skill_points tmp)}))
+    (catch Exception ex {:name "" :skills {}})))
 
 (defn prof-primary [json idx]
   (prof-get json idx :primaries defs/bn-professions-primary))
@@ -95,11 +105,16 @@
 
 (defn format-prof [profs tpl1 tpl2]
   ; @TODO if profs empty -> <td></td>
-  (let [name (nth profs 0)
+  (let [name (:name profs)
         img (utils/slugify-class name)
         s1 (string/replace tpl1 "XXX" name)]
   (str (string/replace s1 "XXY" img)
-    (apply str (map #(string/replace tpl2 "XXX" (str (:skill_points %))) (nth profs 2))))))
+    (apply str (map #(string/replace tpl2 "XXX" (str (:skill_points %))) (vals (:skills profs)))))))
+
+(defn sort-secondaries [pname p1 p2 p3]
+  (if (= pname (:name p1)) p1
+    (if (= pname (:name p2)) p2
+      (if (= pname (:name p3)) p3 nil))))
 
 (defn format-char
   [json prof-json]
@@ -122,12 +137,19 @@
         pp2 (prof-primary prof-json 1)
         ps1 (prof-secondary prof-json 0)
         ps2 (prof-secondary prof-json 1)
+        ps3 (prof-secondary prof-json 2)
         faction-slug (string/lower-case faction)
+        ps-cooking (sort-secondaries "Cooking" ps1 ps2 ps3)
+        ps-fishing (sort-secondaries "Fishing" ps1 ps2 ps3)
+        ps-arch (sort-secondaries "Archaeology" ps1 ps2 ps3)
         tpl-prof-icon (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXY.png\" alt=\"XXX\" width=\"16\" height=\"16\"></td>\n")
         tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny\">XXX</td>\n")
+        tpl-prof-empty-start (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">.</td>\n")
+        tpl-prof-empty-value (str "  <td class=\"cls-3d-" cls-slug " tiny\"></td>\n")
+        empty-prof-cells (str tpl-prof-empty-start (apply str (take 8 (repeat tpl-prof-empty-value))))
   ]
   (utils/write-cache realm-slug (utils/slugify-guild-char char-name) {:character_class (dissoc (:character_class json) :key)})
-  ;(pp ps2)
+  ;(pp pp1)
   (str
    "<tr>\n"
    "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
@@ -135,9 +157,9 @@
    "  <td class=\"cls-3d-" cls-slug "\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-avg "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-eq "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" " " "</td>\n"
-   (format-prof (if (= "Cooking" (nth ps1 0)) ps1 ps2) tpl-prof-icon tpl-prof-tier)
-   (format-prof (if (= "Fishing" (nth ps2 0)) ps2 ps1) tpl-prof-icon tpl-prof-tier)
+   "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" (if (some? ps-arch) (:skill_points ps-arch) "") "</td>\n"
+   (if (some? ps-cooking) (format-prof ps-cooking tpl-prof-icon tpl-prof-tier) empty-prof-cells)
+   (if (some? ps-fishing) (format-prof ps-fishing tpl-prof-icon tpl-prof-tier) empty-prof-cells)
    (format-prof pp1 tpl-prof-icon tpl-prof-tier)
    (format-prof pp2 tpl-prof-icon tpl-prof-tier)
    "  <td class=\"cls-3d-" cls-slug " tiny\">" (show-icons cls race gender) "</td>\n"

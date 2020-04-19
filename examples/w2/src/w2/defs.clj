@@ -181,7 +181,7 @@
      :cataclysmcooking {:id 2545 :name "Cataclysm Cooking"}
      :northrendcooking {:id 2546 :name "Northrend Cooking"}
      :outlandcooking   {:id 2547 :name "Outland Cooking"}
-     :cooking          {:id 185  :name "Cooking"}}
+     :cooking          {:id 2548  :name "Cooking"}}
    :fishing {
      :kultiranfishing  {:id 2585 :name "Kul Tiran Fishing"}
      :legionfishing    {:id 2586 :name "Legion Fishing"}
@@ -190,7 +190,7 @@
      :cataclysmfishing {:id 2589 :name "Cataclysm Fishing"}
      :northrendfishing {:id 2590 :name "Northrend Fishing"}
      :outlandfishing   {:id 2591 :name "Outland Fishing"}
-     :fishing          {:id 356  :name "Fishing"}}})
+     :fishing          {:id 2592 :name "Fishing"}}})
 
 (def bn-professions-primary
   {:alchemy {
@@ -201,7 +201,7 @@
      :cataclysmalchemy {:id 2482 :name "Cataclysm Alchemy"}
      :northrendalchemy {:id 2483 :name "Northrend Alchemy"}
      :outlandalchemy   {:id 2484 :name "Outland Alchemy"}
-     :alchemy          {:id 171 :name "Alchemy"}}
+     :alchemy          {:id 2485 :name "Alchemy"}}
    :blacksmithing {
      :kultiranblacksmithing  {:id 2437 :name "Kul Tiran Blacksmithing"}
      :legionblacksmithing    {:id 2454 :name "Legion Blacksmithing"}
@@ -210,7 +210,7 @@
      :cataclysmblacksmithing {:id 2474 :name "Cataclysm Blacksmithing"}
      :northrendblacksmithing {:id 2475 :name "Northrend Blacksmithing"}
      :outlandblacksmithing   {:id 2476 :name "Outland Blacksmithing"}
-     :blacksmithing          {:id 164 :name "Blacksmithing"}}
+     :blacksmithing          {:id 2477 :name "Blacksmithing"}}
    :enchanting {
      :kultiranenchanting  {:id 2486 :name "Kul Tiran Enchanting"}
      :legionenchanting    {:id 2487 :name "Legion Enchanting"}
@@ -219,7 +219,7 @@
      :cataclysmenchanting {:id 2491 :name "Cataclysm Enchanting"}
      :northrendenchanting {:id 2492 :name "Northrend Enchanting"}
      :outlandenchanting   {:id 2493 :name "Outland Enchanting"}
-     :enchanting          {:id 333 :name "Enchanting"}}
+     :enchanting          {:id 2494 :name "Enchanting"}}
    :engineering {
      :kultiranengineering  {:id 2499 :name "Kul Tiran Engineering"}
      :legionengineering    {:id 2500 :name "Legion Engineering"}
@@ -228,7 +228,7 @@
      :cataclysmengineering {:id 2503 :name "Cataclysm Engineering"}
      :northrendengineering {:id 2504 :name "Northrend Engineering"}
      :outlandengineering   {:id 2505 :name "Outland Engineering"}
-     :engineering          {:id 202 :name "Engineering"}}
+     :engineering          {:id 2506 :name "Engineering"}}
    :herbalism {
      :kultiranherbalism  {:id 2549 :name "Kul Tiran Herbalism"}
      :legionherbalism    {:id 2550 :name "Legion Herbalism"}
@@ -237,7 +237,7 @@
      :cataclysmherbalism {:id 2553 :name "Cataclysm Herbalism"}
      :northrendherbalism {:id 2554 :name "Northrend Herbalism"}
      :outlandherbalism   {:id 2555 :name "Outland Herbalism"}
-     :herbalism          {:id 182 :name "Herbalism"}}
+     :herbalism          {:id 2556 :name "Herbalism"}}
    :inscription {
      :kultiraninscription  {:id 2507 :name "Kul Tiran Inscription"}
      :legioninscription    {:id 2508 :name "Legion Inscription"}
@@ -246,7 +246,7 @@
      :cataclysminscription {:id 2511 :name "Cataclysm Inscription"}
      :northrendinscription {:id 2512 :name "Northrend Inscription"}
      :outlandinscription   {:id 2513 :name "Outland Inscription"}
-     :inscription          {:id 773 :name "Inscription"}}
+     :inscription          {:id 2514 :name "Inscription"}}
    :jewelcrafting {
      :kultiranjewelcrafting  {:id 2517 :name "Kul Tiran Jewelcrafting"}
      :legionjewelcrafting    {:id 2518 :name "Legion Jewelcrafting"}
@@ -255,7 +255,7 @@
      :cataclysmjewelcrafting {:id 2521 :name "Cataclysm Jewelcrafting"}
      :northrendjewelcrafting {:id 2522 :name "Northrend Jewelcrafting"}
      :outlandjewelcrafting   {:id 2523 :name "Outland Jewelcrafting"}
-     :jewelcrafting          {:id 755 :name "Jewelcrafting"}}
+     :jewelcrafting          {:id 2524 :name "Jewelcrafting"}}
    :leatherworking {
      :kultiranleatherworking  {:id 2525 :name "Kul Tiran Leatherworking"}
      :legionleatherworking    {:id 2526 :name "Legion Leatherworking"}
@@ -264,7 +264,7 @@
      :cataclysmleatherworking {:id 2529 :name "Cataclysm Leatherworking"}
      :northrendleatherworking {:id 2530 :name "Northrend Leatherworking"}
      :outlandleatherworking   {:id 2531 :name "Outland Leatherworking"}
-     :leatherworking          {:id 165  :name "Leatherworking"}}
+     :leatherworking          {:id 2532  :name "Leatherworking"}}
    :mining {
      :kultiranmining  {:id 2565 :name "Kul Tiran Mining"}
      :legionmining    {:id 2566 :name "Legion Mining"}
@@ -273,7 +273,7 @@
      :cataclysmmining {:id 2569 :name "Cataclysm Mining"}
      :northrendmining {:id 2570 :name "Northrend Mining"}
      :outlandmining   {:id 2571 :name "Outland Mining"}
-     :mining          {:id 186 :name "Mining"}}
+     :mining          {:id 2572 :name "Mining"}}
    :skinning {
      :kultiranskinning  {:id 2557 :name "Kul Tiran Skinning"}
      :legionskinning    {:id 2558 :name "Legion Skinning"}
@@ -282,7 +282,7 @@
      :cataclysmskinning {:id 2561 :name "Cataclysm Skinning"}
      :northrendskinning {:id 2562 :name "Northrend Skinning"}
      :outlandskinning   {:id 2563 :name "Outland Skinning"}
-     :skinning          {:id 393  :name "Skinning"}}
+     :skinning          {:id 2564  :name "Skinning"}}
    :tailoring {
      :kultirantailoring  {:id 2533 :name "Kul Tiran Tailoring"}
      :legiontailoring    {:id 2534 :name "Legion Tailoring"}
@@ -291,7 +291,7 @@
      :cataclysmtailoring {:id 2537 :name "Cataclysm Tailoring"}
      :northrendtailoring {:id 2538 :name "Northrend Tailoring"}
      :outlandtailoring   {:id 2539 :name "Outland Tailoring"}
-     :tailoring          {:id 197 :name "Tailoring"}}})
+     :tailoring          {:id 2540 :name "Tailoring"}}})
 
 (def bn-reputations {
   :bfa [
