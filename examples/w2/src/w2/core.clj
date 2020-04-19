@@ -79,6 +79,28 @@
       (str "<span class=\"prof-last-max\">" lvl "</span>")
       (str "<span>" lvl "</span>"))))
 
+(defn prof-get [json idx k lookup]
+  (try
+    (if-let [pname (or (:name (:profession (nth (get json k) idx))) nil)]
+      (let [kwp (utils/kw-prof pname)
+            base (get lookup kwp)]
+            [pname base (:tiers (nth (get json k) idx))]))
+    (catch Exception ex ["" nil []])))
+
+(defn prof-primary [json idx]
+  (prof-get json idx :primaries defs/bn-professions-primary))
+
+(defn prof-secondary [json idx]
+  (prof-get json idx :secondaries defs/bn-professions-secondary))
+
+(defn format-prof [profs tpl1 tpl2]
+  ; @TODO if profs empty -> <td></td>
+  (let [name (nth profs 0)
+        img (utils/slugify-class name)
+        s1 (string/replace tpl1 "XXX" name)]
+  (str (string/replace s1 "XXY" img)
+    (apply str (map #(string/replace tpl2 "XXX" (str (:skill_points %))) (nth profs 2))))))
+
 (defn format-char
   [json prof-json]
   (let [char-name (:name json)
@@ -96,9 +118,16 @@
         guild-id (:id guild-json)
         guild-u (guild-url json)
         race (:name (:race json))
+        pp1 (prof-primary prof-json 0)
+        pp2 (prof-primary prof-json 1)
+        ps1 (prof-secondary prof-json 0)
+        ps2 (prof-secondary prof-json 1)
         faction-slug (string/lower-case faction)
+        tpl-prof-icon (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXY.png\" alt=\"XXX\" width=\"16\" height=\"16\"></td>\n")
+        tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny\">XXX</td>\n")
   ]
   (utils/write-cache realm-slug (utils/slugify-guild-char char-name) {:character_class (dissoc (:character_class json) :key)})
+  ;(pp ps2)
   (str
    "<tr>\n"
    "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
@@ -107,40 +136,10 @@
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-avg "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-eq "</td>\n"
    "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" " " "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" "." "</td>\n"
+   (format-prof (if (= "Cooking" (nth ps1 0)) ps1 ps2) tpl-prof-icon tpl-prof-tier)
+   (format-prof (if (= "Fishing" (nth ps2 0)) ps2 ps1) tpl-prof-icon tpl-prof-tier)
+   (format-prof pp1 tpl-prof-icon tpl-prof-tier)
+   (format-prof pp2 tpl-prof-icon tpl-prof-tier)
    "  <td class=\"cls-3d-" cls-slug " tiny\">" (show-icons cls race gender) "</td>\n"
    "  <td class=\"cls-3d-" faction-slug " tiny t-center\">" (show-faction faction) "</td>\n"
    "</tr>\n")))

@@ -26,6 +26,10 @@
   (if (empty? s) ""
     (string/lower-case (string/replace s "_" "-"))))
 
+(defn kw-prof [s]
+  (if (empty? s) nil)
+    (keyword (string/lower-case (string/replace s " " ""))))
+
 (defn write-cache [realm char-name data]
   (let [dir (str "./cache/" config/current-region "/" (slugify-realm realm))
         file (str dir "/" (slugify-guild-char char-name))]
