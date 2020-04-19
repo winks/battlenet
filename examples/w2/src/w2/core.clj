@@ -144,7 +144,7 @@
         ps-arch (sort-secondaries "Archaeology" ps1 ps2 ps3)
         tpl-prof-icon (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXY.png\" alt=\"XXX\" width=\"16\" height=\"16\"></td>\n")
         tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny\">XXX</td>\n")
-        tpl-prof-empty-start (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">.</td>\n")
+        tpl-prof-empty-start (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"></td>\n")
         tpl-prof-empty-value (str "  <td class=\"cls-3d-" cls-slug " tiny\"></td>\n")
         empty-prof-cells (str tpl-prof-empty-start (apply str (take 8 (repeat tpl-prof-empty-value))))
   ]
@@ -160,8 +160,8 @@
    "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" (if (some? ps-arch) (:skill_points ps-arch) "") "</td>\n"
    (if (some? ps-cooking) (format-prof ps-cooking tpl-prof-icon tpl-prof-tier) empty-prof-cells)
    (if (some? ps-fishing) (format-prof ps-fishing tpl-prof-icon tpl-prof-tier) empty-prof-cells)
-   (format-prof pp1 tpl-prof-icon tpl-prof-tier)
-   (format-prof pp2 tpl-prof-icon tpl-prof-tier)
+   (if (some? pp1) (format-prof pp1 tpl-prof-icon tpl-prof-tier) empty-prof-cells)
+   (if (some? pp2) (format-prof pp2 tpl-prof-icon tpl-prof-tier) empty-prof-cells)
    "  <td class=\"cls-3d-" cls-slug " tiny\">" (show-icons cls race gender) "</td>\n"
    "  <td class=\"cls-3d-" faction-slug " tiny t-center\">" (show-faction faction) "</td>\n"
    "</tr>\n")))
@@ -231,11 +231,11 @@
              r-s (utils/slugify-realm realm)
              c-s (utils/slugify-guild-char charname)]
         (pp (str "Next: " cname))
+        (let [json2 (try (read-fn2 config/current-region r-s c-s config/current-params) (catch Exception ex {}))]
         (try
-          (if-let [json1 (read-fn1 config/current-region r-s c-s config/current-params)]
-            (if-let [json2 (read-fn2 config/current-region r-s c-s config/current-params)]
-              (format-fn json1 json2)))
-          (catch Exception ex (.println *err* ex) "x"))))))
+          (let [json1 (read-fn1 config/current-region r-s c-s config/current-params)]
+            (format-fn json1 json2))
+          (catch Exception ex (.println *err* ex) "x")))))))
 
 (defn format-d3-char
   [c tag guild]
