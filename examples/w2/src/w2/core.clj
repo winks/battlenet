@@ -1,4 +1,5 @@
 (ns w2.core
+  (:gen-class)
   (:require [clojure.string :as string])
   (:require [w2.config :as config])
   (:require [w2.defs :as defs])

@@ -6,4 +6,5 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/data.json "0.2.0"]]
   :repl-options {:init-ns w2.core}
-  :main w2.core)
+  :main w2.core
+  :aot [w2.core])
