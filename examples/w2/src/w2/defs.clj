@@ -147,6 +147,7 @@
    5 (:wod "Warlords of Draenor"),
    6 (:legion "Legion"),
    7 (:bfa "Battle for Azeroth"),
+   8 (:sl "Shadowlands"),
    })
 
 (def bn-expansions-x
@@ -168,41 +169,45 @@
    :mop '(6125 6297 6067)})
 
 (def bn-professions-order
-  [:kultiran :legion :draenor :pandaria :cataclysm :northrend :outland nil])
+  [:shadowlands :kultiran :legion :draenor :pandaria :cataclysm :northrend :outland nil])
 
 (def bn-professions-secondary
   {:archaeology {
      :archaeology      {:id 794 :name "Archaeology"}}
    :cooking {
-     :kultirancooking  {:id 2541 :name "Kul Tiran Cooking"}
-     :legioncooking    {:id 2542 :name "Legion Cooking"}
-     :draenorcooking   {:id 2543 :name "Draenor Cooking"}
-     :pandariacooking  {:id 2544 :name "Pandaria Cooking"}
-     :cataclysmcooking {:id 2545 :name "Cataclysm Cooking"}
-     :northrendcooking {:id 2546 :name "Northrend Cooking"}
-     :outlandcooking   {:id 2547 :name "Outland Cooking"}
-     :cooking          {:id 2548  :name "Cooking"}}
+     :shadowlandscooking  {:id 2752 :name "Shadowlands Cooking"}
+     :kultirancooking     {:id 2541 :name "Kul Tiran Cooking"}
+     :legioncooking       {:id 2542 :name "Legion Cooking"}
+     :draenorcooking      {:id 2543 :name "Draenor Cooking"}
+     :pandariacooking     {:id 2544 :name "Pandaria Cooking"}
+     :cataclysmcooking    {:id 2545 :name "Cataclysm Cooking"}
+     :northrendcooking    {:id 2546 :name "Northrend Cooking"}
+     :outlandcooking      {:id 2547 :name "Outland Cooking"}
+     :cooking             {:id 2548  :name "Cooking"}}
    :fishing {
-     :kultiranfishing  {:id 2585 :name "Kul Tiran Fishing"}
-     :legionfishing    {:id 2586 :name "Legion Fishing"}
-     :draenorfishing   {:id 2587 :name "Draenor Fishing"}
-     :pandariafishing  {:id 2588 :name "Pandaria Fishing"}
-     :cataclysmfishing {:id 2589 :name "Cataclysm Fishing"}
-     :northrendfishing {:id 2590 :name "Northrend Fishing"}
-     :outlandfishing   {:id 2591 :name "Outland Fishing"}
-     :fishing          {:id 2592 :name "Fishing"}}})
+     :shadowlandsfishing  {:id 2754 :name "Shadowlands Fishing"}
+     :kultiranfishing     {:id 2585 :name "Kul Tiran Fishing"}
+     :legionfishing       {:id 2586 :name "Legion Fishing"}
+     :draenorfishing      {:id 2587 :name "Draenor Fishing"}
+     :pandariafishing     {:id 2588 :name "Pandaria Fishing"}
+     :cataclysmfishing    {:id 2589 :name "Cataclysm Fishing"}
+     :northrendfishing    {:id 2590 :name "Northrend Fishing"}
+     :outlandfishing      {:id 2591 :name "Outland Fishing"}
+     :fishing             {:id 2592 :name "Fishing"}}})
 
 (def bn-professions-primary
   {:alchemy {
-     :kultiranalchemy  {:id 2478 :name "Kul Tiran Alchemy"}
-     :legionalchemy    {:id 2479 :name "Legion Alchemy"}
-     :draenoralchemy   {:id 2480 :name "Draenor Alchemy"}
-     :pandariaalchemy  {:id 2481 :name "Pandaria Alchemy"}
-     :cataclysmalchemy {:id 2482 :name "Cataclysm Alchemy"}
-     :northrendalchemy {:id 2483 :name "Northrend Alchemy"}
-     :outlandalchemy   {:id 2484 :name "Outland Alchemy"}
-     :alchemy          {:id 2485 :name "Alchemy"}}
+     :shadowlandsalchemy  {:id 2750 :name "Shadowlands Alchemy"}
+     :kultiranalchemy     {:id 2478 :name "Kul Tiran Alchemy"}
+     :legionalchemy       {:id 2479 :name "Legion Alchemy"}
+     :draenoralchemy      {:id 2480 :name "Draenor Alchemy"}
+     :pandariaalchemy     {:id 2481 :name "Pandaria Alchemy"}
+     :cataclysmalchemy    {:id 2482 :name "Cataclysm Alchemy"}
+     :northrendalchemy    {:id 2483 :name "Northrend Alchemy"}
+     :outlandalchemy      {:id 2484 :name "Outland Alchemy"}
+     :alchemy             {:id 2485 :name "Alchemy"}}
    :blacksmithing {
+     :shadowlandsblacksmithing  {:id 24371 :name "Shadowlands Blacksmithing"}
      :kultiranblacksmithing  {:id 2437 :name "Kul Tiran Blacksmithing"}
      :legionblacksmithing    {:id 2454 :name "Legion Blacksmithing"}
      :draenorblacksmithing   {:id 2472 :name "Draenor Blacksmithing"}
@@ -212,6 +217,7 @@
      :outlandblacksmithing   {:id 2476 :name "Outland Blacksmithing"}
      :blacksmithing          {:id 2477 :name "Blacksmithing"}}
    :enchanting {
+     :shadowlandsenchanting  {:id 24861 :name "Shadowlands Enchanting"}
      :kultiranenchanting  {:id 2486 :name "Kul Tiran Enchanting"}
      :legionenchanting    {:id 2487 :name "Legion Enchanting"}
      :draenorenchanting   {:id 2488 :name "Draenor Enchanting"}
@@ -221,6 +227,7 @@
      :outlandenchanting   {:id 2493 :name "Outland Enchanting"}
      :enchanting          {:id 2494 :name "Enchanting"}}
    :engineering {
+     :shadowlandsengineering  {:id 24991 :name "Shadowlands Engineering"}
      :kultiranengineering  {:id 2499 :name "Kul Tiran Engineering"}
      :legionengineering    {:id 2500 :name "Legion Engineering"}
      :draenorengineering   {:id 2501 :name "Draenor Engineering"}
@@ -230,15 +237,17 @@
      :outlandengineering   {:id 2505 :name "Outland Engineering"}
      :engineering          {:id 2506 :name "Engineering"}}
    :herbalism {
-     :kultiranherbalism  {:id 2549 :name "Kul Tiran Herbalism"}
-     :legionherbalism    {:id 2550 :name "Legion Herbalism"}
-     :draenorherbalism   {:id 2551 :name "Draenor Herbalism"}
-     :pandariaherbalism  {:id 2552 :name "Pandaria Herbalism"}
-     :cataclysmherbalism {:id 2553 :name "Cataclysm Herbalism"}
-     :northrendherbalism {:id 2554 :name "Northrend Herbalism"}
-     :outlandherbalism   {:id 2555 :name "Outland Herbalism"}
-     :herbalism          {:id 2556 :name "Herbalism"}}
+     :shadowlandsherbalism  {:id 2760 :name "Shadowlands Herbalism"}
+     :kultiranherbalism     {:id 2549 :name "Kul Tiran Herbalism"}
+     :legionherbalism       {:id 2550 :name "Legion Herbalism"}
+     :draenorherbalism      {:id 2551 :name "Draenor Herbalism"}
+     :pandariaherbalism     {:id 2552 :name "Pandaria Herbalism"}
+     :cataclysmherbalism    {:id 2553 :name "Cataclysm Herbalism"}
+     :northrendherbalism    {:id 2554 :name "Northrend Herbalism"}
+     :outlandherbalism      {:id 2555 :name "Outland Herbalism"}
+     :herbalism             {:id 2556 :name "Herbalism"}}
    :inscription {
+     :shadowlandsinscription  {:id 25071 :name "Shadowlands Inscription"}
      :kultiraninscription  {:id 2507 :name "Kul Tiran Inscription"}
      :legioninscription    {:id 2508 :name "Legion Inscription"}
      :draenorinscription   {:id 2509 :name "Draenor Inscription"}
@@ -248,6 +257,7 @@
      :outlandinscription   {:id 2513 :name "Outland Inscription"}
      :inscription          {:id 2514 :name "Inscription"}}
    :jewelcrafting {
+     :shadowlandsjewelcrafting  {:id 25171 :name "Shadowlands Jewelcrafting"}
      :kultiranjewelcrafting  {:id 2517 :name "Kul Tiran Jewelcrafting"}
      :legionjewelcrafting    {:id 2518 :name "Legion Jewelcrafting"}
      :draenorjewelcrafting   {:id 2519 :name "Draenor Jewelcrafting"}
@@ -257,6 +267,7 @@
      :outlandjewelcrafting   {:id 2523 :name "Outland Jewelcrafting"}
      :jewelcrafting          {:id 2524 :name "Jewelcrafting"}}
    :leatherworking {
+     :shadowlandsleatherworking  {:id 25251 :name "Shadowlands Leatherworking"}
      :kultiranleatherworking  {:id 2525 :name "Kul Tiran Leatherworking"}
      :legionleatherworking    {:id 2526 :name "Legion Leatherworking"}
      :draenorleatherworking   {:id 2527 :name "Draenor Leatherworking"}
@@ -266,6 +277,7 @@
      :outlandleatherworking   {:id 2531 :name "Outland Leatherworking"}
      :leatherworking          {:id 2532  :name "Leatherworking"}}
    :mining {
+     :shadowlandsmining  {:id 25651 :name "Shadowlands Mining"}
      :kultiranmining  {:id 2565 :name "Kul Tiran Mining"}
      :legionmining    {:id 2566 :name "Legion Mining"}
      :draenormining   {:id 2567 :name "Draenor Mining"}
@@ -275,6 +287,7 @@
      :outlandmining   {:id 2571 :name "Outland Mining"}
      :mining          {:id 2572 :name "Mining"}}
    :skinning {
+     :shadowlandsskinning  {:id 25571 :name "Shadowlands Skinning"}
      :kultiranskinning  {:id 2557 :name "Kul Tiran Skinning"}
      :legionskinning    {:id 2558 :name "Legion Skinning"}
      :draenorskinning   {:id 2559 :name "Draenor Skinning"}
@@ -284,6 +297,7 @@
      :outlandskinning   {:id 2563 :name "Outland Skinning"}
      :skinning          {:id 2564  :name "Skinning"}}
    :tailoring {
+     :shadowlandstailoring  {:id 25331 :name "Shadowlands Tailoring"}
      :kultirantailoring  {:id 2533 :name "Kul Tiran Tailoring"}
      :legiontailoring    {:id 2534 :name "Legion Tailoring"}
      :draenortailoring   {:id 2535 :name "Draenor Tailoring"}
