@@ -106,11 +106,13 @@
 
 (defn format-prof [profs tpl1 tpl2]
   ; @TODO if profs empty -> <td></td>
-  (let [name (:name profs)
-        img (utils/slugify-class name)
-        s1 (string/replace tpl1 "XXX" name)]
+  (let [pname (:name profs)
+        img (utils/slugify-class pname)
+        s1 (string/replace tpl1 "XXX" pname)
+        ordered-prof-names (map #(keyword (if (nil? %) img (str (name %) img))) defs/bn-professions-order)
+        sorted (for [x ordered-prof-names] (get (:skills profs) x))]
   (str (string/replace s1 "XXY" img)
-    (apply str (map #(string/replace tpl2 "XXX" (str (:skill_points %))) (vals (:skills profs)))))))
+    (apply str (map #(string/replace (string/replace tpl2 "XXX" (str (:skill_points %))) "XXZ" (:name %)) sorted)))))
 
 (defn sort-secondaries [pname p1 p2 p3]
   (if (= pname (:name p1)) p1
@@ -144,18 +146,18 @@
         ps-fishing (sort-secondaries "Fishing" ps1 ps2 ps3)
         ps-arch (sort-secondaries "Archaeology" ps1 ps2 ps3)
         tpl-prof-icon (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXY.png\" alt=\"XXX\" width=\"16\" height=\"16\"></td>\n")
-        tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny\">XXX</td>\n")
+        tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny\" title=\"XXZ\">XXX</td>\n")
         tpl-prof-empty-start (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"></td>\n")
         tpl-prof-empty-value (str "  <td class=\"cls-3d-" cls-slug " tiny\"></td>\n")
-        empty-prof-cells (str tpl-prof-empty-start (apply str (take 8 (repeat tpl-prof-empty-value))))
+        empty-prof-cells (str tpl-prof-empty-start (apply str (take (count defs/bn-professions-order) (repeat tpl-prof-empty-value))))
   ]
   (utils/write-cache realm-slug (utils/slugify-guild-char char-name) {:character_class (dissoc (:character_class json) :key)})
-  ;(pp pp1)
+;  (println pp1)
   (str
    "<tr>\n"
    "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" (format-level level) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug "\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
+   "  <td class=\"cls-3d-" cls-slug " smaller\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-avg "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-eq "</td>\n"
    "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" (if (some? ps-arch) (:skill_points ps-arch) "") "</td>\n"
@@ -202,6 +204,7 @@
         realm (:slug (:realm char))
         reps (:reputations json)
         cache (assoc (utils/read-cache realm char-name) :name char-name)
+        sl-reps       (keep-indexed #(if (even? %1) %2) (:sl defs/bn-reputations))
         bfa-reps      (keep-indexed #(if (even? %1) %2) (:bfa defs/bn-reputations))
         legion-reps   (keep-indexed #(if (even? %1) %2) (:legion defs/bn-reputations))
         wod-reps      (keep-indexed #(if (even? %1) %2) (:wod defs/bn-reputations))
@@ -210,8 +213,10 @@
         check-reps    (map #(:id (:faction %)) reps)
         ; 72 is Stormwind
         faction-reps  (if (some #{72} check-reps) alliance-reps horde-reps)
-        div "<tr><td colspan=\"4\"></td></tr>\n"]
+        div "<tr><td colspan=\"4\"><hr></td></tr>\n"]
     (apply str
+      (apply str (map #(fmt-rep %1 sl-reps "sl" cache) reps))
+      div
       (apply str (map #(fmt-rep %1 bfa-reps "bfa" cache) reps))
       div
       (apply str (map #(fmt-rep %1 legion-reps "legion" cache) reps))
