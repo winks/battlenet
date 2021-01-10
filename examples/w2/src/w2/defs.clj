@@ -348,8 +348,14 @@
 
 (def bn-reputations {
   :sl [
-    2465 "The Wild Hunt"
+    2413 "Court of Harvesters"
+    2465 "Court of Night"
     2462 "Stitchmasters"
+    2407 "The Ascended"
+    2439 "The Avowed"
+    2410 "The Undying Army"
+    2465 "The Wild Hunt"
+
     2461 "Plague Deviser Marileth"
     2460 "Stonehead"
     2458 "Kleia and Pelagos"
@@ -365,38 +371,36 @@
     2447 "Lady Moonberry"
     2446 "Baroness Vashj"
     2445 "The Ember Court"
-    2432 "Ve'nari"
     2414 "Shadowlands?"
-    2413 "Court of Harvesters"
-    2410 "The Undying Army"
-    2407 "The Ascended"]
+    2432 "Ve'nari"]
   :bfa [
-    2103 "Zandalari Empire"
+
+    2159 "7th Legion"
+    2164 "Champions of Azeroth"
+    2161 "Order of Embers"
+    2160 "Proudmoore Admiralty"
+    2415 "Rajani"
+    2391 "Rustbolt Resistance"
+    2162 "Storm's Wake"
     2156 "Talanji's Expedition"
     2157 "The Honorbound"
-    2158 "Voldunai"
-    2159 "7th Legion"
-    2160 "Proudmoore Admiralty"
-    2161 "Order of Embers"
-    2162 "Storm's Wake"
-    2163 "Tortollan Seekers"
-    2164 "Champions of Azeroth"
     2373 "The Unshackled"
-    2391 "Rustbolt Resistance"
+    2163 "Tortollan Seekers"
+    2417 "Uldum Accord"
+    2158 "Voldunai"
     2400 "Waveblade Ankoan"
-    2415 "Rajani"
-    2417 "Uldum Accord"]
+    2103 "Zandalari Empire"]
   :legion [
-    1828 "Highmountain Tribe"
-    1859 "The Nightfallen"
-    1883 "Dreamweavers"
-    1894 "The Wardens"
-    1900 "Court of Farondis"
+    2170 "Argussian Reach"
+    2045 "Armies of Legionfall"
     2165 "Army of the Light"
     9997 "Chromie"
-    1948 "Valarjar"
-    2045 "Armies of Legionfall"
-    2170 "Argussian Reach"]
+    1900 "Court of Farondis"
+    1883 "Dreamweavers"
+    1828 "Highmountain Tribe"
+    1859 "The Nightfallen"
+    1894 "The Wardens"
+    1948 "Valarjar"]
   :legion2 [
     1947 "Illidari"
     1888 "Jandvik Vrykul"
@@ -404,19 +408,19 @@
     2018 "Talon's Vengeance"
     1984 "The First Responders"]
   :wod [
-    1445 "Frostwolf Orcs"
     1515 "Arakkoa Outcasts"
-    1520 "Shadowmoon Exiles"
-    1681 "Vol'jin's Spear"
+    1735 "Barracks Bodyguards"
+    1731 "Council of Exarchs"
+    1445 "Frostwolf Orcs"
+    1847 "Hand of the Prophet"
     1708 "Laughing Skull Orcs"
+    1849 "Order of the Awakened"
+    1520 "Shadowmoon Exiles"
     1710 "Sha'tari Defense"
     1711 "Steamwheedle Preservation Society"
-    1731 "Council of Exarchs"
-    1735 "Barracks Bodyguards"
-    1847 "Hand of the Prophet"
-    1848 "Vol'jin's Headhunters"
-    1849 "Order of the Awakened"
-    1850 "The Saberstalkers"]
+    1681 "Vol'jin's Spear"
+    1850 "The Saberstalkers"
+    1848 "Vol'jin's Headhunters"]
   :horde-only [
     2373
     2103 2156 2157 2158

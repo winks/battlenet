@@ -145,7 +145,7 @@
 (defn format-covenant [cov]
   (if (or (nil? cov) (nil? (:id cov)))
     ""
-    (str "&nbsp;<img src=\"/img/covenant_" (:id cov) ".png\" alt=\"" (:name cov) "\" width=\"16\" height=\"16\">" (:level cov))))
+    (str "&nbsp;<img src=\"/img/covenant_" (:id cov) ".png\" alt=\"" (:name cov) "\" title=\"" (:name cov) "\" width=\"16\" height=\"16\" class=\"cov-icon\">" (:level cov))))
 
 (defn format-char
   [json prof-json]
@@ -240,18 +240,19 @@
         check-reps    (map #(:id (:faction %)) reps)
         ; 72 is Stormwind
         faction-reps  (if (some #{72} check-reps) alliance-reps horde-reps)
-        div "<tr><td colspan=\"4\"><hr></td></tr>\n"]
+        div-rep "<tr class=\"rep-expansion\"><td colspan=\"5\"><hr></td></tr>\n"
+        div-chr "<tr><td colspan=\"5\"><hr></td></tr>\n"]
     (apply str
       (apply str (map #(fmt-rep %1 sl-reps "sl" cache) reps))
-      div
+      div-rep
       (apply str (map #(fmt-rep %1 bfa-reps "bfa" cache) reps))
-      div
+      div-rep
       (apply str (map #(fmt-rep %1 legion-reps "legion" cache) reps))
-      div
+      div-rep
       (apply str (map #(fmt-rep %1 wod-reps "wod" cache) reps))
-      div
+      div-rep
       (apply str (map #(fmt-rep %1 faction-reps "vanilla" cache) reps))
-      div)))
+      div-chr)))
 
 (defn wrapper
   [cname read-fn1 read-fn2 format-fn]
