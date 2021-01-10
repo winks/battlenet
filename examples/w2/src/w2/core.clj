@@ -119,6 +119,17 @@
     (if (= pname (:name p2)) p2
       (if (= pname (:name p3)) p3 nil))))
 
+(defn get-covenant [json]
+  (let [cov (:covenant_progress json)]
+    {:level (:renown_level cov)
+     :id (:id (:chosen_covenant cov))
+     :name (:name (:chosen_covenant cov))}))
+
+(defn format-covenant [cov]
+  (if (or (nil? cov) (nil? (:id cov)))
+      ""
+      (str "<img src=\"/img/covenant_" (:id cov) ".png\" alt=\"" (:name cov) "\" width=\"16\" height=\"16\"> " (:level cov))))
+
 (defn format-char
   [json prof-json]
   (let [char-name (:name json)
@@ -141,6 +152,7 @@
         ps1 (prof-secondary prof-json 0)
         ps2 (prof-secondary prof-json 1)
         ps3 (prof-secondary prof-json 2)
+        cov (get-covenant json)
         faction-slug (string/lower-case faction)
         ps-cooking (sort-secondaries "Cooking" ps1 ps2 ps3)
         ps-fishing (sort-secondaries "Fishing" ps1 ps2 ps3)
@@ -156,7 +168,7 @@
   (str
    "<tr>\n"
    "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
-   "  <td class=\"cls-3d-" cls-slug "\">" (format-level level) "</td>\n"
+   "  <td class=\"cls-3d-" cls-slug "\">" (format-level level) (format-covenant cov) "</td>\n"
    "  <td class=\"cls-3d-" cls-slug " smaller\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-avg "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-eq "</td>\n"
