@@ -5,11 +5,16 @@
   (:require [w2.defs :as defs])
   (:require [w2.utils :as utils]))
 
-(def current-max-level 120)
-(def last-max-level 110)
-(def exp-max-values {:kultiran 150 :legion 100
-                     :draenor 100  :pandaria 75 :cataclysm 75
-                     :northrend 75 :outland 75  :classic 300})
+(def current-max-level 60)
+(def last-max-level 50)
+(def exp-max-values-all {:kultiran 175 :legion 100
+                         :draenor 100  :pandaria 75 :cataclysm 75
+                         :northrend 75 :outland 75  :classic 300})
+(def exp-max-values-sl {:alchemy 175 :fishing 200 :cooking 75
+                        :mining 150 :herbalism 150 :skinning 150
+                        :enchanting 100 :inscription 100 :leatherworking 100
+                        :blacksmithing 100 :engineering 100 :jewelcrafting 100
+                        :tailoring 100})
 (def default-cache {:character_class {:name "Warrior", :id 1}})
 
 (defn ppe [s]
@@ -104,15 +109,27 @@
 (defn prof-secondary [json idx]
   (prof-get json idx :secondaries defs/bn-professions-secondary))
 
-(defn format-prof [profs tpl1 tpl2]
+(defn format-prof-tpl [xx tpl1 tpl2 y]
+  (string/replace (string/replace (string/replace tpl2 "XXLEVEL" (str (:skill_points xx))) "XXNAME" (:name xx)) "XXHIDDEN" y))
+
+(defn format-prof [profs tpl1 tpl2 css-class]
   ; @TODO if profs empty -> <td></td>
   (let [pname (:name profs)
         img (utils/slugify-class pname)
-        s1 (string/replace tpl1 "XXX" pname)
+        s1 (string/replace tpl1 "XXNAME" pname)
         ordered-prof-names (map #(keyword (if (nil? %) img (str (name %) img))) defs/bn-professions-order)
-        sorted (for [x ordered-prof-names] (get (:skills profs) x))]
-  (str (string/replace s1 "XXY" img)
-    (apply str (map #(string/replace (string/replace tpl2 "XXX" (str (:skill_points %))) "XXZ" (:name %)) sorted)))))
+        sorted (for [x ordered-prof-names] (get (:skills profs) x))
+        prof-latest (first sorted)
+        prof-rest (drop 1 sorted)]
+  (str (string/replace s1 "XXIMG" img)
+    (apply str (map #(format-prof-tpl % tpl1 tpl2 "") [prof-latest]))
+    (apply str (map #(format-prof-tpl % tpl1 tpl2 (str "hidden-prof " css-class)) prof-rest)))))
+
+(defn format-empty-prof [tpl css-class]
+  (let [rest (string/replace tpl "XXHIDDEN" (str "hidden-prof " css-class))]
+    (str (string/replace tpl "XXHIDDEN" "divider-l")
+      (string/replace tpl "XXHIDDEN" "")
+      (apply str (take (dec (count defs/bn-professions-order)) (repeat rest))))))
 
 (defn sort-secondaries [pname p1 p2 p3]
   (if (= pname (:name p1)) p1
@@ -127,8 +144,8 @@
 
 (defn format-covenant [cov]
   (if (or (nil? cov) (nil? (:id cov)))
-      ""
-      (str "<img src=\"/img/covenant_" (:id cov) ".png\" alt=\"" (:name cov) "\" width=\"16\" height=\"16\"> " (:level cov))))
+    ""
+    (str "&nbsp;<img src=\"/img/covenant_" (:id cov) ".png\" alt=\"" (:name cov) "\" width=\"16\" height=\"16\">" (:level cov))))
 
 (defn format-char
   [json prof-json]
@@ -157,26 +174,24 @@
         ps-cooking (sort-secondaries "Cooking" ps1 ps2 ps3)
         ps-fishing (sort-secondaries "Fishing" ps1 ps2 ps3)
         ps-arch (sort-secondaries "Archaeology" ps1 ps2 ps3)
-        tpl-prof-icon (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXY.png\" alt=\"XXX\" width=\"16\" height=\"16\"></td>\n")
-        tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny\" title=\"XXZ\">XXX</td>\n")
-        tpl-prof-empty-start (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"></td>\n")
-        tpl-prof-empty-value (str "  <td class=\"cls-3d-" cls-slug " tiny\"></td>\n")
-        empty-prof-cells (str tpl-prof-empty-start (apply str (take (count defs/bn-professions-order) (repeat tpl-prof-empty-value))))
+        tpl-prof-icon (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXIMG.png\" alt=\"XXNAME\" width=\"16\" height=\"16\"></td>\n")
+        tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny XXHIDDEN\" title=\"XXNAME\">XXLEVEL</td>\n")
+        tpl-prof-none (str "  <td class=\"cls-3d-" cls-slug " tiny XXHIDDEN\"></td>\n")
   ]
   (utils/write-cache realm-slug (utils/slugify-guild-char char-name) {:character_class (dissoc (:character_class json) :key)})
-;  (println pp1)
+  ;(println json)
   (str
    "<tr>\n"
    "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
-   "  <td class=\"cls-3d-" cls-slug "\">" (format-level level) (format-covenant cov) "</td>\n"
+   "  <td class=\"cls-3d-" cls-slug " t-left\">" (format-level level) (format-covenant cov) "</td>\n"
    "  <td class=\"cls-3d-" cls-slug " smaller\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-avg "</td>\n"
    "  <td class=\"cls-3d-" cls-slug "\">" ilvl-eq "</td>\n"
    "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" (if (some? ps-arch) (:skill_points ps-arch) "") "</td>\n"
-   (if (some? ps-cooking) (format-prof ps-cooking tpl-prof-icon tpl-prof-tier) empty-prof-cells)
-   (if (some? ps-fishing) (format-prof ps-fishing tpl-prof-icon tpl-prof-tier) empty-prof-cells)
-   (if (some? pp1) (format-prof pp1 tpl-prof-icon tpl-prof-tier) empty-prof-cells)
-   (if (some? pp2) (format-prof pp2 tpl-prof-icon tpl-prof-tier) empty-prof-cells)
+   (if (some? ps-cooking) (format-prof ps-cooking tpl-prof-icon tpl-prof-tier "prof-cooking") (format-empty-prof tpl-prof-none "prof-cooking"))
+   (if (some? ps-fishing) (format-prof ps-fishing tpl-prof-icon tpl-prof-tier "prof-fishing") (format-empty-prof tpl-prof-none "prof-fishing"))
+   (if (some? pp1) (format-prof pp1 tpl-prof-icon tpl-prof-tier "prof-1") (format-empty-prof tpl-prof-none "prof-1"))
+   (if (some? pp2) (format-prof pp2 tpl-prof-icon tpl-prof-tier "prof-2") (format-empty-prof tpl-prof-none "prof-2"))
    "  <td class=\"cls-3d-" cls-slug " tiny\">" (show-icons cls race gender) "</td>\n"
    "  <td class=\"cls-3d-" faction-slug " tiny t-center\">" (show-faction faction) "</td>\n"
    "</tr>\n")))
