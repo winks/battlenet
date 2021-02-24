@@ -2,8 +2,11 @@
   (:require [clojure.string :as string])
   (:require [w2.config :as config])
   (:use [clojure.data.json :only (read-str write-str)])
-  (:import (java.net URL URLConnection HttpURLConnection UnknownHostException)
+  (:import (java.net URLEncoder UnknownHostException)
            (java.io FileNotFoundException IOException)))
+
+(defn url-enc [s]
+  (URLEncoder/encode s))
 
 (defn uc-first [s]
   (if (empty? s)
@@ -77,7 +80,7 @@
    "https://{region}.api.blizzard.com/profile/wow/character/{realm}/{name}?namespace=profile-eu&{params}"
    (string/replace "{region}" region)
    (string/replace "{realm}" realm)
-   (string/replace "{name}" name)
+   (string/replace "{name}" (url-enc name))
    (string/replace "{params}" params)))
 
 (defn read-char-profile
@@ -92,7 +95,7 @@
    "https://{region}.api.blizzard.com/profile/wow/character/{realm}/{name}/professions?namespace=profile-eu&{params}"
    (string/replace "{region}" region)
    (string/replace "{realm}" realm)
-   (string/replace "{name}" name)
+   (string/replace "{name}" (url-enc name))
    (string/replace "{params}" params)))
 
 (defn read-char-professions
@@ -107,7 +110,7 @@
    "https://{region}.api.blizzard.com/profile/wow/character/{realm}/{name}/reputations?namespace=profile-eu&{params}"
    (string/replace "{region}" region)
    (string/replace "{realm}" realm)
-   (string/replace "{name}" name)
+   (string/replace "{name}" (url-enc name))
    (string/replace "{params}" params)))
 
 (defn read-char-reputations

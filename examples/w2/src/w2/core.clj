@@ -1,6 +1,7 @@
 (ns w2.core
   (:gen-class)
   (:require [clojure.string :as string])
+  (:require [clojure.stacktrace :as st])
   (:require [w2.config :as config])
   (:require [w2.defs :as defs])
   (:require [w2.utils :as utils]))
@@ -101,7 +102,7 @@
             base (get lookup kwp)
             tmp (nth (get json k) idx)]
             {:name pname :skills (foo-tiers (:tiers tmp) base) :skill_points (:skill_points tmp) :max_skill_points (:max_skill_points tmp)}))
-    (catch Exception ex {:name "" :skills {}})))
+    (catch Exception ex nil)))
 
 (defn prof-primary [json idx]
   (prof-get json idx :primaries defs/bn-professions-primary))
@@ -179,7 +180,6 @@
         tpl-prof-none (str "  <td class=\"cls-3d-" cls-slug " tiny XXHIDDEN\"></td>\n")
   ]
   (utils/write-cache realm-slug (utils/slugify-guild-char char-name) {:character_class (dissoc (:character_class json) :key)})
-  ;(println json)
   (str
    "<tr>\n"
    "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
@@ -268,8 +268,9 @@
         (let [json2 (try (read-fn2 config/current-region r-s c-s config/current-params) (catch Exception ex {}))]
         (try
           (let [json1 (read-fn1 config/current-region r-s c-s config/current-params)]
+            ;(.println *err* json1)
             (format-fn json1 json2))
-          (catch Exception ex (.println *err* ex) "x")))))))
+          (catch Exception ex (do (.println *err* ex) (comment (st/print-stack-trace ex))) "x")))))))
 
 (defn format-d3-char
   [c tag guild]
