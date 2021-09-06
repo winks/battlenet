@@ -1,6 +1,7 @@
 (ns w2.utils
   (:require [clojure.string :as string])
   (:require [w2.config :as config])
+  (:require [clj-http.client :as client])
   (:use [clojure.data.json :only (read-str write-str)])
   (:import (java.net URLEncoder UnknownHostException)
            (java.io FileNotFoundException IOException)))
@@ -49,11 +50,16 @@
       (read-str (slurp file) :key-fn keyword)
       (catch Exception ex {}))))
 
+(defn html-get
+  "slurp replacement"
+  [url]
+  (get (client/get url) :body))
+
 (defn read-url
   "Reads from an URL."
   [url]
   (try
-    (slurp url)
+    (html-get url)
     (catch UnknownHostException ex
       (.println *err* ex)
       nil)
@@ -63,7 +69,7 @@
     (catch IOException ex
       (.println *err* ex)
       (try
-        (slurp url)
+        (html-get url)
         (catch IOException ex
           (.println *err* ex)
           nil)))))
