@@ -307,13 +307,37 @@
   (if-let [json (utils/read-d3-profile config/current-region (string/replace tag "#" "%23") config/current-params)]
     (format-d3-profile json)))
 
+(defn run-all-d3 []
+  (apply str (map run-d3 config/current-tags)))
+
 (defn dummy [_ _ _ _] {})
 
+(defn run-wow [m]
+  (let [read-fn1  (if (.equals "wow-rep" (first m)) utils/read-char-reputations utils/read-char-profile)
+        read-fn2  (if (.equals "wow-rep" (first m)) dummy utils/read-char-professions)
+        format-fn (if (.equals "wow-rep" (first m)) format-reps format-char)
+        xkey      (if-let [xs (second m)] xs config/current-list)]
+    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) (get config/current-chars xkey)))))
+
+(defn reader [name]
+  (let [x (slurp (str "resources/" name ".html"))]
+    x))
+
+(defn writer [f s]
+  (spit (str config/output-dir "/" (name f) ".html") s))
+
+(defn ext-wow [m]
+  (let [xkey   (if-let [xs (second m)] xs config/current-list)
+        hname  (if (.equals "wow-rep" (first m)) "h1r" "head")
+        fname  (if (.equals "wow-rep" (first m)) "f1r" "foot")
+        data   (run-wow m)
+        now    (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm:ss zzz") (java.util.Date.))
+        footer (string/replace (reader fname) #"<div class=\"updated\"></div>" (str "<div class=\"updated\">Last update: " now "</div>"))
+        all    (str (reader hname) data footer)]
+    (writer xkey all)))
+
 (defn -main [& m]
-  (if (.equals "d3" (first m))
-    (print (apply str (map run-d3 config/current-tags)))
-    (let [read-fn1  (if (.equals "rep" (first m)) utils/read-char-reputations utils/read-char-profile)
-          read-fn2  (if (.equals "rep" (first m)) dummy utils/read-char-professions)
-          format-fn (if (.equals "rep" (first m)) format-reps format-char)
-          xkey      (if-let [xs (System/getenv "FILENAME")] (keyword (string/replace xs ".html" "")) :test)]
-      (print (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) (get config/current-chars xkey)))))))
+  (cond
+    (.equals "d3"  (first m)) (print (run-all-d3))
+    (.equals "foo" (first m)) (ext-wow m)
+    :else          (print (run-wow m))))

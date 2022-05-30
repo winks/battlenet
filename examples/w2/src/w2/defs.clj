@@ -374,7 +374,6 @@
     2414 "Shadowlands?"
     2432 "Ve'nari"]
   :bfa [
-
     2159 "7th Legion"
     2164 "Champions of Azeroth"
     2161 "Order of Embers"

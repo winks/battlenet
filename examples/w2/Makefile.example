@@ -1,0 +1,13 @@
+TARGET?=/srv/www
+FILENAME?=test.html
+TFILE?=/tmp/BLIZZARD_APIKEY.txt
+
+run:
+	export BLIZZARD_APIKEY=`cat ${TFILE}`; lein run chars > ${TARGET}/${FILENAME}.html
+
+token:
+	# this should be valid for 24h
+	curl -u "x:y" -d grant_type=client_credentials https://eu.battle.net/oauth/token | jq .access_token | sed 's/"//g' > ${TFILE}
+
+test:
+	FILENAME=test.html make
