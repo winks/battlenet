@@ -1,9 +1,6 @@
-(ns w2.config)
+(ns battlenet.config)
 
-(def oauth-client-id "SOMETHING")
-(def oauth-client-secret "SECRET")
-
-(def output-dir "/tmp/w2")
+(def output-dir "/tmp/battlenet")
 
 (def current-region "eu")
 (def current-locale "en_GB")

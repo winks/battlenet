@@ -1,12 +1,11 @@
-(defproject battlenet "0.5.1"
-  :description "Clojure library for Blizzard's Community Platform API"
+(defproject battlenet "1.0.0-SNAPSHOT"
+  :description "A Battle.net API client"
   :url "https://github.com/winks/battlenet"
-  :dependencies [[org.clojure/clojure "1.4.0"]
-                 [org.clojure/data.json "0.2.0"]]
-  :dev-dependencies [[radagast "1.1.1"]
-                     [lein-clojars "0.9.1"]]
-  :repositories {"clojure-releases" "http://build.clojure.org/releases"}
-  :deploy-repositories [["clojars" {:sign-releases false}]]
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :main battlenet.core)
+  :license {:name "EPL-2.0"
+            :url "https://www.eclipse.org/legal/epl-2.0/"}
+  :dependencies [[org.clojure/clojure "1.11.1"]
+                 [org.clojure/data.json "2.4.0"]
+                 [clj-http "3.12.3"]]
+  :repl-options {:init-ns battlenet.core}
+  :main battlenet.core
+  :aot [battlenet.core])

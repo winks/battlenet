@@ -1,6 +1,6 @@
-(ns w2.utils
+(ns battlenet.utils
   (:require [clojure.string :as string])
-  (:require [w2.config :as config])
+  (:require [battlenet.config :as config])
   (:require [clj-http.client :as client])
   (:use [clojure.data.json :only (read-str write-str)])
   (:import (java.net URLEncoder UnknownHostException)

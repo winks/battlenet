@@ -1,6 +1,0 @@
-(ns d3example.config)
-
-(def current-region "eu")
-(def current-params "locale=en_GB&apikey=XXX")
-(def current-tags ["Tyler#2306"])
-
