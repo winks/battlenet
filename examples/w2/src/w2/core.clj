@@ -319,6 +319,18 @@
         xkey      (if-let [xs (second m)] xs config/current-list)]
     (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) (get config/current-chars xkey)))))
 
+(defn run-wow-chars [name]
+  (let [read-fn1  utils/read-char-profile
+        read-fn2  utils/read-char-professions
+        format-fn format-char]
+    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) (get config/current-chars name)))))
+
+(defn run-wow-reps [name]
+  (let [read-fn1  utils/read-char-reputations
+        read-fn2  dummy
+        format-fn format-reps]
+    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) (get config/current-chars name)))))
+
 (defn reader [name]
   (let [x (slurp (str "resources/" name ".html"))]
     x))
@@ -326,18 +338,19 @@
 (defn writer [f s]
   (spit (str config/output-dir "/" (name f) ".html") s))
 
-(defn ext-wow [m]
-  (let [xkey   (if-let [xs (second m)] xs config/current-list)
-        hname  (if (.equals "wow-rep" (first m)) "h1r" "head")
-        fname  (if (.equals "wow-rep" (first m)) "f1r" "foot")
-        data   (run-wow m)
+(defn full-wow [name hname fname]
+  (let [data   (run-wow-chars name)
         now    (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm:ss zzz") (java.util.Date.))
         footer (string/replace (reader fname) #"<div class=\"updated\"></div>" (str "<div class=\"updated\">Last update: " now "</div>"))
         all    (str (reader hname) data footer)]
-    (writer xkey all)))
+    (writer name all)))
 
 (defn -main [& m]
-  (cond
-    (.equals "d3"  (first m)) (print (run-all-d3))
-    (.equals "foo" (first m)) (ext-wow m)
-    :else          (print (run-wow m))))
+  (let [name (if-let [xs (second m)] (keyword xs) config/current-list)]
+    (cond
+      (.equals "full"      (first m)) (full-wow name "head" "foot")
+      (.equals "full-reps" (first m)) (full-wow name "head-rep" "foot-rep")
+      (.equals "reps"      (first m)) (print (run-wow-reps name))
+      (.equals "chars"     (first m)) (print (run-wow-chars name))
+      (.equals "d3"        (first m)) (print (run-all-d3))
+      :else                           (println "Usage: lein run   chars | reps | full | full-reps | d3"))))
