@@ -5,7 +5,14 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.clojure/data.json "2.4.0"]
-                 [clj-http "3.12.3"]]
+                 [clj-http "3.12.3"]
+                 [compojure "1.6.1"]
+                 [ring/ring-defaults "0.3.2"]]
+  :plugins [[lein-ring "0.12.5"]]
   :repl-options {:init-ns battlenet.core}
   :main battlenet.core
-  :aot [battlenet.core])
+  :aot [battlenet.core]
+  :ring {:handler battlenet.handler/app}
+  :profiles
+  {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
+                        [ring/ring-mock "0.3.2"]]}})

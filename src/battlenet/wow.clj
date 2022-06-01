@@ -336,14 +336,19 @@
 (defn reader [name]
   (slurp (str config/data-dir "/assets/" name ".html")))
 
-(defn writer [f s]
+(defn writer [f fnx s]
   (if (empty? s)
-    (println "List empty, nothing written."))
-    (spit (str config/output-dir "/" (name f) ".html") s))
+    (let [err "List empty, nothing written."]
+      (println err)
+      err)
+    (let [ok (str "Ok: " (name f))
+          add (if (= :reps fnx) "-rep" "")]
+      (spit (str config/output-dir "/" (name f) add ".html") s)
+      ok)))
 
-(defn full-wow [name hname fname]
-  (let [data   (run-wow-chars name)
+(defn full-wow [name fnx hname fname]
+  (let [data   (if (= :reps fnx) (run-wow-reps name) (run-wow-chars name))
         now    (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm:ss zzz") (java.util.Date.))
         footer (string/replace (reader fname) #"<div class=\"updated\"></div>" (str "<div class=\"updated\">Last update: " now "</div>"))
         all    (if (empty? data) "" (str (reader hname) data footer))]
-    (writer name all)))
+    (writer name fnx all)))

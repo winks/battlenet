@@ -28,3 +28,9 @@ vi src/battlenet/config.clj
 
 make test
 ```
+
+## web
+
+```
+lein ring server-headless
+```
