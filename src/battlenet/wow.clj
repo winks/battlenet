@@ -265,9 +265,9 @@
              r-s (utils/slugify-realm realm)
              c-s (utils/slugify-guild-char charname)]
         (pp (str "Next: " cname))
-        (let [json2 (try (read-fn2 config/current-region r-s c-s config/current-params) (catch Exception ex {}))]
+        (let [json2 (try (read-fn2 config/current-region r-s c-s (config/current-params)) (catch Exception ex {}))]
         (try
-          (let [json1 (read-fn1 config/current-region r-s c-s config/current-params)]
+          (let [json1 (read-fn1 config/current-region r-s c-s (config/current-params))]
             ;(.println *err* json1)
             (format-fn json1 json2))
           (catch Exception ex (do (.println *err* ex) (comment (st/print-stack-trace ex))) "x")))))))
@@ -304,7 +304,7 @@
 
 (defn run-d3
   [tag]
-  (if-let [json (utils/read-d3-profile config/current-region (string/replace tag "#" "%23") config/current-params)]
+  (if-let [json (utils/read-d3-profile config/current-region (string/replace tag "#" "%23") (config/current-params))]
     (format-d3-profile json)))
 
 (defn run-all-d3 []
