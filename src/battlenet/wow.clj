@@ -13,7 +13,7 @@
                          :northrend 75 :outland 75  :classic 300})
 (def exp-max-values-sl {:alchemy 175 :fishing 200 :cooking 75
                         :mining 150 :herbalism 150 :skinning 150
-                        :enchanting 100 :inscription 100 :leatherworking 100
+                        :enchanting 115 :inscription 100 :leatherworking 100
                         :blacksmithing 100 :engineering 100 :jewelcrafting 100
                         :tailoring 100})
 (def default-cache {:character_class {:name "Warrior", :id 1}})
@@ -110,8 +110,23 @@
 (defn prof-secondary [json idx]
   (prof-get json idx :secondaries defs/bn-professions-secondary))
 
-(defn format-prof-tpl [xx tpl1 tpl2 y]
-  (string/replace (string/replace (string/replace tpl2 "XXLEVEL" (str (:skill_points xx))) "XXNAME" (:name xx)) "XXHIDDEN" y))
+(defn format-prof-tpl [pname xx tpl2 y]
+  (let [name (:name xx)
+        sp (:skill_points xx)
+        exp (utils/slugify-class (string/replace name (str " " pname) ""))
+        s-level (string/replace tpl2 "XXLEVEL" (str sp))
+        s-name (string/replace s-level "XXNAME" name)]
+    (if (empty? y)
+      (let [kw (utils/slugify-class pname)
+            val (get exp-max-values-sl (keyword kw))]
+        (if (< val sp)
+          (string/replace s-name "XXHIDDEN" (str y " is-max"))
+          (string/replace s-name "XXHIDDEN" (str y " not-max"))))
+      (let [kw (if (= exp (string/lower-case pname)) :classic (keyword exp))
+            val (get exp-max-values-all kw)]
+        (if (< val sp)
+          (string/replace s-name "XXHIDDEN" (str y " is-max"))
+          (string/replace s-name "XXHIDDEN" (str y " not-max")))))))
 
 (defn format-prof [profs tpl1 tpl2 css-class]
   ; @TODO if profs empty -> <td></td>
@@ -123,11 +138,11 @@
         prof-latest (first sorted)
         prof-rest (drop 1 sorted)]
   (str (string/replace s1 "XXIMG" img)
-    (apply str (map #(format-prof-tpl % tpl1 tpl2 "") [prof-latest]))
-    (apply str (map #(format-prof-tpl % tpl1 tpl2 (str "hidden-prof " css-class)) prof-rest)))))
+    (apply str (map #(format-prof-tpl pname % tpl2 "") [prof-latest]))
+    (apply str (map #(format-prof-tpl pname % tpl2 (str "hide " css-class)) prof-rest)))))
 
 (defn format-empty-prof [tpl css-class]
-  (let [rest (string/replace tpl "XXHIDDEN" (str "hidden-prof " css-class))]
+  (let [rest (string/replace tpl "XXHIDDEN" (str "hide " css-class))]
     (str (string/replace tpl "XXHIDDEN" "divider-l")
       (string/replace tpl "XXHIDDEN" "")
       (apply str (take (dec (count defs/bn-professions-order)) (repeat rest))))))
@@ -175,33 +190,33 @@
         ps-cooking (sort-secondaries "Cooking" ps1 ps2 ps3)
         ps-fishing (sort-secondaries "Fishing" ps1 ps2 ps3)
         ps-arch (sort-secondaries "Archaeology" ps1 ps2 ps3)
-        tpl-prof-icon (str "  <td class=\"cls-3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXIMG.png\" alt=\"XXNAME\" width=\"16\" height=\"16\"></td>\n")
-        tpl-prof-tier (str "  <td class=\"cls-3d-" cls-slug " tiny XXHIDDEN\" title=\"XXNAME\">XXLEVEL</td>\n")
-        tpl-prof-none (str "  <td class=\"cls-3d-" cls-slug " tiny XXHIDDEN\"></td>\n")
+        tpl-prof-icon (str "  <td class=\"c3d-" cls-slug " tiny divider-l\"><img src=\"/img/XXIMG.png\" alt=\"XXNAME\" width=\"16\" height=\"16\"></td>\n")
+        tpl-prof-tier (str "  <td class=\"c3d-" cls-slug " tiny XXHIDDEN\" title=\"XXNAME\">XXLEVEL</td>\n")
+        tpl-prof-none (str "  <td class=\"c3d-" cls-slug " tiny XXHIDDEN\"></td>\n")
   ]
   (utils/write-cache realm-slug (utils/slugify-guild-char char-name) {:character_class (dissoc (:character_class json) :key)})
   (str
    "<tr>\n"
-   "  <td class=\"cls-3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
-   "  <td class=\"cls-3d-" cls-slug " t-left\">" (format-level level) (format-covenant cov) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " smaller\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug "\">" ilvl-avg "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug "\">" ilvl-eq "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" (if (some? ps-arch) (:skill_points ps-arch) "") "</td>\n"
+   "  <td class=\"c3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
+   "  <td class=\"c3d-" cls-slug " t-left\">" (format-level level) (format-covenant cov) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " smaller\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
+   "  <td class=\"c3d-" cls-slug "\">" ilvl-avg "</td>\n"
+   "  <td class=\"c3d-" cls-slug "\">" ilvl-eq "</td>\n"
+   "  <td class=\"c3d-" cls-slug " t-center divider-r\">" (if (some? ps-arch) (:skill_points ps-arch) "") "</td>\n"
    (if (some? ps-cooking) (format-prof ps-cooking tpl-prof-icon tpl-prof-tier "prof-cooking") (format-empty-prof tpl-prof-none "prof-cooking"))
    (if (some? ps-fishing) (format-prof ps-fishing tpl-prof-icon tpl-prof-tier "prof-fishing") (format-empty-prof tpl-prof-none "prof-fishing"))
    (if (some? pp1) (format-prof pp1 tpl-prof-icon tpl-prof-tier "prof-1") (format-empty-prof tpl-prof-none "prof-1"))
    (if (some? pp2) (format-prof pp2 tpl-prof-icon tpl-prof-tier "prof-2") (format-empty-prof tpl-prof-none "prof-2"))
-   "  <td class=\"cls-3d-" cls-slug " tiny\">" (show-icons cls race gender) "</td>\n"
-   "  <td class=\"cls-3d-" faction-slug " tiny t-center\">" (show-faction faction) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " tiny\">" (show-icons cls race gender) "</td>\n"
+   "  <td class=\"c3d-" faction-slug " tiny t-center\">" (show-faction faction) "</td>\n"
    "</tr>\n")))
 
 (comment
-   "  <td class=\"cls-3d-" cls-slug " t-center divider-r\">" (string/join (map format-profession-rank sorted-ar)) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" (replace-last (string/join tdx (map format-profession-rank sorted-co)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" (replace-last (string/join tdx (map format-profession-rank sorted-fi)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" (show-profession-icon (get sorted-pp1 (first  prim-keys))) tdx (replace-last (string/join tdx (map format-profession-rank sorted-pp1)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
-   "  <td class=\"cls-3d-" cls-slug " tiny divider-l\">" (show-profession-icon (get sorted-pp2 (second prim-keys))) tdx (string/join tdx (map format-profession-rank sorted-pp2)) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " t-center divider-r\">" (string/join (map format-profession-rank sorted-ar)) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " tiny divider-l\">" (replace-last (string/join tdx (map format-profession-rank sorted-co)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " tiny divider-l\">" (replace-last (string/join tdx (map format-profession-rank sorted-fi)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " tiny divider-l\">" (show-profession-icon (get sorted-pp1 (first  prim-keys))) tdx (replace-last (string/join tdx (map format-profession-rank sorted-pp1)) (:orig tdx-fix-divider) (:new tdx-fix-divider)) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " tiny divider-l\">" (show-profession-icon (get sorted-pp2 (second prim-keys))) tdx (string/join tdx (map format-profession-rank sorted-pp2)) "</td>\n"
    )
 
 (defn fmt-rep
@@ -215,8 +230,8 @@
             standing-cap (utils/uc-first standing)
             char-name (:name cache)
             cls (or (:character_class cache) default-cache)]
-        (str "<tr class=\"rep-" standing "\" data-id=\"" faction-id "\" data-value=\"" faction-name "\" data-tag=\"" tag "\">"
-             "<td class=\"cls-3d-" (utils/slugify-class (:name cls)) "\">" char-name "</td>"
+        (str "<tr class=\"rep rep-" standing "\" data-id=\"" faction-id "\" data-value=\"" faction-name "\" data-tag=\"" tag "\">"
+             "<td class=\"c3d-" (utils/slugify-class (:name cls)) "\">" char-name "</td>"
              "<td>" faction-name "</td>"
              "<td>" tag "</td>"
              "<td>" standing-cap "</td>"
@@ -240,8 +255,8 @@
         check-reps    (map #(:id (:faction %)) reps)
         ; 72 is Stormwind
         faction-reps  (if (some #{72} check-reps) alliance-reps horde-reps)
-        div-rep "<tr class=\"rep-expansion\"><td colspan=\"5\"><hr></td></tr>\n"
-        div-chr "<tr><td colspan=\"5\"><hr></td></tr>\n"]
+        div-rep "<tr class=\"rep rep-expansion\"><td colspan=\"5\"><hr></td></tr>\n"
+        div-chr "<tr class=\"rep\"><td colspan=\"5\"><hr></td></tr>\n"]
     (apply str
       (apply str (map #(fmt-rep %1 sl-reps "sl" cache) reps))
       div-rep
@@ -334,7 +349,7 @@
     (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
 
 (defn reader [name]
-  (slurp (str config/data-dir "/assets/" name ".html")))
+  (slurp (str config/data-dir "/templates/" name ".html")))
 
 (defn writer [f fnx s]
   (if (empty? s)
@@ -342,8 +357,9 @@
       (println err)
       err)
     (let [ok (str "Ok: " (name f))
-          add (if (= :reps fnx) "-rep" "")]
-      (spit (str config/output-dir "/" (name f) add ".html") s)
+          add (if (= :reps fnx) "-rep" "")
+          out-dir (let [o config/output-dir] (do (.mkdirs (java.io.File. o)) o))]
+      (spit (str out-dir "/" (name f) add ".html") s)
       ok)))
 
 (defn full-wow [name fnx hname fname]

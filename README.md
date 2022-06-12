@@ -11,11 +11,11 @@ of version 0.5, which is still sitting in a branch named `v0.5`.
 Step 1: get a token (should be valid for 24h)
 
 ```
-# either install curl + sed + jq and do this, or somehow put a token into a file
+# either install `curl` + `sed` + `jq` and do this, or somehow put a token into a file
 
 cp Makefile.example Makefile
 vi Makefile
-# edit the "x:y" part
+# edit the "xxx:yyy" part
 
 make token
 ```

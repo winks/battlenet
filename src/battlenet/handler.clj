@@ -23,8 +23,8 @@
 
 (defroutes app-routes
   (GET "/" request (str "Lok'tar Ogar!"))
-  (POST "/chars" request (handle-run (:params request) :chars "head" "foot"))
-  (POST "/reps"  request (handle-run (:params request) :reps "head-rep" "foot-rep"))
+  (POST "/chars" request (handle-run (:params request) :chars "header" "footer"))
+  (POST "/reps"  request (handle-run (:params request) :reps "header-rep" "footer-rep"))
   (POST "/hooks/:id" [id] (let [rv (handle-hook id)] (str "{" id "}" (:exit rv) "-"(:out rv))))
   (route/not-found "Not Found"))
 

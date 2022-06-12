@@ -1,5 +1,5 @@
 TARGET?=/srv/www
-FILENAME?=test.html
+FILENAME?=my-list.html
 TFILE?=/tmp/BLIZZARD_APIKEY.txt
 
 run:
@@ -7,8 +7,8 @@ run:
 
 token:
 	# this should be valid for 24h
-	curl -u "x:y" -d grant_type=client_credentials https://eu.battle.net/oauth/token | jq .access_token | sed 's/"//g' > ${TFILE}
+	curl -u "xxx:yyy" -d grant_type=client_credentials https://eu.battle.net/oauth/token | jq .access_token | sed 's/"//g' > ${TFILE}
 
-test:
-	FILENAME=test.html make
+my-list:
+	FILENAME=my-list.html make
 

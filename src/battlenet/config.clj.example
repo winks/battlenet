@@ -1,18 +1,27 @@
-(ns battlenet.config)
+(ns battlenet.config
+  (:require [battlenet.auth :as auth]))
 
-(def output-dir "/tmp/battlenet")
+; grab your tokens at https://develop.battle.net
+(def oauth-config {
+  :url "https://eu.battle.net/oauth/token"
+  :client-id "xxx"
+  :client-secret "yyy"
+  :token-ext (System/getenv "BLIZZARD_APIKEY")})
+
+; here are the templates, hooks, and input files
+(def data-dir (str (System/getenv "PWD") "/data"))
+
+; this should be writable, obviously
+(def output-dir (str (System/getenv "PWD") "/resources/public"))
 
 (def current-region "eu")
 (def current-locale "en_GB")
-(def current-list   (if-let [xs (System/getenv "FILENAME")] (keyword (clojure.string/replace xs ".html" "")) :test))
-(def current-params (str "locale=" current-locale "&access_token=" (System/getenv "BLIZZARD_APIKEY")))
+(def current-list   (if-let [xs (System/getenv "FILENAME")] (keyword (clojure.string/replace xs ".html" "")) :my-list))
+(defn current-params [] (str "locale=" current-locale "&access_token=" (auth/get-token oauth-config)))
 
+; you only need this if you don't want to put .txt files into data-dir/input/
 (def current-chars {
-:test [
-"Sunstrider;Werdup"
-]
-
-:default [
-"Sunstrider;Werdup"
+:my-list [
+"Tarren Mill;Rogerbrown"
 ]
 })
