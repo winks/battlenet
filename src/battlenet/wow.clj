@@ -112,19 +112,19 @@
 
 (defn format-prof-tpl [pname xx tpl2 y]
   (let [name (:name xx)
-        sp (:skill_points xx)
+        sp (or (:skill_points xx) 0)
         exp (utils/slugify-class (string/replace name (str " " pname) ""))
-        s-level (string/replace tpl2 "XXLEVEL" (str sp))
+        s-level (string/replace tpl2 "XXLEVEL" (if (= 0 sp) "&nbsp;" (str sp)))
         s-name (string/replace s-level "XXNAME" name)]
     (if (empty? y)
       (let [kw (utils/slugify-class pname)
-            val (get exp-max-values-sl (keyword kw))]
-        (if (< val sp)
+            val (or (get exp-max-values-sl (keyword kw)) 0)]
+        (if (>= sp val)
           (string/replace s-name "XXHIDDEN" (str y " is-max"))
           (string/replace s-name "XXHIDDEN" (str y " not-max"))))
       (let [kw (if (= exp (string/lower-case pname)) :classic (keyword exp))
-            val (get exp-max-values-all kw)]
-        (if (< val sp)
+            val (or (get exp-max-values-all kw) 0)]
+        (if (>= sp val)
           (string/replace s-name "XXHIDDEN" (str y " is-max"))
           (string/replace s-name "XXHIDDEN" (str y " not-max")))))))
 
