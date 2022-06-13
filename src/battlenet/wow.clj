@@ -338,15 +338,15 @@
         read-fn2  utils/read-char-professions
         format-fn format-char
         list (read-list name)]
-    (println list)
-    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
+    (pp list)
+    (apply str (pmap #(wrapper % read-fn1 read-fn2 format-fn) list))))
 
 (defn run-wow-reps [name]
   (let [read-fn1  utils/read-char-reputations
         read-fn2  dummy
         format-fn format-reps
         list (read-list name)]
-    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
+    (apply str (pmap #(wrapper % read-fn1 read-fn2 format-fn) list))))
 
 (defn reader [name]
   (slurp (str config/data-dir "/templates/" name ".html")))
@@ -354,7 +354,7 @@
 (defn writer [f fnx s]
   (if (empty? s)
     (let [err "List empty, nothing written."]
-      (println err)
+      (pp err)
       err)
     (let [ok (str "Ok: " (name f))
           add (if (= :reps fnx) "-rep" "")
