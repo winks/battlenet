@@ -280,12 +280,12 @@
              r-s (utils/slugify-realm realm)
              c-s (utils/slugify-guild-char charname)]
         (pp (str "Next: " cname))
-        (let [json2 (try (read-fn2 config/current-region r-s c-s (config/current-params)) (catch Exception ex {}))]
+        (let [json2 (try (read-fn2 config/current-region r-s c-s (config/current-params)) (catch Exception ex (do (.println *err* (str "Wx2" ex)) {})))]
         (try
           (let [json1 (read-fn1 config/current-region r-s c-s (config/current-params))]
             ;(.println *err* json1)
             (format-fn json1 json2))
-          (catch Exception ex (do (.println *err* ex) (comment (st/print-stack-trace ex))) "x")))))))
+          (catch Exception ex (do (.println *err* (str "Wx1" ex)) (comment (st/print-stack-trace ex))) "x")))))))
 
 (defn format-d3-char
   [c tag guild]
@@ -339,14 +339,14 @@
         format-fn format-char
         list (read-list name)]
     (pp list)
-    (apply str (pmap #(wrapper % read-fn1 read-fn2 format-fn) list))))
+    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
 
 (defn run-wow-reps [name]
   (let [read-fn1  utils/read-char-reputations
         read-fn2  dummy
         format-fn format-reps
         list (read-list name)]
-    (apply str (pmap #(wrapper % read-fn1 read-fn2 format-fn) list))))
+    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
 
 (defn reader [name]
   (slurp (str config/data-dir "/templates/" name ".html")))
