@@ -6,6 +6,8 @@
   (:import (java.net URLEncoder UnknownHostException)
            (java.io FileNotFoundException IOException)))
 
+(def conn-mgr (clj-http.conn-mgr/make-reusable-conn-manager {:timeout 3 :threads 5}))
+
 (defn url-enc [s]
   (URLEncoder/encode s))
 
@@ -53,7 +55,7 @@
 (defn html-get
   "slurp replacement"
   [url]
-  (get (client/get url) :body))
+  (get (client/get url {:connection-manager conn-mgr}) :body))
 
 (defn read-url
   "Reads from an URL."
