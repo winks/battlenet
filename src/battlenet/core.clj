@@ -11,4 +11,4 @@
       (.equals "reps"      (first m)) (print (wow/run-wow-reps name))
       (.equals "chars"     (first m)) (print (wow/run-wow-chars name))
       (.equals "d3"        (first m)) (print (wow/run-all-d3))
-      :else                           (println "Usage: lein run ...  chars | reps | full | full-reps | d3"))))
+      :else                           (println "Usage: lein cli ...  chars | reps | full | full-reps | d3"))))

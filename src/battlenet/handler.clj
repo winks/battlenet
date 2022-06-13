@@ -3,6 +3,7 @@
             [compojure.route :as route]
             [battlenet.config :as config]
             [battlenet.wow :as wow]
+            [ring.middleware.file :refer [wrap-file]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
 
 (defn allowed-name [s]
@@ -29,4 +30,5 @@
   (route/not-found "Not Found"))
 
 (def app
-  (wrap-defaults app-routes (assoc api-defaults :static {:resources "public"})))
+  ;(wrap-defaults app-routes (assoc api-defaults :static {:resources "public"})))
+  (wrap-defaults (wrap-file app-routes config/docroot-dir) api-defaults))

@@ -10,7 +10,8 @@
                  [ring/ring-defaults "0.3.2"]]
   :plugins [[lein-ring "0.12.5"]]
   :repl-options {:init-ns battlenet.core}
-  :main battlenet.core
+  ;:main battlenet.core
+  :aliases {"cli" ["run" "-m" "battlenet.core"]}
   :aot [battlenet.core]
   :ring {:handler battlenet.handler/app}
   :profiles

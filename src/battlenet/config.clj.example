@@ -12,6 +12,7 @@
 (def data-dir (str (System/getenv "PWD") "/data"))
 
 ; this should be writable, obviously
+(def docroot-dir (str (System/getenv "PWD") "/resources/public"))
 (def output-dir (str (System/getenv "PWD") "/resources/public"))
 
 (def current-region "eu")
