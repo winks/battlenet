@@ -23,7 +23,8 @@
    9 "Warlock",
    10 "Monk",
    11 "Druid"
-   12 "Demon Hunter"})
+   12 "Demon Hunter"
+   13 "Evoker"})
 
 ;
 ; WoW races
@@ -55,6 +56,8 @@
    35 "Vulpera",
    36 "Mag'har Orc",
    37 "Mechagnome",
+   52 "Dracthyr"
+   70 "Dracthyr"
    })
 
 ;
@@ -95,6 +98,8 @@
    35 "Horde",
    36 "Horde",
    37 "Alliance",
+   52 "Alliance"
+   70 "Hordex"
    })
 
 ;
@@ -152,10 +157,11 @@
    10 "Alternate"
    11 "Maelstrom"
    12 "Chi"
-   13 "Insanity"
    16 "Arcane Charges"
    17 "Fury"
-   18 "Pain"})
+   18 "Pain"
+   13 "Insanity"
+   19 "Unk"})
 
 (def bn-expansions
   {0 (:wow "World of Warcraft"),
@@ -167,6 +173,7 @@
    6 (:legion "Legion"),
    7 (:bfa "Battle for Azeroth"),
    8 (:sl "Shadowlands"),
+   9 (:df "Dragonflight"),
    })
 
 (def bn-expansions-x
@@ -214,6 +221,7 @@
   {:archaeology {
      :archaeology         {:id 794 :name "Archaeology"}}
    :cooking {
+     :dragonislescooking  {:id 2824 :name "Dragon Isles Cooking"}
      :shadowlandscooking  {:id 2752 :name "Shadowlands Cooking"}
      :kultirancooking     {:id 2541 :name "Kul Tiran Cooking"}
      :legioncooking       {:id 2542 :name "Legion Cooking"}
@@ -224,6 +232,7 @@
      :outlandcooking      {:id 2547 :name "Outland Cooking"}
      :cooking             {:id 2548  :name "Cooking"}}
    :fishing {
+     :dragonislesfishing  {:id 2826 :name "Dragon Isles Fishing"}
      :shadowlandsfishing  {:id 2754 :name "Shadowlands Fishing"}
      :kultiranfishing     {:id 2585 :name "Kul Tiran Fishing"}
      :legionfishing       {:id 2586 :name "Legion Fishing"}
@@ -236,6 +245,7 @@
 
 (def bn-professions-primary
   {:alchemy {
+     :dragonislesalchemy  {:id 2823 :name "Dragon Isles Alchemy"}
      :shadowlandsalchemy  {:id 2750 :name "Shadowlands Alchemy"}
      :kultiranalchemy     {:id 2478 :name "Kul Tiran Alchemy"}
      :legionalchemy       {:id 2479 :name "Legion Alchemy"}
@@ -246,6 +256,7 @@
      :outlandalchemy      {:id 2484 :name "Outland Alchemy"}
      :alchemy             {:id 2485 :name "Alchemy"}}
    :blacksmithing {
+     :dragonislesblacksmithing  {:id 2822 :name "Dragon Isles Blacksmithing"}
      :shadowlandsblacksmithing  {:id 2751 :name "Shadowlands Blacksmithing"}
      :kultiranblacksmithing     {:id 2437 :name "Kul Tiran Blacksmithing"}
      :legionblacksmithing       {:id 2454 :name "Legion Blacksmithing"}
@@ -256,6 +267,7 @@
      :outlandblacksmithing      {:id 2476 :name "Outland Blacksmithing"}
      :blacksmithing             {:id 2477 :name "Blacksmithing"}}
    :enchanting {
+     :dragonislesenchanting  {:id 2825 :name "Dragon Isles Enchanting"}
      :shadowlandsenchanting  {:id 2753 :name "Shadowlands Enchanting"}
      :kultiranenchanting     {:id 2486 :name "Kul Tiran Enchanting"}
      :legionenchanting       {:id 2487 :name "Legion Enchanting"}
@@ -266,6 +278,7 @@
      :outlandenchanting      {:id 2493 :name "Outland Enchanting"}
      :enchanting             {:id 2494 :name "Enchanting"}}
    :engineering {
+     :dragonislesengineering  {:id 2827 :name "Dragon Isles Engineering"}
      :shadowlandsengineering  {:id 2755 :name "Shadowlands Engineering"}
      :kultiranengineering     {:id 2499 :name "Kul Tiran Engineering"}
      :legionengineering       {:id 2500 :name "Legion Engineering"}
@@ -276,6 +289,7 @@
      :outlandengineering      {:id 2505 :name "Outland Engineering"}
      :engineering             {:id 2506 :name "Engineering"}}
    :herbalism {
+     :dragonislesherbalism  {:id 2832 :name "Dragon Isles Herbalism"}
      :shadowlandsherbalism  {:id 2760 :name "Shadowlands Herbalism"}
      :kultiranherbalism     {:id 2549 :name "Kul Tiran Herbalism"}
      :legionherbalism       {:id 2550 :name "Legion Herbalism"}
@@ -286,6 +300,7 @@
      :outlandherbalism      {:id 2555 :name "Outland Herbalism"}
      :herbalism             {:id 2556 :name "Herbalism"}}
    :inscription {
+     :dragonislesinscription  {:id 2828 :name "Dragon Isles Inscription"}
      :shadowlandsinscription  {:id 2756 :name "Shadowlands Inscription"}
      :kultiraninscription     {:id 2507 :name "Kul Tiran Inscription"}
      :legioninscription       {:id 2508 :name "Legion Inscription"}
@@ -296,6 +311,7 @@
      :outlandinscription      {:id 2513 :name "Outland Inscription"}
      :inscription             {:id 2514 :name "Inscription"}}
    :jewelcrafting {
+     :dragonislesjewelcrafting  {:id 2829 :name "Dragon Isles Jewelcrafting"}
      :shadowlandsjewelcrafting  {:id 2757 :name "Shadowlands Jewelcrafting"}
      :kultiranjewelcrafting     {:id 2517 :name "Kul Tiran Jewelcrafting"}
      :legionjewelcrafting       {:id 2518 :name "Legion Jewelcrafting"}
@@ -306,6 +322,7 @@
      :outlandjewelcrafting      {:id 2523 :name "Outland Jewelcrafting"}
      :jewelcrafting             {:id 2524 :name "Jewelcrafting"}}
    :leatherworking {
+     :dragonislesleatherworking  {:id 2830 :name "Dragon Isles Leatherworking"}
      :shadowlandsleatherworking  {:id 2758 :name "Shadowlands Leatherworking"}
      :kultiranleatherworking     {:id 2525 :name "Kul Tiran Leatherworking"}
      :legionleatherworking       {:id 2526 :name "Legion Leatherworking"}
@@ -316,6 +333,7 @@
      :outlandleatherworking      {:id 2531 :name "Outland Leatherworking"}
      :leatherworking             {:id 2532  :name "Leatherworking"}}
    :mining {
+     :dragonislesmining  {:id 2833 :name "Dragon Isles Mining"}
      :shadowlandsmining  {:id 2761 :name "Shadowlands Mining"}
      :kultiranmining     {:id 2565 :name "Kul Tiran Mining"}
      :legionmining       {:id 2566 :name "Legion Mining"}
@@ -326,6 +344,7 @@
      :outlandmining      {:id 2571 :name "Outland Mining"}
      :mining             {:id 2572 :name "Mining"}}
    :skinning {
+     :dragonislesskinning  {:id 2834 :name "Dragon Isles Skinning"}
      :shadowlandsskinning  {:id 2762 :name "Shadowlands Skinning"}
      :kultiranskinning     {:id 2557 :name "Kul Tiran Skinning"}
      :legionskinning       {:id 2558 :name "Legion Skinning"}
@@ -336,6 +355,7 @@
      :outlandskinning      {:id 2563 :name "Outland Skinning"}
      :skinning             {:id 2564  :name "Skinning"}}
    :tailoring {
+     :dragonislestailoring  {:id 2831 :name "Dragon Isles Tailoring"}
      :shadowlandstailoring  {:id 2759 :name "Shadowlands Tailoring"}
      :kultirantailoring     {:id 2533 :name "Kul Tiran Tailoring"}
      :legiontailoring       {:id 2534 :name "Legion Tailoring"}
@@ -347,6 +367,21 @@
      :tailoring             {:id 2540 :name "Tailoring"}}})
 
 (def bn-reputations {
+  :df [
+    2503 "Maruuk Centaur"
+    2506 "Dragonflight"
+    2507 "Dragonscale Expedition"
+    2510 "Valdrakken Accord"
+    2511 "Iskaara Tuskarr"
+    2517 "Wrathion"
+    2518 "Sabellian"
+    2523 "Dark Talons"
+    2524 "Obsidian Warders"
+    2526 "Winterpelt Furbolg"
+    2544 "Artisan's Consortium - Dragon Isles Branch"
+    2550 "Cobalt Assembly"
+    2552 "Valdrakken Accord Paragon"
+  ]
   :sl [
     2413 "Court of Harvesters"
     2464 "Court of Night"
@@ -355,7 +390,9 @@
     2439 "The Avowed"
     2410 "The Undying Army"
     2465 "The Wild Hunt"
-
+    2478 "The Enlightened"
+    2572 "The Archivists' Codex"
+    2470 "Death's Advance"
     2461 "Plague Deviser Marileth"
     2460 "Stonehead"
     2458 "Kleia and Pelagos"
@@ -441,6 +478,7 @@
       54 "Gnomeregan"
       69 "Darnassus"
       72 "Stormwind"
+     509 "The Leage of Arathor"
      930 "Exodar"
     1134 "Gilneas"
     1353 "Tushui Pandaren"]

@@ -6,8 +6,8 @@
   (:require [battlenet.defs :as defs])
   (:require [battlenet.utils :as utils]))
 
-(def current-max-level 60)
-(def last-max-level 50)
+(def current-max-level 70)
+(def last-max-level 60)
 (def exp-max-values-all {:kultiran 175 :legion 100
                          :draenor 100  :pandaria 75 :cataclysm 75
                          :northrend 75 :outland 75  :classic 300})

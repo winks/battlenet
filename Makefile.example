@@ -11,4 +11,3 @@ token:
 
 my-list:
 	FILENAME=my-list.html make
-
