@@ -161,7 +161,7 @@
 (defn format-covenant [cov]
   (if (or (nil? cov) (nil? (:id cov)))
     ""
-    (str "&nbsp;<img src=\"/img/covenant_" (:id cov) ".png\" alt=\"" (:name cov) "\" title=\"" (:name cov) "\" width=\"16\" height=\"16\" class=\"cov-icon\">" (:level cov))))
+    (str "&nbsp;<img src=\"/img/covenant_" (:id cov) ".png\" alt=\"" (:name cov) "\" title=\"" (:name cov) "\" width=\"16\" height=\"16\" class=\"cov-icon\">")))
 
 (defn format-char
   [json prof-json]
@@ -198,7 +198,7 @@
   (str
    "<tr>\n"
    "  <td class=\"c3d-" cls-slug "\"><a href=\"" (char-url realm-slug char-name) "\" data-char-id=\"" (:id json) "\">" char-name "</a></td>\n"
-   "  <td class=\"c3d-" cls-slug " t-left\">" (format-level level) (format-covenant cov) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " t-left\">" (format-level level) "</td>\n"
    "  <td class=\"c3d-" cls-slug " smaller\">" (guild-link guild-u guild-name guild-id realm-id) "</td>\n"
    "  <td class=\"c3d-" cls-slug "\">" ilvl-avg "</td>\n"
    "  <td class=\"c3d-" cls-slug "\">" ilvl-eq "</td>\n"
@@ -207,6 +207,8 @@
    (if (some? ps-fishing) (format-prof ps-fishing tpl-prof-icon tpl-prof-tier "prof-fishing") (format-empty-prof tpl-prof-none "prof-fishing"))
    (if (some? pp1) (format-prof pp1 tpl-prof-icon tpl-prof-tier "prof-1") (format-empty-prof tpl-prof-none "prof-1"))
    (if (some? pp2) (format-prof pp2 tpl-prof-icon tpl-prof-tier "prof-2") (format-empty-prof tpl-prof-none "prof-2"))
+   "  <td class=\"c3d-" cls-slug " tiny\">" (format-covenant cov) "</td>\n"
+   "  <td class=\"c3d-" cls-slug " tiny\">" (:level cov) "</td>\n"
    "  <td class=\"c3d-" cls-slug " tiny\">" (show-icons cls race gender) "</td>\n"
    "  <td class=\"c3d-" faction-slug " tiny t-center\">" (show-faction faction) "</td>\n"
    "</tr>\n")))

@@ -176,18 +176,6 @@
    9 (:df "Dragonflight"),
    })
 
-(def bn-expansions-x
-  {68 (:wow "World of Warcraft"),
-   70 (:bc "The Burning Crusade"),
-   72 (:lk "Wrath of the Lich King"),
-   73 (:cata "Cataclysm"),
-   74 (:mop "Mists of Pandaria"),
-   124 (:wod "Warlords of Draenor"),
-   395 (:legion "Legion"),
-   396 (:bfa "Battle for Azeroth"),
-   99999 (:sl "Shadowlands")
-   })
-
 (def bn-raids-old
   {:wow '(2717 2677 3429 3428),
    :bc '(3457 3836 3923 3607 3845 3606 3959 4075),
@@ -196,7 +184,7 @@
    :mop '(6125 6297 6067)})
 
 (def bn-professions-order
-  [:shadowlands :kultiran :legion :draenor :pandaria :cataclysm :northrend :outland nil])
+  [:dragonisles :shadowlands :kultiran :legion :draenor :pandaria :cataclysm :northrend :outland nil])
 
 (def bn-professions-index
   {164 "Blacksmithing"
