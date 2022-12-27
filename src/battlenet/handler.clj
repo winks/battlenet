@@ -1,5 +1,6 @@
 (ns battlenet.handler
-  (:require [compojure.core :refer :all]
+  (:require [clojure.data.json :as json]
+            [compojure.core :refer :all]
             [compojure.route :as route]
             [battlenet.config :as config]
             [battlenet.wow :as wow]
@@ -12,22 +13,25 @@
 (defn handle-run [params fnx h f]
   (if-let [name (allowed-name (:name params))]
     (let [r (wow/full-wow name fnx h f)]
-      (str "[" params "]" r))
-    "invalid input"))
+      (assoc params :msg r :code 0)
+      {:msg "invalid input" :code 13})))
 
 (defn handle-hook [id]
   (let [dir (str config/data-dir "/hooks")
         hook (str dir "/" id)]
     (if-let [exists (.exists (clojure.java.io/file hook))]
-      (clojure.java.shell/sh hook)
-      {:exit 1, :out "not found", :err ""})))
+      (let [stdout (:out (clojure.java.shell/sh hook))]
+		{:exit 0, :out (last (clojure.string/split stdout #"\n")), :err ""})
+      {:exit 1, :out "Not Found", :err ""})))
 
 (defroutes app-routes
   (GET "/" request (str "Lok'tar Ogar!"))
-  (POST "/chars" request (handle-run (:params request) :chars "header" "footer"))
-  (POST "/reps"  request (handle-run (:params request) :reps "header-rep" "footer-rep"))
-  (POST "/hooks/:id" [id] (let [rv (handle-hook id)] (str "{" id "}" (:exit rv) "-"(:out rv))))
-  (route/not-found "Not Found"))
+  (POST "/chars" request (json/write-str (handle-run (:params request) :chars "header" "footer")))
+  (POST "/reps"  request (json/write-str (handle-run (:params request) :reps "header-rep" "footer-rep")))
+  (POST "/hooks/:id" [id]
+    (let [rv (handle-hook id)]
+      (json/write-str {:id id, :code (:exit rv), :msg (:out rv)})))
+  (route/not-found (json/write-str {:msg "Not Found"})))
 
 (def app
   ;(wrap-defaults app-routes (assoc api-defaults :static {:resources "public"})))

@@ -16,6 +16,7 @@
                         :enchanting 115 :inscription 100 :leatherworking 100
                         :blacksmithing 100 :engineering 100 :jewelcrafting 100
                         :tailoring 100})
+(def exp-max-values-df 100)
 (def default-cache {:character_class {:name "Warrior", :id 1}})
 
 (defn ppe [s]
