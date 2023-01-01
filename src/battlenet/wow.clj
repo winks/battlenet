@@ -362,8 +362,7 @@
     (let [ok (str "Ok: " (name f))
           add (if (= :reps fnx) "-rep" "")
           out-dir (let [o config/output-dir] (do (.mkdirs (java.io.File. o)) o))]
-      (spit (str out-dir "/" (name f) add ".html") s)
-      ok)))
+      (do (spit (str out-dir "/" (name f) add ".html") s) ok))))
 
 (defn full-wow [name fnx hname fname]
   (let [data   (if (= :reps fnx) (run-wow-reps name) (run-wow-chars name))

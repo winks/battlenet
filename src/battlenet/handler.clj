@@ -13,15 +13,15 @@
 (defn handle-run [params fnx h f]
   (if-let [name (allowed-name (:name params))]
     (let [r (wow/full-wow name fnx h f)]
-      (assoc params :msg r :code 0)
-      {:msg "invalid input" :code 13})))
+      (assoc params :msg r :code 0))
+      {:msg "invalid input" :code 13}))
 
 (defn handle-hook [id]
   (let [dir (str config/data-dir "/hooks")
         hook (str dir "/" id)]
     (if-let [exists (.exists (clojure.java.io/file hook))]
       (let [stdout (:out (clojure.java.shell/sh hook))]
-		{:exit 0, :out (last (clojure.string/split stdout #"\n")), :err ""})
+		{:exit 0, :out (clojure.string/split stdout #"\n"), :err ""})
       {:exit 1, :out "Not Found", :err ""})))
 
 (defroutes app-routes
