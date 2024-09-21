@@ -174,6 +174,7 @@
    7 (:bfa "Battle for Azeroth"),
    8 (:sl "Shadowlands"),
    9 (:df "Dragonflight"),
+   10 (:tww "The War Within"),
    })
 
 (def bn-raids-old
@@ -184,7 +185,7 @@
    :mop '(6125 6297 6067)})
 
 (def bn-professions-order
-  [:dragonisles :shadowlands :kultiran :legion :draenor :pandaria :cataclysm :northrend :outland nil])
+  [:khazalgar :dragonisles :shadowlands :kultiran :legion :draenor :pandaria :cataclysm :northrend :outland nil])
 
 (def bn-professions-index
   {164 "Blacksmithing"
@@ -209,6 +210,7 @@
   {:archaeology {
      :archaeology         {:id 794 :name "Archaeology"}}
    :cooking {
+     :khazalgarcooking    {:id 2873 :name "Khaz Algar Cooking"}
      :dragonislescooking  {:id 2824 :name "Dragon Isles Cooking"}
      :shadowlandscooking  {:id 2752 :name "Shadowlands Cooking"}
      :kultirancooking     {:id 2541 :name "Kul Tiran Cooking"}
@@ -220,6 +222,7 @@
      :outlandcooking      {:id 2547 :name "Outland Cooking"}
      :cooking             {:id 2548  :name "Cooking"}}
    :fishing {
+     :khazalgarfishing    {:id 2876 :name "Khaz Algar Fishing"}
      :dragonislesfishing  {:id 2826 :name "Dragon Isles Fishing"}
      :shadowlandsfishing  {:id 2754 :name "Shadowlands Fishing"}
      :kultiranfishing     {:id 2585 :name "Kul Tiran Fishing"}
@@ -233,6 +236,7 @@
 
 (def bn-professions-primary
   {:alchemy {
+     :khazalgaralchemy    {:id 2871 :name "Khaz Algar Alchemy"}
      :dragonislesalchemy  {:id 2823 :name "Dragon Isles Alchemy"}
      :shadowlandsalchemy  {:id 2750 :name "Shadowlands Alchemy"}
      :kultiranalchemy     {:id 2478 :name "Kul Tiran Alchemy"}
@@ -244,6 +248,7 @@
      :outlandalchemy      {:id 2484 :name "Outland Alchemy"}
      :alchemy             {:id 2485 :name "Alchemy"}}
    :blacksmithing {
+     :khazalgarblacksmithing    {:id 2872 :name "Khaz Algar Blacksmithing"}
      :dragonislesblacksmithing  {:id 2822 :name "Dragon Isles Blacksmithing"}
      :shadowlandsblacksmithing  {:id 2751 :name "Shadowlands Blacksmithing"}
      :kultiranblacksmithing     {:id 2437 :name "Kul Tiran Blacksmithing"}
@@ -255,6 +260,7 @@
      :outlandblacksmithing      {:id 2476 :name "Outland Blacksmithing"}
      :blacksmithing             {:id 2477 :name "Blacksmithing"}}
    :enchanting {
+     :khazalgarenchanting    {:id 2874 :name "Khaz Algar Enchanting"}
      :dragonislesenchanting  {:id 2825 :name "Dragon Isles Enchanting"}
      :shadowlandsenchanting  {:id 2753 :name "Shadowlands Enchanting"}
      :kultiranenchanting     {:id 2486 :name "Kul Tiran Enchanting"}
@@ -266,6 +272,7 @@
      :outlandenchanting      {:id 2493 :name "Outland Enchanting"}
      :enchanting             {:id 2494 :name "Enchanting"}}
    :engineering {
+     :khazalgarengineering    {:id 2875 :name "Khaz Algar Engineering"}
      :dragonislesengineering  {:id 2827 :name "Dragon Isles Engineering"}
      :shadowlandsengineering  {:id 2755 :name "Shadowlands Engineering"}
      :kultiranengineering     {:id 2499 :name "Kul Tiran Engineering"}
@@ -277,6 +284,7 @@
      :outlandengineering      {:id 2505 :name "Outland Engineering"}
      :engineering             {:id 2506 :name "Engineering"}}
    :herbalism {
+     :khazalgarherbalism    {:id 2877 :name "Khaz Algar Herbalism"}
      :dragonislesherbalism  {:id 2832 :name "Dragon Isles Herbalism"}
      :shadowlandsherbalism  {:id 2760 :name "Shadowlands Herbalism"}
      :kultiranherbalism     {:id 2549 :name "Kul Tiran Herbalism"}
@@ -288,6 +296,7 @@
      :outlandherbalism      {:id 2555 :name "Outland Herbalism"}
      :herbalism             {:id 2556 :name "Herbalism"}}
    :inscription {
+     :khazalgarinscription    {:id 2878 :name "Khaz Algar Inscription"}
      :dragonislesinscription  {:id 2828 :name "Dragon Isles Inscription"}
      :shadowlandsinscription  {:id 2756 :name "Shadowlands Inscription"}
      :kultiraninscription     {:id 2507 :name "Kul Tiran Inscription"}
@@ -299,6 +308,7 @@
      :outlandinscription      {:id 2513 :name "Outland Inscription"}
      :inscription             {:id 2514 :name "Inscription"}}
    :jewelcrafting {
+     :khazalgarjewelcrafting    {:id 2879 :name "Khaz Algar Jewelcrafting"}
      :dragonislesjewelcrafting  {:id 2829 :name "Dragon Isles Jewelcrafting"}
      :shadowlandsjewelcrafting  {:id 2757 :name "Shadowlands Jewelcrafting"}
      :kultiranjewelcrafting     {:id 2517 :name "Kul Tiran Jewelcrafting"}
@@ -310,6 +320,7 @@
      :outlandjewelcrafting      {:id 2523 :name "Outland Jewelcrafting"}
      :jewelcrafting             {:id 2524 :name "Jewelcrafting"}}
    :leatherworking {
+     :khazalgarleatherworking    {:id 2880 :name "Khaz Algar Leatherworking"}
      :dragonislesleatherworking  {:id 2830 :name "Dragon Isles Leatherworking"}
      :shadowlandsleatherworking  {:id 2758 :name "Shadowlands Leatherworking"}
      :kultiranleatherworking     {:id 2525 :name "Kul Tiran Leatherworking"}
@@ -321,6 +332,7 @@
      :outlandleatherworking      {:id 2531 :name "Outland Leatherworking"}
      :leatherworking             {:id 2532  :name "Leatherworking"}}
    :mining {
+     :khazalgarmining    {:id 2881 :name "Khaz Algar Mining"}
      :dragonislesmining  {:id 2833 :name "Dragon Isles Mining"}
      :shadowlandsmining  {:id 2761 :name "Shadowlands Mining"}
      :kultiranmining     {:id 2565 :name "Kul Tiran Mining"}
@@ -332,6 +344,7 @@
      :outlandmining      {:id 2571 :name "Outland Mining"}
      :mining             {:id 2572 :name "Mining"}}
    :skinning {
+     :khazalgarskinning    {:id 2882 :name "Khaz Algar Skinning"}
      :dragonislesskinning  {:id 2834 :name "Dragon Isles Skinning"}
      :shadowlandsskinning  {:id 2762 :name "Shadowlands Skinning"}
      :kultiranskinning     {:id 2557 :name "Kul Tiran Skinning"}
@@ -343,6 +356,7 @@
      :outlandskinning      {:id 2563 :name "Outland Skinning"}
      :skinning             {:id 2564  :name "Skinning"}}
    :tailoring {
+     :khazalgartailoring    {:id 2883 :name "Khaz Algar Tailoring"}
      :dragonislestailoring  {:id 2831 :name "Dragon Isles Tailoring"}
      :shadowlandstailoring  {:id 2759 :name "Shadowlands Tailoring"}
      :kultirantailoring     {:id 2533 :name "Kul Tiran Tailoring"}
@@ -355,6 +369,8 @@
      :tailoring             {:id 2540 :name "Tailoring"}}})
 
 (def bn-reputations {
+  :tww [
+  ]
   :df [
     2503 "Maruuk Centaur"
     2506 "Dragonflight"
