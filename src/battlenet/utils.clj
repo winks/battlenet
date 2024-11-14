@@ -1,5 +1,6 @@
 (ns battlenet.utils
   (:require [clojure.string :as string])
+  (:require [battlenet.auth :as auth])
   (:require [battlenet.config :as config])
   (:require [clj-http.client :as client])
   (:use [clojure.data.json :only (read-str write-str)])
@@ -55,7 +56,9 @@
 (defn html-get
   "slurp replacement"
   [url]
-  (get (client/get url {:connection-manager conn-mgr}) :body))
+  (get (client/get url
+                   {:connection-manager conn-mgr
+                    :headers {"Authorization" (str "Bearer " (auth/get-token config/oauth-config))}}) :body))
 
 (defn read-url
   "Reads from an URL."
