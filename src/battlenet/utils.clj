@@ -7,6 +7,9 @@
   (:import (java.net URLEncoder UnknownHostException)
            (java.io FileNotFoundException IOException)))
 
+(defn- ppe [s]
+  (.println *err* s))
+
 (def conn-mgr (clj-http.conn-mgr/make-reusable-conn-manager {:timeout 3 :threads 5}))
 
 (defn url-enc [s]
@@ -66,24 +69,18 @@
   (try
     (html-get url)
     (catch UnknownHostException ex
-      (.println *err* ex)
+      (ppe ex)
       nil)
     (catch FileNotFoundException ex
-      (.println *err* ex)
+      (ppe ex)
       nil)
     (catch IOException ex
-      (.println *err* ex)
+      (ppe ex)
       (try
         (html-get url)
         (catch IOException ex
-          (.println *err* ex)
+          (ppe ex)
           nil)))))
-
-(defn read-json
-  [url]
-  (do
-    (.println *err* url)
-    (read-str (read-url url) :key-fn keyword)))
 
 (defn create-url-char-profile
   [region realm name params]
@@ -97,7 +94,7 @@
 (defn read-char-profile
   [region realm name params]
   (let [url (create-url-char-profile region realm name params)]
-    (.println *err* url)
+    (ppe url)
     (read-str (read-url url) :key-fn keyword)))
 
 (defn create-url-char-professions
@@ -112,7 +109,7 @@
 (defn read-char-professions
   [region realm name params]
   (let [url (create-url-char-professions region realm name params)]
-    (.println *err* url)
+    (ppe url)
     (read-str (read-url url) :key-fn keyword)))
 
 (defn create-url-char-reputations
@@ -127,7 +124,7 @@
 (defn read-char-reputations
   [region realm name params]
   (let [url (create-url-char-reputations region realm name params)]
-    (.println *err* url)
+    (ppe url)
     (read-str (read-url url) :key-fn keyword)))
 
 (defn slugify-d3-profile [s]
@@ -145,5 +142,5 @@
 (defn read-d3-profile
   [region account params]
   (let [url (create-url-d3-profile region account params)]
-    (.println *err* url)
+    (ppe url)
     (read-str (read-url url) :key-fn keyword)))

@@ -10,4 +10,4 @@ token:
 	curl -u "xxx:yyy" -d grant_type=client_credentials https://eu.battle.net/oauth/token | jq .access_token | sed 's/"//g' > ${TFILE}
 
 my-list:
-	FILENAME=my-list.html make
+	FILENAME=my-list make

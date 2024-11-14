@@ -4,8 +4,8 @@
 ; grab your tokens at https://develop.battle.net
 (def oauth-config {
   :url "https://eu.battle.net/oauth/token"
-  :client-id "xxx"
-  :client-secret "yyy"
+  :client-id (System/getenv "OAUTH_CLIENT_ID")
+  :client-secret (System/getenv "OAUTH_CLIENT_SECRET")
   :token-ext (System/getenv "BLIZZARD_APIKEY")})
 
 ; here are the templates, hooks, and input files
@@ -18,7 +18,7 @@
 (def current-region "eu")
 (def current-locale "en_GB")
 (def current-list   (if-let [xs (System/getenv "FILENAME")] (keyword (clojure.string/replace xs ".html" "")) :my-list))
-(defn current-params [] (str "locale=" current-locale "&access_token=" (auth/get-token oauth-config)))
+(defn current-params [] (str "locale=" current-locale))
 
 ; you only need this if you don't want to put .txt files into data-dir/input/
 (def current-chars {

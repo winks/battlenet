@@ -7,6 +7,8 @@ target/
 .lein-deps-sum
 .lein-repl-history
 .lein-failures
+.nrepl-port
+.tool-versions
 
 config.clj
 Makefile

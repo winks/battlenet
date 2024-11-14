@@ -20,11 +20,11 @@
 (def exp-max-values-tww 100)
 (def default-cache {:character_class {:name "Warrior", :id 1}})
 
-(defn ppe [s]
-  (.println *err* (str "#ERR# " s)))
-
-(defn pp [s]
+(defn- ppe [s]
   (.println *err* s))
+
+(defn- ppex [s]
+  (ppe (str "#ERR# " s)))
 
 ;### name level guild realm ilvl1 ivl2
 ;# :name
@@ -283,13 +283,13 @@
       (let [[realm charname] (string/split cname #";")
              r-s (utils/slugify-realm realm)
              c-s (utils/slugify-guild-char charname)]
-        (pp (str "Next: " cname))
-        (let [json2 (try (read-fn2 config/current-region r-s c-s (config/current-params)) (catch Exception ex (do (.println *err* (str "Wx2" ex)) {})))]
+        (ppe (str "Next: " cname))
+        (let [json2 (try (read-fn2 config/current-region r-s c-s (config/current-params)) (catch Exception ex (do (ppe (str "Wx2" ex)) {})))]
         (try
           (let [json1 (read-fn1 config/current-region r-s c-s (config/current-params))]
-            ;(.println *err* json1)
+            ;(ppe json1)
             (format-fn json1 json2))
-          (catch Exception ex (do (.println *err* (str "Wx1" ex)) (comment (st/print-stack-trace ex))) "x")))))))
+          (catch Exception ex (do (ppe (str "Wx1" ex)) (comment (st/print-stack-trace ex))) "x")))))))
 
 (defn format-d3-char
   [c tag guild]
@@ -333,6 +333,7 @@
 
 (defn read-list [s]
   (let [file (str config/data-dir "/input/" (name s) ".txt")]
+    (ppe (str "# read from " file))
     (try
       (with-open [rdr (clojure.java.io/reader file)] (doall (line-seq rdr)))
       (catch Exception _ []))))
@@ -342,7 +343,7 @@
         read-fn2  utils/read-char-professions
         format-fn format-char
         list (read-list name)]
-    (pp list)
+    (ppe (str "# " (string/join " " list)))
     (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
 
 (defn run-wow-reps [name]
@@ -358,7 +359,7 @@
 (defn writer [f fnx s]
   (if (empty? s)
     (let [err "List empty, nothing written."]
-      (pp err)
+      (ppe err)
       err)
     (let [ok (str "Ok: " (name f))
           add (if (= :reps fnx) "-rep" "")
