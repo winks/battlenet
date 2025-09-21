@@ -38,7 +38,8 @@
 
 (defn kw-prof [s]
   (if (empty? s) nil)
-    (keyword (string/lower-case (string/replace s " " ""))))
+    (let [r (string/lower-case (string/replace s " " ""))]
+      (if (empty? r) nil (keyword r))))
 
 (defn write-cache [realm char-name data]
   (let [dir (str "./cache/" config/current-region "/" (slugify-realm realm))
@@ -82,6 +83,7 @@
           (ppe ex)
           nil)))))
 
+; @unused
 (defn create-url-char-profile
   [region realm name params]
   (->
@@ -97,6 +99,7 @@
     (ppe url)
     (read-str (read-url url) :key-fn keyword)))
 
+; @unused
 (defn create-url-char-professions
   [region realm name params]
   (->
@@ -112,6 +115,7 @@
     (ppe url)
     (read-str (read-url url) :key-fn keyword)))
 
+; @unused
 (defn create-url-char-reputations
   [region realm name params]
   (->
@@ -131,12 +135,13 @@
   (if (empty? s) ""
     (string/replace s "#" "-")))
 
+; @unused?
 (defn create-url-d3-profile
   [region account params]
   (->
-   "https://{region}.api.blizzard.com/d3/profile/{account}/?{params}"
+   "https://{region}.api.blizzard.com/d3/profile/{account}?{params}"
    (string/replace "{region}" region)
-   (string/replace "{account}" account)
+   (string/replace "{account}" (slugify-d3-profile account))
    (string/replace "{params}" params)))
 
 (defn read-d3-profile

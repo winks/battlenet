@@ -8,12 +8,14 @@
                  [clj-http "3.13.0"]
                  [compojure "1.7.1"]
                  [ring/ring-defaults "0.5.0"]]
-  :plugins [[lein-ring "0.12.5"]]
+  :plugins [[lein-cloverage "1.2.2"]
+            [lein-ring "0.12.5"]]
   :repl-options {:init-ns battlenet.core}
   :main battlenet.core
   :aliases {"cli" ["run" "-m" "battlenet.core"]}
   :aot [battlenet.core]
   :ring {:handler battlenet.handler/app}
-  :profiles
-  {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
-                        [ring/ring-mock "0.4.0"]]}})
+  :test-paths ["test/"]
+  :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
+                                  [ring/ring-mock "0.4.0"]]
+                   :test-paths ["test/"]}})
