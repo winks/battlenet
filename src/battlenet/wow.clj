@@ -250,6 +250,8 @@
         realm (:slug (:realm char))
         reps (:reputations json)
         cache (assoc (utils/read-cache realm char-name) :name char-name)
+        tww-reps      (keep-indexed #(if (even? %1) %2) (:tww defs/bn-reputations))
+        df-reps       (keep-indexed #(if (even? %1) %2) (:df defs/bn-reputations))
         sl-reps       (keep-indexed #(if (even? %1) %2) (:sl defs/bn-reputations))
         bfa-reps      (keep-indexed #(if (even? %1) %2) (:bfa defs/bn-reputations))
         legion-reps   (keep-indexed #(if (even? %1) %2) (:legion defs/bn-reputations))
@@ -262,16 +264,24 @@
         div-rep "<tr class=\"rep rep-expansion\"><td colspan=\"5\"><hr></td></tr>\n"
         div-chr "<tr class=\"rep\"><td colspan=\"5\"><hr></td></tr>\n"]
     (apply str
-      (apply str (map #(fmt-rep %1 sl-reps "sl" cache) reps))
+      (apply str (map #(fmt-rep %1 tww-reps "TWW" cache) reps))
       div-rep
-      (apply str (map #(fmt-rep %1 bfa-reps "bfa" cache) reps))
+      ;(apply str (map #(fmt-rep %1 df-reps "DF" cache) reps))
       div-rep
-      (apply str (map #(fmt-rep %1 legion-reps "legion" cache) reps))
+      (apply str (map #(fmt-rep %1 sl-reps "SL" cache) reps))
       div-rep
-      (apply str (map #(fmt-rep %1 wod-reps "wod" cache) reps))
+      (apply str (map #(fmt-rep %1 bfa-reps "BFA" cache) reps))
       div-rep
-      (apply str (map #(fmt-rep %1 faction-reps "vanilla" cache) reps))
+      (apply str (map #(fmt-rep %1 legion-reps "Legion" cache) reps))
+      div-rep
+      (apply str (map #(fmt-rep %1 wod-reps "WOD" cache) reps))
+      div-rep
+      (apply str (map #(fmt-rep %1 faction-reps "Vanilla" cache) reps))
       div-chr)))
+
+(defn format-achi
+  [json _]
+  (ppe json))
 
 (defn wrapper
   [cname read-fn1 read-fn2 format-fn]
@@ -315,6 +325,13 @@
         list (read-list name)]
     (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
 
+(defn run-wow-achi [name]
+  (let [read-fn1  utils/read-char-achievements
+        read-fn2  dummy
+        format-fn format-achi
+        list (read-list name)]
+    (apply str (map #(wrapper % read-fn1 read-fn2 format-fn) list))))
+
 (defn reader [name]
   (slurp (str config/data-dir "/templates/" name ".html")))
 
@@ -329,7 +346,7 @@
       (do (spit (str out-dir "/" (name f) add ".html") s) ok))))
 
 (defn full-wow [name fnx hname fname]
-  (let [data   (if (= :reps fnx) (run-wow-reps name) (run-wow-chars name))
+  (let [data   (if (= :reps fnx) (run-wow-reps name) (if (= :achi fnx) (run-wow-achi name) (run-wow-chars name)))
         now    (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm:ss zzz") (java.util.Date.))
         footer (string/replace (reader fname) #"<div class=\"updated\"></div>" (str "<div class=\"updated\">Last update: " now "</div>"))
         all    (if (empty? data) "" (str (reader hname) data footer))]

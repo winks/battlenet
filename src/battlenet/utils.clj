@@ -127,9 +127,28 @@
 
 (defn read-char-reputations
   [region realm name params]
-  (let [url (create-url-char-reputations region realm name params)]
-    (ppe url)
-    (read-str (read-url url) :key-fn keyword)))
+  (let [url (create-url-char-reputations region realm name params)
+        json (read-url url)]
+    (do (ppe url)
+        (ppe json)
+        (read-str json :key-fn keyword))))
+
+(defn create-url-char-achievements
+  [region realm name params]
+  (->
+   "https://{region}.api.blizzard.com/profile/wow/character/{realm}/{name}/achievements?namespace=profile-eu&{params}"
+   (string/replace "{region}" region)
+   (string/replace "{realm}" realm)
+   (string/replace "{name}" (url-enc name))
+   (string/replace "{params}" params)))
+
+(defn read-char-achievements
+  [region realm name params]
+  (let [url (create-url-char-achievements region realm name params)
+        json (read-url url)]
+    (do (ppe url)
+        (ppe json)
+        (read-str json :key-fn keyword))))
 
 (defn slugify-d3-profile [s]
   (if (empty? s) ""

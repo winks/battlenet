@@ -370,6 +370,27 @@
 
 (def bn-reputations {
   :tww [
+    2736 "Manaforge Vandals"
+    2658 "The K'aresh Trust"
+
+    2688 "Flame's Radiance"
+    2685 "Gallagio Loyalty Rewards Club"
+    2677 "Steamwheedle Cartel"
+    2675 "Blackwater Cartel"
+    2673 "Bilgewater Cartel"
+    2671 "Venture Company"
+    2669 "Darkfuse Solutions"
+    2667 "The Cartels of Undermine"
+    2653 "The Cartels of Undermine2"
+
+    2600 "The Severed Threads"
+    2601 "The Weaver"
+    2605 "The General"
+    2607 "The Vizier"
+
+    2594 "The Assembly of the Deeps"
+    2590 "The Council of Dornogal"
+    2570 "Hallowfall Arathi"
   ]
   :df [
     2503 "Maruuk Centaur"
