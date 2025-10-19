@@ -20,6 +20,8 @@
 (def current-list   (if-let [xs (System/getenv "FILENAME")] (keyword (clojure.string/replace xs ".html" "")) :my-list))
 (defn current-params [] (str "locale=" current-locale))
 
+; only needed for D3
+(def current-tags [])
 ; you only need this if you don't want to put .txt files into data-dir/input/
 (def current-chars {
 :my-list [
